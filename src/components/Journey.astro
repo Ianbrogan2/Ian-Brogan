@@ -358,11 +358,10 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
 <script define:vars={{ milestoneJSON, present_age }}>
   const milestoneData = JSON.parse(milestoneJSON);
 
-  const section    = document.getElementById('journey-section');
-  const svgEl      = document.getElementById('journey-svg');
-  const pastPathEl = document.getElementById('journey-past-path');
+  const section      = document.getElementById('journey-section');
+  const pastPathEl   = document.getElementById('journey-past-path');
   const futurePathEl = document.getElementById('journey-future-path');
-  const markers    = Array.from(document.querySelectorAll('.milestone-marker'));
+  const markers      = Array.from(document.querySelectorAll('.milestone-marker'));
 
   const panel        = document.getElementById('milestone-panel');
   const panelEmpty   = panel?.querySelector('.milestone-panel-empty');
@@ -384,18 +383,13 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
     if (mpLabel) mpLabel.textContent = m.label;
     if (mpDesc)  mpDesc.textContent  = m.description;
 
-    // Update panel border color by type
     if (panel) {
-      panel.style.borderLeftColor = m.type === 'future' ? 'var(--color-green)' :
-                                    m.type === 'current' ? 'var(--color-gold)' :
-                                    'var(--color-gold)';
+      panel.style.borderLeftColor = m.type === 'future' ? 'var(--color-green)' : 'var(--color-gold)';
     }
 
-    // Highlight active marker
     markers.forEach(el => el.classList.remove('active'));
     markers[index]?.classList.add('active');
 
-    // Scroll panel into view on mobile
     if (window.innerWidth < 768) {
       panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
@@ -407,39 +401,31 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
     marker.addEventListener('keydown',    (e) => { if (e.key === 'Enter' || e.key === ' ') showMilestone(i); });
   });
 
-  // ── Chart animation (time-based, not scroll-based) ────────
+  // ── Chart animation ───────────────────────────────────────
   if (!pastPathEl || !futurePathEl || !section) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (prefersReduced) {
-    pastPathEl.style.strokeDasharray = '';
+    // Show everything immediately
+    pastPathEl.style.strokeDasharray = 'none';
     pastPathEl.style.strokeDashoffset = '0';
-    futurePathEl.style.strokeDasharray = '';
-    futurePathEl.style.strokeDashoffset = '0';
-    markers.forEach(m => m.style.opacity = '1');
+    markers.forEach(m => { m.style.opacity = '1'; });
     return;
   }
 
-  const pastLen   = pastPathEl.getTotalLength();
-  const futureLen = futurePathEl.getTotalLength();
+  // Hide paths initially with a large number — lengths measured after first paint
+  pastPathEl.style.strokeDasharray  = '9999';
+  pastPathEl.style.strokeDashoffset = '9999';
+  futurePathEl.style.strokeDasharray  = '9999';
+  futurePathEl.style.strokeDashoffset = '9999';
+  markers.forEach(m => { m.style.opacity = '0'; });
 
-  pastPathEl.style.strokeDasharray  = String(pastLen);
-  pastPathEl.style.strokeDashoffset = String(pastLen);
-  futurePathEl.style.strokeDasharray  = String(futureLen);
-  futurePathEl.style.strokeDashoffset = String(futureLen);
-  markers.forEach(m => m.style.opacity = '0');
+  const PAST_DURATION   = 2200;
+  const FUTURE_DELAY    = 1800;
+  const FUTURE_DURATION = 1600;
 
-  const PAST_DURATION   = 2200;  // ms for past line to draw
-  const FUTURE_DELAY    = 1800;  // ms after start before future begins
-  const FUTURE_DURATION = 1600;  // ms for future line to draw
-
-  // Age spans for marker reveal timing
-  const ageSpan = 55 - 10;
-
-  function easeOut(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
   let started = false;
 
@@ -447,54 +433,71 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
     if (started) return;
     started = true;
 
-    const startTime = performance.now();
+    // Measure AFTER the element is visible so getTotalLength() returns real values
+    requestAnimationFrame(() => {
+      const pastLen   = pastPathEl.getTotalLength();
+      const futureLen = futurePathEl.getTotalLength();
 
-    function step(now) {
-      const elapsed = now - startTime;
-
-      // Past path
-      const pastProg = easeOut(Math.min(1, elapsed / PAST_DURATION));
-      pastPathEl.style.strokeDashoffset = String(pastLen * (1 - pastProg));
-
-      // Future path
-      const futureElapsed = Math.max(0, elapsed - FUTURE_DELAY);
-      const futureProg = easeOut(Math.min(1, futureElapsed / FUTURE_DURATION));
-      futurePathEl.style.strokeDashoffset = String(futureLen * (1 - futureProg));
-
-      // Reveal markers as their age is "reached" by the drawing
-      markers.forEach((marker) => {
-        const age = parseFloat(marker.dataset.age);
-        const type = marker.dataset.type;
-        let revealTime;
-        if (type === 'future') {
-          const futureAgeProgress = (age - present_age) / (55 - present_age);
-          revealTime = FUTURE_DELAY + futureAgeProgress * FUTURE_DURATION * 0.9;
-        } else {
-          const pastAgeProgress = (age - 10) / (present_age - 10);
-          revealTime = pastAgeProgress * PAST_DURATION * 0.9;
-        }
-        if (elapsed >= revealTime) {
-          marker.style.opacity = '1';
-          marker.style.transition = 'opacity 0.4s ease';
-        }
-      });
-
-      const totalDuration = FUTURE_DELAY + FUTURE_DURATION + 300;
-      if (elapsed < totalDuration) {
-        requestAnimationFrame(step);
+      // Fallback: if still 0, force-show everything and bail
+      if (pastLen === 0) {
+        pastPathEl.style.strokeDasharray = '';
+        pastPathEl.style.strokeDashoffset = '';
+        futurePathEl.style.strokeDasharray = '8 5';
+        futurePathEl.style.strokeDashoffset = '0';
+        markers.forEach(m => { m.style.opacity = '1'; });
+        return;
       }
-    }
 
-    requestAnimationFrame(step);
+      pastPathEl.style.strokeDasharray  = String(pastLen);
+      pastPathEl.style.strokeDashoffset = String(pastLen);
+      futurePathEl.style.strokeDasharray  = String(futureLen);
+      futurePathEl.style.strokeDashoffset = String(futureLen);
+
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+
+        const pastProg = easeOut(Math.min(1, elapsed / PAST_DURATION));
+        pastPathEl.style.strokeDashoffset = String(pastLen * (1 - pastProg));
+
+        const futureElapsed = Math.max(0, elapsed - FUTURE_DELAY);
+        const futureProg = easeOut(Math.min(1, futureElapsed / FUTURE_DURATION));
+        futurePathEl.style.strokeDashoffset = String(futureLen * (1 - futureProg));
+
+        markers.forEach((marker) => {
+          if (marker.style.opacity === '1') return;
+          const age  = parseFloat(marker.dataset.age);
+          const type = marker.dataset.type;
+          let revealTime;
+          if (type === 'future') {
+            const prog = (age - present_age) / (55 - present_age);
+            revealTime = FUTURE_DELAY + prog * FUTURE_DURATION * 0.9;
+          } else {
+            const prog = (age - 10) / (present_age - 10);
+            revealTime = prog * PAST_DURATION * 0.9;
+          }
+          if (elapsed >= revealTime) {
+            marker.style.transition = 'opacity 0.4s ease';
+            marker.style.opacity = '1';
+          }
+        });
+
+        if (elapsed < FUTURE_DELAY + FUTURE_DURATION + 400) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    });
   }
 
-  // Fire when the section comes into view
   const io = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       io.disconnect();
       startAnimation();
     }
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
   io.observe(section);
 </script>
