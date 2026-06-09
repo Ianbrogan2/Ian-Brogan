@@ -1,6 +1,6 @@
 <!-- Custom cursor — only renders on non-touch pointer devices -->
-<div id="c-dot" aria-hidden="true"></div>
-<div id="c-ring" aria-hidden="true"></div>
+<div id="c-dot" aria-hidden="true" class="hidden"></div>
+<div id="c-ring" aria-hidden="true" class="hidden"></div>
 
 <style>
   /* Hide native cursor sitewide when our cursor is active */
@@ -57,10 +57,17 @@
 
     let mx = -200, my = -200;
     let rx = -200, ry = -200;
+    let hasMovedOnce = false;
 
     document.addEventListener('mousemove', e => {
       mx = e.clientX;
       my = e.clientY;
+      if (!hasMovedOnce) {
+        hasMovedOnce = true;
+        rx = mx; ry = my;
+        dot.classList.remove('hidden');
+        ring.classList.remove('hidden');
+      }
     }, { passive: true });
 
     document.addEventListener('mousedown', () => ring.classList.add('clicking'));
