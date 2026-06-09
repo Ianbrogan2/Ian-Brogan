@@ -53,7 +53,7 @@
   --text-label:    0.7rem;
 
   /* Spacing */
-  --section-gap: clamp(5rem, 10vw, 10rem);
+  --section-gap: clamp(3rem, 5vw, 5rem);
 
   /* Easing */
   --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);

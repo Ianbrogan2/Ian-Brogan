@@ -76,7 +76,7 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
         <defs>
           <linearGradient id="future-grad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="var(--color-gold)"/>
-            <stop offset="100%" stop-color="var(--color-green)"/>
+            <stop offset="100%" stop-color="rgba(201,162,39,0.35)"/>
           </linearGradient>
         </defs>
 
@@ -167,11 +167,11 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
             />
             <circle cx={m.x} cy={m.y} r="7"
               fill={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-elevated)' : 'var(--color-elevated)'}
-              stroke={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-green)' : 'var(--color-gold)'}
+              stroke={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'rgba(201,162,39,0.5)' : 'var(--color-gold)'}
               stroke-width="2"
             />
             <circle cx={m.x} cy={m.y} r="2.5"
-              fill={m.type === 'future' ? 'var(--color-green)' : 'var(--color-text)'}
+              fill={m.type === 'future' ? 'rgba(201,162,39,0.5)' : 'var(--color-text)'}
             />
           </g>
         ))}

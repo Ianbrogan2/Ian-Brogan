@@ -8,15 +8,8 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
 
 <section id="portfolio" class="section" aria-labelledby="portfolio-heading">
   <div class="container">
-    <header class="portfolio-header reveal">
-      <span class="eyebrow">Portfolio</span>
-      <span class="rule-gold"></span>
-      <h2 id="portfolio-heading">Design, making, and craft.</h2>
-      <p class="lead">Three domains. One thread: precision in process, care in execution.</p>
-    </header>
-
     {sections.map((section, si) => (
-      <div class={`portfolio-section reveal reveal-delay-${si + 1}`} id={`portfolio-${section.id}`}>
+      <div class={`portfolio-section`} id={`portfolio-${section.id}`}>
         <div class="portfolio-section-header">
           <h3>{section.title}</h3>
           <p class="section-desc">{section.description}</p>
@@ -57,7 +50,7 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
     ))}
 
     {preview && (
-      <div class="portfolio-more reveal">
+      <div class="portfolio-more">
         <a href="/portfolio" class="btn btn-outline">View full portfolio</a>
       </div>
     )}
@@ -65,10 +58,7 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
 </section>
 
 <style>
-  #portfolio { background: var(--color-bone); }
-
-  .portfolio-header { margin-bottom: clamp(3rem, 5vw, 5rem); }
-  .portfolio-header h2 { margin-bottom: 1rem; }
+  #portfolio { background: var(--color-bg); }
 
   .portfolio-section {
     margin-bottom: clamp(4rem, 7vw, 7rem);
@@ -82,15 +72,15 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
     gap: 1rem 2rem;
     margin-bottom: 2rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--color-bone-dk);
+    border-bottom: 1px solid var(--color-border);
   }
   .portfolio-section-header h3 {
     font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-    color: var(--color-oxblood-dk);
+    color: var(--color-gold);
     margin: 0;
   }
   .section-desc {
-    color: rgba(22,19,17,0.65);
+    color: var(--color-text-dim);
     font-size: 0.9rem;
     margin: 0;
     max-width: 55ch;
@@ -99,12 +89,12 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
   .ig-link {
     font-size: 0.8rem;
     letter-spacing: 0.04em;
-    color: var(--color-oxblood);
+    color: var(--color-gold);
     text-decoration: none;
     margin-left: auto;
     white-space: nowrap;
   }
-  .ig-link:hover { color: var(--color-oxblood-dk); }
+  .ig-link:hover { color: var(--color-text); }
 
   /* Asymmetric grids based on item count */
   .portfolio-grid {
@@ -120,14 +110,14 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
   .portfolio-card {
     display: flex;
     flex-direction: column;
-    background: var(--color-bone-dk);
+    background: var(--color-elevated);
     overflow: hidden;
-    border: 1px solid rgba(22,19,17,0.06);
+    border: 1px solid var(--color-border);
     transition: transform 0.35s var(--ease-expo), box-shadow 0.35s var(--ease-expo);
   }
   .portfolio-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(22,19,17,0.1);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,162,39,0.15);
   }
 
   .portfolio-card-img img, .portfolio-card-img .img-placeholder {
@@ -144,12 +134,12 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
   .portfolio-card-body h4 {
     font-size: 1rem;
     margin: 0 0 0.5rem;
-    color: var(--color-oxblood-dk);
+    color: var(--color-text);
     font-variation-settings: 'opsz' 18;
   }
   .portfolio-card-body p {
     font-size: 0.85rem;
-    color: rgba(22,19,17,0.7);
+    color: var(--color-text-dim);
     margin: 0 0 1rem;
     flex: 1;
     max-width: none;
@@ -168,14 +158,14 @@ const sections = preview ? data.sections.slice(0, 2) : data.sections;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     padding: 0.25em 0.6em;
-    background: var(--color-bone);
-    border: 1px solid rgba(22,19,17,0.1);
-    color: var(--color-mist);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
   }
 
   .card-link {
     font-size: 0.8rem;
-    color: var(--color-oxblood);
+    color: var(--color-gold);
     text-decoration: none;
     margin-top: 0.75rem;
     display: inline-block;
