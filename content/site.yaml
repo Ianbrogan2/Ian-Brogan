@@ -40,21 +40,21 @@ hero:
 # Order determines the order items appear in the nav
 nav_links:
   - label: "About"
-    href: "#about"
+    href: "/about"
   - label: "Journey"
-    href: "#journey"
+    href: "/journey"
   - label: "Portfolio"
-    href: "#portfolio"
+    href: "/portfolio"
   - label: "Investing"
-    href: "#investing"
+    href: "/investing"
   - label: "Skills"
-    href: "#skills"
+    href: "/skills"
   - label: "Vision"
-    href: "#vision"
+    href: "/vision"
   - label: "Journal"
     href: "/journal"
   - label: "Contact"
-    href: "#contact"
+    href: "/contact"
 
 # ── Footer ──────────────────────────────────────────────────
 footer:

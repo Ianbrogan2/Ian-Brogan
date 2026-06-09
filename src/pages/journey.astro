@@ -1,0 +1,26 @@
+---
+import Page from '../layouts/Page.astro';
+import Journey from '../components/Journey.astro';
+import { getJourney } from '../lib/content';
+
+const journey = getJourney();
+---
+
+<Page title="Journey" description="The equity curve of Ian Brogan's life — milestones, growth, and what comes next.">
+  <div class="page-hero container">
+    <span class="eyebrow">Journey</span>
+    <span class="rule-gold"></span>
+    <h1>The Equity Curve.</h1>
+    <p class="lead">Every milestone plotted as a market. The past is solid. The future is already planned.</p>
+  </div>
+  <Journey data={journey} />
+</Page>
+
+<style>
+  .page-hero {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--color-border);
+  }
+  h1 { margin-bottom: 1rem; }
+</style>

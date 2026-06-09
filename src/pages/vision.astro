@@ -1,0 +1,26 @@
+---
+import Page from '../layouts/Page.astro';
+import Vision from '../components/Vision.astro';
+import { getVision } from '../lib/content';
+
+const vision = getVision();
+---
+
+<Page title="Vision" description="Ian Brogan's long-term goals — fund management, business, and what he's building toward.">
+  <div class="page-hero container">
+    <span class="eyebrow">Vision</span>
+    <span class="rule-gold"></span>
+    <h1>Where I'm Going.</h1>
+    <p class="lead">The plan is not vague. Fund management, capital allocation, and a career built on precision.</p>
+  </div>
+  <Vision data={vision} />
+</Page>
+
+<style>
+  .page-hero {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--color-border);
+  }
+  h1 { margin-bottom: 1rem; }
+</style>
