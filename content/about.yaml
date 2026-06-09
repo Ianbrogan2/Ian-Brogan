@@ -8,10 +8,10 @@ subhead: "I grew up making things — woodworking, 3D design, CAD. Then my grand
 
 # Each paragraph is its own block. Keep them short; they breathe better.
 body:
-  - "That account came with $1,000 and no instructions. I didn't treat it like a gift — I treated it like a puzzle. I started reading everything I could find: earnings reports, 10-Ks, financial statements, company filings. Then my grandfather handed me Ray Dalio's The Changing World Order, and I read it cover to cover. Then Principles. Something clicked."
+  - "My grandparents opened a brokerage account for me on my tenth birthday. I didn't treat it like a gift — I treated it like a puzzle. My grandfather handed me Ray Dalio's The Changing World Order and pointed me toward the right sources. I read it cover to cover, then Principles. Then I started reading everything I could find: earnings reports, 10-Ks, financial statements. Something clicked."
   - "What got me wasn't the stock tips or the strategies. It was the patterns. History repeats — debt cycles, power transitions, market crashes and recoveries — the same forces playing out across centuries with different names on the actors. Once I saw that, I stopped reacting to news and started studying cause. Macro context, financial data, sector dynamics — I learned to read them together."
   - "That approach has been tested in real situations. When U.S.-Iran tensions started escalating, I worked through which sectors stood to benefit and landed on cybersecurity — specifically PANW and CRWD. I held the position through the volatility. It returned over 30% before I exited. Not luck. A thesis, executed."
-  - "I also run a long-term dividend portfolio with DRIP enabled — it compounds in the background while I focus on everything else. Seven years in from that first account, the work has paid off. The most important thing I've learned isn't a strategy or a formula. It's that patterns are everywhere, and training yourself to see them before anyone else does is the only real edge."
+  - "I also run a long-term dividend portfolio with DRIP enabled — it compounds in the background while I focus on everything else. Seven years in, the work has paid off in understanding more than anything else. The most important thing I've learned isn't a strategy or a formula. It's that patterns are everywhere, and training yourself to see them before anyone else does is the only real edge."
 
 # The duality callout — shown as a visual pull-quote
 duality_quote: "Patterns are everywhere. The edge is seeing them before anyone else does."
@@ -20,13 +20,13 @@ duality_quote: "Patterns are everywhere. The edge is seeing them before anyone e
 facts:
   - label: "Started investing"
     value: "Age 10"
-  - label: "$1,000 → $25,000+"
-    value: "7 years"
+  - label: "Active portfolio"
+    value: "7 years in"
   - label: "PANW & CRWD"
-    value: "+30% on conflict thesis"
+    value: "Cybersecurity thesis"
   - label: "DRIP dividend portfolio"
     value: "Long-term hold"
 
 # Photo path — swap by uploading to /content/images and updating this
 image: "/content/images/about-placeholder.jpg"
-image_alt: "TODO: candid photo of Ian — working, not posed"
+image_alt: "Ian Brogan — photo coming soon"

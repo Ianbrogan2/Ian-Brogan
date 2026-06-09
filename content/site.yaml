@@ -6,7 +6,7 @@
 meta:
   title: "Ian Brogan"
   tagline: "Finance · Economics · Markets"
-  description: "Ian Brogan — seventeen, self-taught investor and builder. Seven years studying markets, finance, and economics. Building toward a career at the intersection of capital and strategy."
+  description: "Ian Brogan — seventeen, investor and builder. Seven years studying markets, finance, and economics — mentored by family with deep roots in finance. Building toward a career at the intersection of capital and strategy."
   url: "https://ianbrogan.com"
   og_image: "/og-image.png"
   author: "Ian Brogan"
@@ -27,14 +27,14 @@ contact:
 hero:
   headline: "I think in markets."
   headline_line2: "I make by hand."
-  subhead: "Seventeen, self-taught, and serious about it. Building toward fund management — with a vineyard waiting at the end."
+  subhead: "Seventeen, and serious about it. Building toward fund management — with a vineyard waiting at the end."
   cta_primary_label: "My story"
   cta_primary_href: "#about"
   cta_secondary_label: "See the work"
   cta_secondary_href: "#portfolio"
   # Path to hero image — swap by uploading to /content/images and changing this path
   image: "/content/images/hero-placeholder.jpg"
-  image_alt: "TODO: photo of Ian — candid, warm light, at his workbench or outdoors"
+  image_alt: "Ian Brogan — photo coming soon"
 
 # ── Navigation ──────────────────────────────────────────────
 # Order determines the order items appear in the nav

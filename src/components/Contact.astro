@@ -61,18 +61,18 @@ const { contact } = site;
           )}
         </ul>
 
-        <a href="/resume.pdf" download class="btn btn-outline resume-dl">
+        <a href="/resume" class="btn btn-outline resume-dl">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
           </svg>
-          Download résumé
+          View résumé
         </a>
       </div>
 
       <div class="contact-form-wrap">
         <form
           method="POST"
-          action="https://formspree.io/f/FORMSPREE_ID"
+          action="https://formspree.io/f/YOUR_FORM_ID"
           class="contact-form"
           id="contact-form"
           novalidate
@@ -97,8 +97,11 @@ const { contact } = site;
           <button type="submit" class="btn btn-primary form-submit">
             Send message
           </button>
-          <p class="form-success" id="form-success" role="status" aria-live="polite" style="display:none">
+          <p class="form-success" id="form-success" role="status" aria-live="polite" hidden>
             Message sent — thanks for reaching out.
+          </p>
+          <p class="form-error" id="form-error" role="alert" aria-live="polite" hidden>
+            Something went wrong. Email directly at ianbrogan2@hotmail.com
           </p>
         </form>
       </div>
@@ -201,7 +204,13 @@ const { contact } = site;
   .form-success {
     margin-top: 1rem;
     font-size: 0.875rem;
-    color: var(--color-sage);
+    color: #22c55e;
+    font-style: italic;
+  }
+  .form-error {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #ef4444;
     font-style: italic;
   }
 
@@ -215,8 +224,17 @@ const { contact } = site;
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const successMsg = document.getElementById('form-success');
 
+  const errorMsg = document.getElementById('form-error');
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    // Guard: if endpoint still has placeholder ID, show error immediately
+    if (form.action.includes('YOUR_FORM_ID')) {
+      if (errorMsg) errorMsg.hidden = false;
+      return;
+    }
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     const data = new FormData(form);
     try {
       const res = await fetch(form.action, {
@@ -226,10 +244,15 @@ const { contact } = site;
       });
       if (res.ok) {
         form.reset();
-        if (successMsg) successMsg.style.display = 'block';
+        if (successMsg) { successMsg.hidden = false; }
+        if (btn) btn.hidden = true;
+      } else {
+        if (errorMsg) errorMsg.hidden = false;
+        if (btn) { btn.disabled = false; btn.textContent = 'Send message'; }
       }
     } catch {
-      form.submit();
+      if (errorMsg) errorMsg.hidden = false;
+      if (btn) { btn.disabled = false; btn.textContent = 'Send message'; }
     }
   });
 </script>

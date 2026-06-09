@@ -18,7 +18,7 @@ milestones:
   - age: 10
     value: 100
     label: "First investment account"
-    description: "Self-taught investor from day one. Read financial statements before I read novels."
+    description: "Brokerage account opened by my grandparents. Mentored through the early years by family with deep roots in finance — and I ran with it."
     type: "past"
 
   - age: 13.5
@@ -35,8 +35,8 @@ milestones:
 
   - age: 15.5
     value: 265
-    label: "Self-taught 2D/3D design & printing"
-    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite."
+    label: "Design, 3D printing & making"
+    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite — all self-directed."
     type: "past"
 
   - age: 16.5
@@ -66,7 +66,7 @@ milestones:
   - age: 20
     value: 620
     label: "BlackRock internship"
-    description: "My aunt worked at BlackRock and is securing me an internship in capital markets and asset management — learning how real institutional capital moves at scale."
+    description: "I have a family connection that opens the door. What I bring through it is seven years of real market study, an active portfolio, and a framework I've actually tested."
     type: "future"
 
   - age: 23

@@ -1,0 +1,20 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'>
+  <rect width='1200' height='630' fill='#080809'/>
+  <rect x='0' y='0' width='1200' height='3' fill='#C9A227'/>
+  <!-- grid dots -->
+  <defs>
+    <pattern id='grid' x='0' y='0' width='44' height='44' patternUnits='userSpaceOnUse'>
+      <circle cx='1' cy='1' r='1' fill='rgba(201,162,39,0.12)'/>
+    </pattern>
+  </defs>
+  <rect width='1200' height='630' fill='url(#grid)'/>
+  <!-- chart line decoration -->
+  <polyline points='60,520 160,490 280,430 380,370 500,300 620,250 720,200 840,165 960,130 1100,90 1200,60'
+    fill='none' stroke='rgba(201,162,39,0.15)' stroke-width='2'/>
+  <!-- name -->
+  <text x='80' y='290' font-family='Georgia,serif' font-size='96' font-weight='700' fill='#EDE8DF' letter-spacing='-3'>Ian Brogan</text>
+  <!-- tagline -->
+  <text x='82' y='350' font-family='system-ui,sans-serif' font-size='28' fill='rgba(237,232,223,0.55)' letter-spacing='4'>FINANCE · ECONOMICS · MARKETS</text>
+  <!-- url -->
+  <text x='82' y='560' font-family='system-ui,sans-serif' font-size='20' fill='rgba(201,162,39,0.7)' letter-spacing='2'>ianbrogan.com</text>
+</svg>

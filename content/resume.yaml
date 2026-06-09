@@ -40,13 +40,13 @@ experience:
       - "Entrusted with roughly $100,000 budget to overhaul and relaunch a CTE program from the ground up"
       - "Responsible for curriculum design, equipment procurement, and brand identity"
 
-  - title: "Self-Directed Investor"
+  - title: "Investor"
     org: "Personal"
     years: "2019–present"
     bullets:
       - "Built and managed a personal investment account from age ten — real capital, real decisions"
-      - "Self-taught through primary sources: financial statements, earnings calls, fund letters"
-      - "Focus on fundamental analysis, long-term compounding, and understanding how value is created"
+      - "Early mentorship from family with finance backgrounds; deepened through primary research: financial statements, earnings calls, fund letters"
+      - "Focus on macro-informed fundamental analysis, long-term compounding, and sector thesis investing"
 
 # ── Skills ──────────────────────────────────────────────────
 skills_summary:
@@ -55,9 +55,9 @@ skills_summary:
   - category: "Design & Media"
     items: "Premiere Pro, After Effects, Photoshop, Lightroom, Illustrator, color grading, logo design, audio"
   - category: "Making & Craft"
-    items: "3D design & printing, woodworking, resin casting, vinyl fabrication, crochet"
+    items: "3D design & printing, Fusion 360 / CAD, woodworking, resin casting, vinyl fabrication"
   - category: "Culinary"
-    items: "Advanced pastry, French technique, food styling & photography"
+    items: "Advanced pastry, food styling & photography"
 
 # ── Projects ────────────────────────────────────────────────
 projects:
