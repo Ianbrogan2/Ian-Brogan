@@ -395,6 +395,11 @@ const { contact } = site;
     100% { transform: translateY(200%); }
   }
 
+  /* Scroll-lock state — body class applied by JS */
+  :global(body.hero-locked) {
+    overflow: hidden;
+  }
+
   /* ── Reduced motion ─────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
     .hero-kicker, .hl-line, .hero-sub, .hero-cta,
@@ -419,3 +424,24 @@ const { contact } = site;
     .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem; }
   }
 </style>
+
+<script>
+  // Lock scroll while hero animates, unlock when chart draw finishes
+  // Chart: 3s draw + 0.8s delay = 3.8s. Add 0.3s buffer = 4.1s
+  const LOCK_MS = 4100;
+
+  function lockHero() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.body.classList.add('hero-locked');
+    setTimeout(() => {
+      document.body.classList.remove('hero-locked');
+    }, LOCK_MS);
+  }
+
+  // Only lock on initial page load, not on back-nav / view-transition
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', lockHero, { once: true });
+  } else {
+    lockHero();
+  }
+</script>

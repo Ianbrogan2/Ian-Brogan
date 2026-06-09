@@ -7,7 +7,7 @@ const { site } = Astro.props;
 <header id="site-nav" role="banner">
   <nav aria-label="Main navigation">
     <a href="/" class="nav-logo" aria-label="Ian Brogan — home">
-      <span class="nav-logo-letters" aria-hidden="true">IB</span>
+      <span class="nav-logo-letters">Ian Brogan</span>
     </a>
 
     <button class="nav-toggle" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,11 +61,11 @@ const { site } = Astro.props;
 
   .nav-logo-letters {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
     font-variation-settings: 'opsz' 36;
     color: var(--color-text);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     line-height: 1;
     transition: color 0.2s;
   }

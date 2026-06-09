@@ -23,7 +23,7 @@
   /* Text */
   --color-text:     #EDE8DF;
   --color-text-dim: rgba(237, 232, 223, 0.6);
-  --color-muted:    #4E4E5A;
+  --color-muted:    #8A8A9E;
 
   /* Data colors */
   --color-green:    #22C55E;
@@ -36,7 +36,7 @@
   --color-bone-dk:    #0D0D0F;
   --color-ink:        #EDE8DF;
   --color-sage:       #22C55E;
-  --color-mist:       #4E4E5A;
+  --color-mist:       #8A8A9E;
 
   /* Fonts */
   --font-display: 'Fraunces Variable', 'Georgia', serif;
