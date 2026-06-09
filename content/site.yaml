@@ -51,8 +51,8 @@ nav_links:
     href: "/skills"
   - label: "Vision"
     href: "/vision"
-  - label: "Journal"
-    href: "/journal"
+  - label: "Watchlist"
+    href: "/watchlist"
   - label: "Contact"
     href: "/contact"
 
