@@ -9,7 +9,6 @@ import Skills from '../components/Skills.astro';
 import Vision from '../components/Vision.astro';
 import JournalPreview from '../components/JournalPreview.astro';
 import Contact from '../components/Contact.astro';
-import Ticker from '../components/Ticker.astro';
 
 import { getSite, getAbout, getJourney, getPortfolio, getSkills, getInvesting, getVision } from '../lib/content';
 import { getCollection } from 'astro:content';
@@ -30,7 +29,6 @@ const recentPosts = allPosts
 
 <Page>
   <Hero site={site} />
-  <Ticker />
   <About data={about} />
   <Journey data={journey} />
   <Portfolio data={portfolio} preview={true} />

@@ -8,33 +8,54 @@
 
 /* ── Design tokens ───────────────────────────────────────── */
 @theme {
-  /* Colors — Markets & Vineyards palette */
-  --color-oxblood:    #6B1F2A;
-  --color-oxblood-dk: #3D1119;
-  --color-bone:       #F4EFE6;
-  --color-bone-dk:    #EAE3D6;
-  --color-ink:        #161311;
-  --color-gold:       #C9A227;
-  --color-sage:       #4A5340;
-  --color-mist:       #9E9488;
+  /* Dark finance palette */
+  --color-bg:       #080809;
+  --color-surface:  #0D0D0F;
+  --color-elevated: #141416;
+  --color-border:   #1F1F24;
+  --color-border-lt: #2A2A31;
+
+  /* Primary accent — gold */
+  --color-gold:     #C9A227;
+  --color-gold-lt:  #DDB83A;
+  --color-gold-dim: rgba(201, 162, 39, 0.15);
+
+  /* Text */
+  --color-text:     #EDE8DF;
+  --color-text-dim: rgba(237, 232, 223, 0.6);
+  --color-muted:    #4E4E5A;
+
+  /* Data colors */
+  --color-green:    #22C55E;
+  --color-red:      #EF4444;
+
+  /* Legacy aliases (used by existing components — kept for compatibility) */
+  --color-oxblood:    #C9A227;
+  --color-oxblood-dk: #B8901F;
+  --color-bone:       #080809;
+  --color-bone-dk:    #0D0D0F;
+  --color-ink:        #EDE8DF;
+  --color-sage:       #22C55E;
+  --color-mist:       #4E4E5A;
 
   /* Fonts */
   --font-display: 'Fraunces Variable', 'Georgia', serif;
   --font-body:    'DM Sans Variable', 'system-ui', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Menlo', 'Consolas', monospace;
 
-  /* Type scale — push scale contrast hard */
-  --text-display:  clamp(3.5rem, 9vw, 8rem);
-  --text-headline: clamp(2.25rem, 5vw, 4rem);
+  /* Type scale */
+  --text-display:  clamp(4rem, 10vw, 9rem);
+  --text-headline: clamp(2.5rem, 5.5vw, 4.5rem);
   --text-title:    clamp(1.5rem, 3vw, 2.25rem);
-  --text-lead:     clamp(1.05rem, 1.5vw, 1.25rem);
+  --text-lead:     clamp(1.05rem, 1.5vw, 1.2rem);
   --text-body:     1rem;
   --text-small:    0.875rem;
-  --text-label:    0.75rem;
+  --text-label:    0.7rem;
 
-  /* Spacing rhythm */
+  /* Spacing */
   --section-gap: clamp(5rem, 10vw, 10rem);
 
-  /* Easing — weighty, slow, not the default */
+  /* Easing */
   --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -59,8 +80,8 @@ html {
 }
 
 body {
-  background-color: var(--color-bone);
-  color: var(--color-ink);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.65;
@@ -73,7 +94,7 @@ body::after {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
+  opacity: 0.04;
   pointer-events: none;
   z-index: 9999;
 }
@@ -83,15 +104,15 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--color-oxblood-dk);
+  color: var(--color-text);
   letter-spacing: -0.02em;
 }
 
 .display {
   font-size: var(--text-display);
   font-variation-settings: 'opsz' 144;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
 }
 
 h1 { font-size: var(--text-headline); font-variation-settings: 'opsz' 72; }
@@ -99,8 +120,8 @@ h2 { font-size: var(--text-title); font-variation-settings: 'opsz' 48; }
 
 .lead {
   font-size: var(--text-lead);
-  line-height: 1.55;
-  color: var(--color-ink);
+  line-height: 1.6;
+  color: var(--color-text-dim);
   font-weight: 300;
   font-family: var(--font-body);
 }
@@ -109,11 +130,11 @@ p { max-width: 65ch; }
 p + p { margin-top: 1.25em; }
 
 a {
-  color: var(--color-oxblood);
+  color: var(--color-gold);
   text-underline-offset: 3px;
   transition: color 0.2s var(--ease-expo), opacity 0.2s var(--ease-expo);
 }
-a:hover { color: var(--color-oxblood-dk); }
+a:hover { color: var(--color-gold-lt); }
 
 /* ── Layout utilities ────────────────────────────────────── */
 .container {
@@ -125,60 +146,79 @@ a:hover { color: var(--color-oxblood-dk); }
 
 .section { padding-block: var(--section-gap); }
 
-/* Alternate section backgrounds */
-.section--alt { background-color: var(--color-bone-dk); }
-.section--dark { background-color: var(--color-oxblood-dk); color: var(--color-bone); }
-.section--dark h1, .section--dark h2, .section--dark h3 { color: var(--color-bone); }
+/* Section backgrounds */
+.section--alt  { background-color: var(--color-surface); }
+.section--dark { background-color: var(--color-bg); }
+.section--raised { background-color: var(--color-elevated); }
+
+/* Section dividers */
+.section + .section {
+  border-top: 1px solid var(--color-border);
+}
 
 /* ── Button system ───────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  padding: 0.75em 1.75em;
+  padding: 0.8em 2em;
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
   border: 1.5px solid transparent;
   cursor: pointer;
   transition: all 0.3s var(--ease-expo);
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary {
-  background: var(--color-oxblood);
-  color: var(--color-bone);
-  border-color: var(--color-oxblood);
+  background: var(--color-gold);
+  color: #080809;
+  border-color: var(--color-gold);
 }
 .btn-primary:hover {
-  background: var(--color-oxblood-dk);
-  border-color: var(--color-oxblood-dk);
-  color: var(--color-bone);
-  transform: translateY(-1px);
+  background: var(--color-gold-lt);
+  border-color: var(--color-gold-lt);
+  color: #080809;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.3);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--color-oxblood);
-  border-color: var(--color-oxblood);
+  color: var(--color-text);
+  border-color: var(--color-border-lt);
 }
 .btn-outline:hover {
-  background: var(--color-oxblood);
-  color: var(--color-bone);
-  transform: translateY(-1px);
+  background: var(--color-elevated);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: var(--color-text);
+  border-color: rgba(237, 232, 223, 0.25);
+}
+.btn-outline-light:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: translateY(-2px);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--color-bone);
-  border-color: rgba(244, 239, 230, 0.5);
+  color: var(--color-text-dim);
+  border-color: var(--color-border);
 }
 .btn-ghost:hover {
-  background: rgba(244, 239, 230, 0.1);
-  border-color: var(--color-bone);
-  color: var(--color-bone);
+  color: var(--color-text);
+  border-color: var(--color-border-lt);
 }
 
 /* ── Section label / eyebrow ─────────────────────────────── */
@@ -186,8 +226,8 @@ a:hover { color: var(--color-oxblood-dk); }
   display: inline-block;
   font-family: var(--font-body);
   font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0.15em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-gold);
   margin-bottom: 1rem;
@@ -200,9 +240,9 @@ a:hover { color: var(--color-oxblood-dk); }
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--color-bone-dk);
-  border: 1px dashed var(--color-mist);
-  color: var(--color-mist);
+  background: var(--color-elevated);
+  border: 1px dashed var(--color-border-lt);
+  color: var(--color-muted);
   font-size: var(--text-small);
   text-align: center;
   padding: 1.5rem;
@@ -211,8 +251,8 @@ a:hover { color: var(--color-oxblood-dk); }
 /* ── Reveal animations ───────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(2rem);
-  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+  transform: translateY(2.5rem);
+  transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
 }
 .reveal.visible {
   opacity: 1;
@@ -226,10 +266,43 @@ a:hover { color: var(--color-oxblood-dk); }
 /* ── Gold accent line ─────────────────────────────────────── */
 .rule-gold {
   display: block;
-  width: 3rem;
+  width: 2.5rem;
   height: 2px;
   background: var(--color-gold);
   margin-bottom: 1.5rem;
+}
+
+/* ── Card system ─────────────────────────────────────────── */
+.card {
+  background: var(--color-elevated);
+  border: 1px solid var(--color-border);
+  padding: 2rem;
+  transition: border-color 0.3s var(--ease-expo), transform 0.3s var(--ease-expo),
+              box-shadow 0.3s var(--ease-expo);
+}
+.card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Data / stat display ─────────────────────────────────── */
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-variation-settings: 'opsz' 72;
+  font-weight: 700;
+  color: var(--color-gold);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.stat-label-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-top: 0.4rem;
 }
 
 /* ── Print utilities (for /resume) ───────────────────────── */

@@ -5,8 +5,8 @@
 
 meta:
   title: "Ian Brogan"
-  tagline: "Markets & Maker"
-  description: "Ian Brogan — finance-obsessed, craft-driven. Building toward fund management, with a vineyard at the end of the road."
+  tagline: "Finance · Economics · Markets"
+  description: "Ian Brogan — seventeen, self-taught investor and builder. Seven years studying markets, finance, and economics. Building toward a career at the intersection of capital and strategy."
   url: "https://ianbrogan.com"
   og_image: "/og-image.png"
   author: "Ian Brogan"
@@ -58,5 +58,5 @@ nav_links:
 
 # ── Footer ──────────────────────────────────────────────────
 footer:
-  tagline: "Markets & Maker — ianbrogan.com"
+  tagline: "Finance · Economics · Markets — ianbrogan.com"
   copyright_name: "Ian Brogan"

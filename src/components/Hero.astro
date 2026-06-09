@@ -1,294 +1,421 @@
 ---
 import type { SiteData } from '../lib/content';
-import Placeholder from './Placeholder.astro';
 interface Props { site: SiteData; }
 const { site } = Astro.props;
-const { hero, contact } = site;
+const { contact } = site;
 ---
 
 <section id="hero" aria-label="Introduction">
-  <div class="hero-inner container">
-    <!-- Ghost background word -->
-    <div class="hero-ghost" aria-hidden="true">MARKETS</div>
-
-    <div class="hero-text">
-      <p class="eyebrow">Ian Brogan — Summer 2026</p>
-      <h1 class="display hero-headline">
-        <span class="hero-line-1">{hero.headline}</span>
-        <span class="hero-line-2">{hero.headline_line2}</span>
-      </h1>
-      <p class="lead hero-sub">{hero.subhead}</p>
-      <div class="hero-cta">
-        <a href={hero.cta_primary_href} class="btn btn-primary">{hero.cta_primary_label}</a>
-        <a href={hero.cta_secondary_href} class="btn btn-outline">{hero.cta_secondary_label}</a>
-      </div>
-      <div class="hero-socials">
-        <a href={contact.instagram_main_url} target="_blank" rel="noopener noreferrer" class="social-link">
-          {contact.instagram_main_handle}
-        </a>
-        <span aria-hidden="true" class="social-sep">·</span>
-        <a href={contact.instagram_food_url} target="_blank" rel="noopener noreferrer" class="social-link">
-          {contact.instagram_food_handle}
-        </a>
-        <span aria-hidden="true" class="social-sep">·</span>
-        <a href={`mailto:${contact.email}`} class="social-link">{contact.email}</a>
-      </div>
+  <!-- Animated background layer -->
+  <div class="hero-bg" aria-hidden="true">
+    <!-- Dot grid -->
+    <div class="hero-grid"></div>
+    <!-- Ghost market chart SVG -->
+    <svg class="hero-chart" viewBox="0 0 1400 500" preserveAspectRatio="none">
+      <path class="chart-path"
+        d="M-10,480 C80,460 140,430 220,390 C300,350 340,370 420,320
+           C500,270 560,250 660,200 C760,150 820,185 920,140
+           C1020,95 1090,115 1190,70 C1280,30 1350,40 1410,20" />
+    </svg>
+    <!-- Floating data chips (decorative) -->
+    <div class="data-chip chip-a">
+      <span class="chip-dot chip-dot--green"></span>S&amp;P 500
     </div>
-
-    <div class="hero-visual">
-      <div class="hero-img-frame">
-        <Placeholder
-          caption={hero.image_alt}
-          aspectRatio="3/4"
-          class="hero-placeholder"
-        />
-        <div class="hero-img-accent" aria-hidden="true"></div>
-      </div>
-
-      <!-- Floating finance/vineyard duality tag -->
-      <div class="hero-duality" aria-hidden="true">
-        <span class="duality-tag duality-finance">Markets</span>
-        <span class="duality-rule"></span>
-        <span class="duality-tag duality-vineyard">Vineyards</span>
-      </div>
+    <div class="data-chip chip-b">
+      <span class="chip-dot chip-dot--gold"></span>ECONOMICS
+    </div>
+    <div class="data-chip chip-c">
+      <span class="chip-dot chip-dot--green"></span>MARKETS ▲
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <div class="scroll-hint" aria-hidden="true">
-    <span>Scroll</span>
-    <div class="scroll-bar">
-      <div class="scroll-progress"></div>
+  <div class="hero-inner container">
+    <!-- Kicker line -->
+    <div class="hero-kicker" aria-label="Ian Brogan — Finance · Economics · Markets">
+      <span class="kicker-rule" aria-hidden="true"></span>
+      IAN BROGAN &nbsp;·&nbsp; FINANCE &nbsp;·&nbsp; ECONOMICS &nbsp;·&nbsp; MARKETS
     </div>
+
+    <!-- Main headline — each word clips in independently -->
+    <h1 class="hero-headline" aria-label="Finance. Economics. Markets.">
+      <span class="hl-wrap"><span class="hl-line hl-1">Finance.</span></span>
+      <span class="hl-wrap"><span class="hl-line hl-2">Economics.</span></span>
+      <span class="hl-wrap"><span class="hl-line hl-3 hl-gold">Markets.</span></span>
+    </h1>
+
+    <!-- Subhead -->
+    <p class="hero-sub">
+      Seventeen. Self-taught. Seven years studying markets, building skills,
+      and earning real responsibility — before most people start.
+    </p>
+
+    <!-- CTAs -->
+    <div class="hero-cta">
+      <a href="#about" class="btn btn-primary">My Story</a>
+      <a href="#portfolio" class="btn btn-outline-light">See the Work</a>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="hero-stats" aria-label="Key facts">
+      <div class="hstat">
+        <span class="hstat-num">7</span>
+        <span class="hstat-label">Years studying markets</span>
+      </div>
+      <div class="hstat-div" aria-hidden="true"></div>
+      <div class="hstat">
+        <span class="hstat-num">~$100K</span>
+        <span class="hstat-label">Budget entrusted to me</span>
+      </div>
+      <div class="hstat-div" aria-hidden="true"></div>
+      <div class="hstat">
+        <span class="hstat-num">Lead</span>
+        <span class="hstat-label">Studio Director, TV &amp; Film</span>
+      </div>
+      <div class="hstat-div" aria-hidden="true"></div>
+      <div class="hstat">
+        <span class="hstat-num">17</span>
+        <span class="hstat-label">Years old</span>
+      </div>
+    </div>
+
+    <!-- Social row -->
+    <div class="hero-socials">
+      <a href={contact.instagram_main_url} target="_blank" rel="noopener noreferrer" class="social-link">
+        {contact.instagram_main_handle}
+      </a>
+      <span aria-hidden="true" class="social-sep">·</span>
+      <a href={`mailto:${contact.email}`} class="social-link">{contact.email}</a>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-cue" aria-hidden="true">
+    <div class="scroll-cue-inner">
+      <div class="scroll-cue-bar"></div>
+    </div>
+    <span>Scroll</span>
   </div>
 </section>
 
 <style>
+  /* ── Section shell ─────────────────────────────────────── */
   #hero {
+    position: relative;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    padding-top: 6rem;
-    background: var(--color-bone);
-    position: relative;
+    background: var(--color-bg);
     overflow: hidden;
   }
 
-  /* Subtle diagonal texture strip */
-  #hero::before {
-    content: '';
+  /* ── Background ────────────────────────────────────────── */
+  .hero-bg {
     position: absolute;
-    top: 0;
-    right: -5%;
-    width: 45%;
-    height: 100%;
-    background: var(--color-bone-dk);
-    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    inset: 0;
     z-index: 0;
+    pointer-events: none;
   }
 
+  /* Dot grid */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(201, 162, 39, 0.12) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+    animation: grid-fade 2s var(--ease-expo) 0.1s both;
+  }
+
+  /* Market chart ghost */
+  .hero-chart {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .chart-path {
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 1.5;
+    opacity: 0.12;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+    animation: chart-draw 3s var(--ease-expo) 0.8s both;
+  }
+
+  /* Floating chips */
+  .data-chip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--color-elevated);
+    border: 1px solid var(--color-border-lt);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    opacity: 0;
+    animation: chip-in 0.6s var(--ease-expo) both, chip-float 6s ease-in-out infinite;
+  }
+  .chip-a { top: 22%; right: 8%;  animation-delay: 1.2s, 1.8s; }
+  .chip-b { top: 55%; right: 12%; animation-delay: 1.5s, 2.1s; }
+  .chip-c { top: 38%; right: 4%;  animation-delay: 1.8s, 2.4s; }
+
+  .chip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .chip-dot--green { background: var(--color-green); box-shadow: 0 0 6px var(--color-green); }
+  .chip-dot--gold  { background: var(--color-gold);  box-shadow: 0 0 6px var(--color-gold); }
+
+  /* ── Hero content ──────────────────────────────────────── */
   .hero-inner {
     flex: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 6rem);
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 7rem;
+    padding-bottom: 5rem;
     position: relative;
     z-index: 1;
-    padding-block: clamp(3rem, 5vw, 5rem);
+    gap: 0;
   }
 
-  /* Ghost background word */
-  .hero-ghost {
-    position: absolute;
-    top: 50%;
-    left: -2%;
-    transform: translateY(-55%);
-    font-family: var(--font-display);
-    font-size: clamp(8rem, 20vw, 18rem);
-    font-weight: 900;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(107, 31, 42, 0.08);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-    white-space: nowrap;
+  /* ── Kicker ─────────────────────────────────────────────── */
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 1.75rem;
+    opacity: 0;
+    animation: fade-up 0.7s var(--ease-expo) 0.15s both;
   }
-
-  .hero-text { max-width: 600px; position: relative; z-index: 1; }
-
-  .hero-headline {
-    color: var(--color-oxblood-dk);
-    margin: 0 0 1.5rem;
-  }
-  .hero-line-1 { display: block; }
-  .hero-line-2 {
+  .kicker-rule {
     display: block;
-    color: var(--color-oxblood);
+    width: 2rem;
+    height: 1.5px;
+    background: var(--color-gold);
+    flex-shrink: 0;
   }
 
+  /* ── Headline ───────────────────────────────────────────── */
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-variation-settings: 'opsz' 144;
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--color-text);
+    margin: 0 0 2.5rem;
+  }
+
+  /* Each line wraps in a clip container for the reveal */
+  .hl-wrap {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em; /* prevent descender clip */
+  }
+
+  .hl-line {
+    display: block;
+    transform: translateY(110%);
+  }
+  .hl-1 { animation: line-rise 0.9s var(--ease-quart) 0.3s both; }
+  .hl-2 { animation: line-rise 0.9s var(--ease-quart) 0.48s both; }
+  .hl-3 { animation: line-rise 0.9s var(--ease-quart) 0.66s both; }
+
+  .hl-gold { color: var(--color-gold); }
+
+  /* ── Sub ────────────────────────────────────────────────── */
   .hero-sub {
-    margin-bottom: 2.5rem;
-    max-width: 50ch;
-    color: rgba(22, 19, 17, 0.75);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-dim);
+    max-width: 52ch;
+    margin: 0 0 2.5rem;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-expo) 0.85s both;
   }
 
+  /* ── CTAs ───────────────────────────────────────────────── */
   .hero-cta {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-expo) 1s both;
   }
 
+  /* ── Stats ──────────────────────────────────────────────── */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-expo) 1.15s both;
+  }
+
+  .hstat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .hstat-num {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-variation-settings: 'opsz' 48;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    line-height: 1;
+  }
+  .hstat-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .hstat-div {
+    width: 1px;
+    height: 2.5rem;
+    background: var(--color-border-lt);
+    flex-shrink: 0;
+  }
+
+  /* ── Socials ────────────────────────────────────────────── */
   .hero-socials {
     display: flex;
     gap: 0.5rem;
     align-items: center;
     flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-expo) 1.3s both;
   }
   .social-link {
-    font-size: 0.8rem;
-    color: var(--color-mist);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-muted);
     text-decoration: none;
     letter-spacing: 0.02em;
     transition: color 0.2s;
   }
-  .social-link:hover { color: var(--color-oxblood); }
-  .social-sep { color: var(--color-mist); font-size: 0.7rem; }
+  .social-link:hover { color: var(--color-gold); }
+  .social-sep { color: var(--color-border-lt); font-size: 0.7rem; }
 
-  /* Image side */
-  .hero-visual {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .hero-img-frame {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-  }
-
-  .hero-placeholder {
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-img-accent {
+  /* ── Scroll cue ─────────────────────────────────────────── */
+  .scroll-cue {
     position: absolute;
-    bottom: -1.5rem;
-    right: -1.5rem;
-    width: 60%;
-    height: 60%;
-    border: 2px solid var(--color-gold);
-    z-index: 0;
-  }
-
-  .hero-duality {
+    bottom: 2rem;
+    left: clamp(1.25rem, 5vw, 4rem);
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.25rem;
-    background: var(--color-bone);
-    border: 1px solid var(--color-bone-dk);
-    box-shadow: 0 4px 24px rgba(22, 19, 17, 0.06);
-  }
-
-  .duality-tag {
     font-family: var(--font-body);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-  }
-  .duality-finance { color: var(--color-oxblood); }
-  .duality-vineyard { color: var(--color-sage); }
-  .duality-rule {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, var(--color-oxblood), var(--color-sage));
-    min-width: 2rem;
-  }
-
-  /* Scroll hint */
-  .scroll-hint {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem clamp(1.25rem, 5vw, 4rem);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-mist);
-    position: relative;
+    color: var(--color-muted);
     z-index: 1;
+    opacity: 0;
+    animation: fade-up 0.8s var(--ease-expo) 1.6s both;
   }
-  .scroll-bar {
-    width: 60px;
-    height: 1px;
-    background: var(--color-bone-dk);
+  .scroll-cue-inner {
+    width: 1px;
+    height: 40px;
+    background: var(--color-border-lt);
     overflow: hidden;
+    position: relative;
   }
-  .scroll-progress {
-    height: 100%;
-    width: 30%;
+  .scroll-cue-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50%;
     background: var(--color-gold);
-    animation: scroll-tick 2s var(--ease-expo) infinite;
-  }
-  @keyframes scroll-tick {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(400%); }
+    animation: scroll-drop 2s var(--ease-expo) infinite 2s;
   }
 
-  /* Animations */
-  .eyebrow, .hero-headline, .hero-sub, .hero-cta, .hero-socials {
-    opacity: 0;
-    transform: translateY(1.5rem);
-    animation: hero-in 0.9s var(--ease-expo) forwards;
-  }
-  .hero-sub { animation-delay: 0.12s; }
-  .hero-cta { animation-delay: 0.22s; }
-  .hero-socials { animation-delay: 0.3s; }
-  .hero-visual {
-    opacity: 0;
-    transform: translateX(2rem);
-    animation: hero-in-x 1s var(--ease-expo) 0.15s forwards;
+  /* ── Keyframes ──────────────────────────────────────────── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(1.5rem); }
+    to   { opacity: 1; transform: none; }
   }
 
-  @keyframes hero-in {
-    to { opacity: 1; transform: none; }
-  }
-  @keyframes hero-in-x {
-    to { opacity: 1; transform: none; }
+  @keyframes line-rise {
+    from { transform: translateY(110%); }
+    to   { transform: translateY(0); }
   }
 
+  @keyframes chart-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes grid-fade {
+    from { opacity: 0; }
+    to   { opacity: 0.5; }
+  }
+
+  @keyframes chip-in {
+    from { opacity: 0; transform: translateX(1rem); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @keyframes chip-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  @keyframes scroll-drop {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+
+  /* ── Reduced motion ─────────────────────────────────────── */
   @media (prefers-reduced-motion: reduce) {
-    .eyebrow, .hero-headline, .hero-sub, .hero-cta, .hero-socials, .hero-visual {
+    .hero-kicker, .hl-line, .hero-sub, .hero-cta,
+    .hero-stats, .hero-socials, .scroll-cue, .data-chip {
       opacity: 1;
       transform: none;
       animation: none;
     }
-    .scroll-progress { animation: none; }
+    .chart-path { stroke-dashoffset: 0; animation: none; }
+    .scroll-cue-bar { animation: none; }
   }
 
+  /* ── Responsive ─────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .hero-img-accent { display: none; }
-    .hero-inner {
-      grid-template-columns: 1fr;
-    }
-    #hero::before {
-      width: 100%;
-      clip-path: none;
-      height: 40%;
-      top: auto;
-      bottom: 0;
-      right: 0;
-    }
-    .hero-visual { order: -1; max-width: 320px; }
-    .hero-img-frame { max-width: 100%; }
+    .data-chip { display: none; }
+    .hstat-div { display: none; }
+    .hero-stats { gap: 1.5rem; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-inner { padding-top: 5.5rem; }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem; }
   }
 </style>
