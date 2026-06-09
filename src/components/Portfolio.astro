@@ -1,0 +1,199 @@
+---
+import type { PortfolioData } from '../lib/content';
+import Placeholder from './Placeholder.astro';
+interface Props { data: PortfolioData; preview?: boolean; }
+const { data, preview = false } = Astro.props;
+const sections = preview ? data.sections.slice(0, 2) : data.sections;
+---
+
+<section id="portfolio" class="section" aria-labelledby="portfolio-heading">
+  <div class="container">
+    <header class="portfolio-header reveal">
+      <span class="eyebrow">Portfolio</span>
+      <span class="rule-gold"></span>
+      <h2 id="portfolio-heading">Design, making, and craft.</h2>
+      <p class="lead">Three domains. One thread: precision in process, care in execution.</p>
+    </header>
+
+    {sections.map((section, si) => (
+      <div class={`portfolio-section reveal reveal-delay-${si + 1}`} id={`portfolio-${section.id}`}>
+        <div class="portfolio-section-header">
+          <h3>{section.title}</h3>
+          <p class="section-desc">{section.description}</p>
+          {section.instagram_url && (
+            <a href={section.instagram_url} target="_blank" rel="noopener noreferrer" class="ig-link">
+              {section.instagram_handle} ↗
+            </a>
+          )}
+        </div>
+
+        <div class={`portfolio-grid portfolio-grid--${section.items.length}`}>
+          {section.items.map((item, ii) => (
+            <article class="portfolio-card" key={`${section.id}-${ii}`}>
+              <div class="portfolio-card-img">
+                <Placeholder
+                  caption={item.image_alt}
+                  aspectRatio={ii === 0 && section.items.length > 2 ? '16/9' : '4/3'}
+                />
+              </div>
+              <div class="portfolio-card-body">
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+                {item.tags && (
+                  <ul class="tag-list" role="list">
+                    {item.tags.map(tag => <li class="tag">{tag}</li>)}
+                  </ul>
+                )}
+                {item.video_url && (
+                  <a href={item.video_url} target="_blank" rel="noopener noreferrer" class="card-link">
+                    Watch reel ↗
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    {preview && (
+      <div class="portfolio-more reveal">
+        <a href="/portfolio" class="btn btn-outline">View full portfolio</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  #portfolio { background: var(--color-bone); }
+
+  .portfolio-header { margin-bottom: clamp(3rem, 5vw, 5rem); }
+  .portfolio-header h2 { margin-bottom: 1rem; }
+
+  .portfolio-section {
+    margin-bottom: clamp(4rem, 7vw, 7rem);
+  }
+  .portfolio-section:last-of-type { margin-bottom: 0; }
+
+  .portfolio-section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1rem 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-bone-dk);
+  }
+  .portfolio-section-header h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    color: var(--color-oxblood-dk);
+    margin: 0;
+  }
+  .section-desc {
+    color: rgba(22,19,17,0.65);
+    font-size: 0.9rem;
+    margin: 0;
+    max-width: 55ch;
+  }
+
+  .ig-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--color-oxblood);
+    text-decoration: none;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  .ig-link:hover { color: var(--color-oxblood-dk); }
+
+  /* Asymmetric grids based on item count */
+  .portfolio-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .portfolio-grid--2 { grid-template-columns: 3fr 2fr; }
+  .portfolio-grid--3 { grid-template-columns: 5fr 3fr 3fr; }
+  .portfolio-grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bone-dk);
+    overflow: hidden;
+    border: 1px solid rgba(22,19,17,0.06);
+    transition: transform 0.35s var(--ease-expo), box-shadow 0.35s var(--ease-expo);
+  }
+  .portfolio-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(22,19,17,0.1);
+  }
+
+  .portfolio-card-img img, .portfolio-card-img .img-placeholder {
+    width: 100%;
+    display: block;
+  }
+
+  .portfolio-card-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .portfolio-card-body h4 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+    color: var(--color-oxblood-dk);
+    font-variation-settings: 'opsz' 18;
+  }
+  .portfolio-card-body p {
+    font-size: 0.85rem;
+    color: rgba(22,19,17,0.7);
+    margin: 0 0 1rem;
+    flex: 1;
+    max-width: none;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25em 0.6em;
+    background: var(--color-bone);
+    border: 1px solid rgba(22,19,17,0.1);
+    color: var(--color-mist);
+  }
+
+  .card-link {
+    font-size: 0.8rem;
+    color: var(--color-oxblood);
+    text-decoration: none;
+    margin-top: 0.75rem;
+    display: inline-block;
+  }
+
+  .portfolio-more {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 900px) {
+    .portfolio-grid--2,
+    .portfolio-grid--3,
+    .portfolio-grid--4 {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (min-width: 640px) and (max-width: 900px) {
+    .portfolio-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

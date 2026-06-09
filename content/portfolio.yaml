@@ -1,0 +1,75 @@
+# ============================================================
+# PORTFOLIO — design/media, maker, culinary sections
+# Edit labels, descriptions, and image paths below.
+# To add an item: copy an existing block, change the values.
+# ============================================================
+
+sections:
+  - id: "design-media"
+    title: "Design & Media"
+    description: "Lead Studio Director. Full Adobe suite. Motion graphics, color grading, logo design, broadcast production."
+    items:
+      - title: "CTE Program Identity"
+        description: "Full brand identity and motion graphics suite for the program revamp — ~$100K budget."
+        image: "/content/images/portfolio-cte-placeholder.jpg"
+        image_alt: "TODO: screenshot or mockup of the CTE brand work"
+        tags: ["Brand", "Motion", "Premiere Pro"]
+
+      - title: "Demo Reel"
+        description: "Video editing, color grading, and audio from broadcast-level production work."
+        image: "/content/images/portfolio-reel-placeholder.jpg"
+        image_alt: "TODO: reel thumbnail or still frame"
+        video_url: ""   # TODO: paste Vimeo/YouTube embed URL when ready
+        tags: ["Video", "Color Grading", "After Effects"]
+
+      - title: "Logo & Graphic Design"
+        description: "Identity work, icons, and print assets built in Illustrator and Photoshop."
+        image: "/content/images/portfolio-logos-placeholder.jpg"
+        image_alt: "TODO: logo collection or individual mark"
+        tags: ["Illustrator", "Photoshop", "Identity"]
+
+  - id: "maker"
+    title: "Maker"
+    description: "Woodworking, resin work, modular kinetic 3D art, and self-designed fabricated objects."
+    items:
+      - title: "Resin Table"
+        description: "Handmade from raw materials. Designed, poured, and finished entirely by hand."
+        image: "/content/images/maker-resin-table.jpg"
+        image_alt: "TODO: photo of the finished resin table — warm light, showing grain and pour"
+        tags: ["Woodworking", "Resin", "Handmade"]
+
+      - title: "3D-Printed Spoiler Shelf"
+        description: "Self-designed, 3D-printed, and vinyl-wrapped. Form follows function — but also looks good."
+        image: "/content/images/maker-spoiler-shelf.jpg"
+        image_alt: "TODO: photo of the spoiler shelf — showing design detail and wrap"
+        tags: ["3D Printing", "Vinyl Wrap", "Industrial Design"]
+
+      - title: "Kinetic 3D Art"
+        description: "Modular moving pieces — the intersection of engineering precision and visual art."
+        image: "/content/images/maker-kinetic-placeholder.jpg"
+        image_alt: "TODO: photo of kinetic piece in motion or assembled"
+        tags: ["3D Printing", "Kinetics", "Art"]
+
+      - title: "Crochet"
+        description: "An unexpected craft — patience, repetition, and rhythm. Meditative in the same way markets are."
+        image: "/content/images/maker-crochet-placeholder.jpg"
+        image_alt: "TODO: photo of finished crochet work — natural light"
+        tags: ["Crochet", "Craft"]
+
+  - id: "culinary"
+    title: "Culinary"
+    description: "Self-taught advanced cooking and pastry. Food as craft — documented at @brogan.bites."
+    instagram_handle: "@brogan.bites"
+    instagram_url: "https://instagram.com/brogan.bites"
+    items:
+      - title: "Advanced Pastry"
+        description: "Laminated doughs, tarts, confectionery. The same precision as a financial model — different medium."
+        image: "/content/images/culinary-pastry-placeholder.jpg"
+        image_alt: "TODO: food photo from @brogan.bites — pastry, warm light"
+        tags: ["Pastry", "Advanced Technique"]
+
+      - title: "Savory"
+        description: "French technique meets California produce. Self-taught from primary sources."
+        image: "/content/images/culinary-savory-placeholder.jpg"
+        image_alt: "TODO: food photo from @brogan.bites — plated savory dish"
+        tags: ["Savory", "Technique"]

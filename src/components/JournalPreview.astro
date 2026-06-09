@@ -1,0 +1,157 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { posts: CollectionEntry<'journal'>[]; }
+const { posts } = Astro.props;
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+---
+
+<section id="journal-preview" class="section section--alt" aria-labelledby="journal-heading">
+  <div class="container">
+    <header class="jp-header reveal">
+      <span class="eyebrow">Journal</span>
+      <span class="rule-gold"></span>
+      <h2 id="journal-heading">Notes from the intersection.</h2>
+      <p class="lead">Writing about markets, making, and what it looks like to build something from the ground up.</p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="no-posts">No posts yet. Check back soon.</p>
+    ) : (
+      <ol class="post-list" role="list">
+        {posts.map((post, i) => (
+          <li class={`post-item reveal reveal-delay-${i + 1}`}>
+            <article>
+              <div class="post-meta">
+                <time datetime={post.data.date.toISOString()} class="post-date">
+                  {formatDate(post.data.date)}
+                </time>
+                {post.data.tags?.map(tag => (
+                  <span class="post-tag">{tag}</span>
+                ))}
+              </div>
+              <h3 class="post-title">
+                <a href={`/journal/${post.id}`}>{post.data.title}</a>
+              </h3>
+              <p class="post-desc">{post.data.description}</p>
+              <a href={`/journal/${post.id}`} class="post-read-more" aria-label={`Read: ${post.data.title}`}>
+                Read →
+              </a>
+            </article>
+          </li>
+        ))}
+      </ol>
+    )}
+
+    <div class="jp-cta reveal">
+      <a href="/journal" class="btn btn-outline">All posts</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  #journal-preview { background: var(--color-bone-dk); }
+  .jp-header { margin-bottom: clamp(2.5rem, 4vw, 4rem); }
+  .jp-header h2 { margin-bottom: 1rem; }
+
+  .no-posts { color: var(--color-mist); font-style: italic; }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .post-item {
+    border-top: 1px solid rgba(22,19,17,0.1);
+    padding: 2rem 0;
+  }
+  .post-item:last-child { border-bottom: 1px solid rgba(22,19,17,0.1); }
+
+  article {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 2rem;
+    align-items: start;
+  }
+
+  .post-meta {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .post-date {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-mist);
+    text-transform: uppercase;
+  }
+  .post-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-oxblood);
+    padding: 0.2em 0.5em;
+    border: 1px solid rgba(107,31,42,0.3);
+  }
+
+  .post-title {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    margin: 0;
+    grid-column: 1;
+  }
+  .post-title a {
+    text-decoration: none;
+    color: var(--color-oxblood-dk);
+    transition: color 0.2s;
+  }
+  .post-title a:hover { color: var(--color-oxblood); }
+
+  .post-desc {
+    font-size: 0.9rem;
+    color: rgba(22,19,17,0.65);
+    line-height: 1.6;
+    max-width: 65ch;
+    margin: 0.25rem 0 0;
+  }
+
+  .post-read-more {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-oxblood);
+    text-decoration: none;
+    align-self: end;
+    white-space: nowrap;
+    justify-self: end;
+    grid-row: 2 / 4;
+    grid-column: 3;
+    margin-top: 0.5rem;
+  }
+  .post-read-more:hover { color: var(--color-oxblood-dk); }
+
+  .jp-cta {
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 640px) {
+    article {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+    .post-read-more {
+      grid-row: auto;
+      grid-column: auto;
+      justify-self: start;
+    }
+  }
+</style>

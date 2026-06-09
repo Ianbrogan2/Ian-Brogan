@@ -1,0 +1,272 @@
+---
+import type { SiteData } from '../lib/content';
+import Placeholder from './Placeholder.astro';
+interface Props { site: SiteData; }
+const { site } = Astro.props;
+const { hero, contact } = site;
+---
+
+<section id="hero" aria-label="Introduction">
+  <div class="hero-inner container">
+    <div class="hero-text">
+      <p class="eyebrow">Ian Brogan — Summer 2026</p>
+      <h1 class="display hero-headline">
+        <span class="hero-line-1">{hero.headline}</span>
+        <span class="hero-line-2">{hero.headline_line2}</span>
+      </h1>
+      <p class="lead hero-sub">{hero.subhead}</p>
+      <div class="hero-cta">
+        <a href={hero.cta_primary_href} class="btn btn-primary">{hero.cta_primary_label}</a>
+        <a href={hero.cta_secondary_href} class="btn btn-outline">{hero.cta_secondary_label}</a>
+      </div>
+      <div class="hero-socials">
+        <a href={contact.instagram_main_url} target="_blank" rel="noopener noreferrer" class="social-link">
+          {contact.instagram_main_handle}
+        </a>
+        <span aria-hidden="true" class="social-sep">·</span>
+        <a href={contact.instagram_food_url} target="_blank" rel="noopener noreferrer" class="social-link">
+          {contact.instagram_food_handle}
+        </a>
+        <span aria-hidden="true" class="social-sep">·</span>
+        <a href={`mailto:${contact.email}`} class="social-link">{contact.email}</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-img-frame">
+        <Placeholder
+          caption={hero.image_alt}
+          aspectRatio="3/4"
+          class="hero-placeholder"
+        />
+        <div class="hero-img-accent" aria-hidden="true"></div>
+      </div>
+
+      <!-- Floating finance/vineyard duality tag -->
+      <div class="hero-duality" aria-hidden="true">
+        <span class="duality-tag duality-finance">Markets</span>
+        <span class="duality-rule"></span>
+        <span class="duality-tag duality-vineyard">Vineyards</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-bar">
+      <div class="scroll-progress"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 6rem;
+    background: var(--color-bone);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle diagonal texture strip */
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -5%;
+    width: 45%;
+    height: 100%;
+    background: var(--color-bone-dk);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0;
+  }
+
+  .hero-inner {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(3rem, 5vw, 5rem);
+  }
+
+  .hero-text { max-width: 600px; }
+
+  .hero-headline {
+    color: var(--color-oxblood-dk);
+    margin: 0 0 1.5rem;
+  }
+  .hero-line-1 { display: block; }
+  .hero-line-2 {
+    display: block;
+    color: var(--color-oxblood);
+  }
+
+  .hero-sub {
+    margin-bottom: 2.5rem;
+    max-width: 50ch;
+    color: rgba(22, 19, 17, 0.75);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .hero-socials {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .social-link {
+    font-size: 0.8rem;
+    color: var(--color-mist);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .social-link:hover { color: var(--color-oxblood); }
+  .social-sep { color: var(--color-mist); font-size: 0.7rem; }
+
+  /* Image side */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-img-frame {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .hero-placeholder {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-img-accent {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    width: 60%;
+    height: 60%;
+    border: 2px solid var(--color-gold);
+    z-index: 0;
+  }
+
+  .hero-duality {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-bone);
+    border: 1px solid var(--color-bone-dk);
+    box-shadow: 0 4px 24px rgba(22, 19, 17, 0.06);
+  }
+
+  .duality-tag {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .duality-finance { color: var(--color-oxblood); }
+  .duality-vineyard { color: var(--color-sage); }
+  .duality-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--color-oxblood), var(--color-sage));
+    min-width: 2rem;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem clamp(1.25rem, 5vw, 4rem);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mist);
+    position: relative;
+    z-index: 1;
+  }
+  .scroll-bar {
+    width: 60px;
+    height: 1px;
+    background: var(--color-bone-dk);
+    overflow: hidden;
+  }
+  .scroll-progress {
+    height: 100%;
+    width: 30%;
+    background: var(--color-gold);
+    animation: scroll-tick 2s var(--ease-expo) infinite;
+  }
+  @keyframes scroll-tick {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+  }
+
+  /* Animations */
+  .eyebrow, .hero-headline, .hero-sub, .hero-cta, .hero-socials {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    animation: hero-in 0.9s var(--ease-expo) forwards;
+  }
+  .hero-sub { animation-delay: 0.12s; }
+  .hero-cta { animation-delay: 0.22s; }
+  .hero-socials { animation-delay: 0.3s; }
+  .hero-visual {
+    opacity: 0;
+    transform: translateX(2rem);
+    animation: hero-in-x 1s var(--ease-expo) 0.15s forwards;
+  }
+
+  @keyframes hero-in {
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes hero-in-x {
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow, .hero-headline, .hero-sub, .hero-cta, .hero-socials, .hero-visual {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .scroll-progress { animation: none; }
+  }
+
+  @media (max-width: 900px) {
+    .hero-img-accent { display: none; }
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    #hero::before {
+      width: 100%;
+      clip-path: none;
+      height: 40%;
+      top: auto;
+      bottom: 0;
+      right: 0;
+    }
+    .hero-visual { order: -1; max-width: 320px; }
+    .hero-img-frame { max-width: 100%; }
+  }
+</style>

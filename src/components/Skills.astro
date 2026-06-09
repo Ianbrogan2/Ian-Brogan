@@ -1,0 +1,153 @@
+---
+import type { SkillsData } from '../lib/content';
+interface Props { data: SkillsData; }
+const { data } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  chart: `<path d="M3 3v18h18M7 16l4-4 4 4 4-8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  camera: `<path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>`,
+  wrench: `<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>`,
+  flame: `<path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>`,
+};
+---
+
+<section id="skills" class="section" aria-labelledby="skills-heading">
+  <div class="container">
+    <header class="skills-header reveal">
+      <span class="eyebrow">Skills</span>
+      <span class="rule-gold"></span>
+      <h2 id="skills-heading">Four domains. One disposition.</h2>
+      <p class="lead">Finance sharpens the analysis. Design trains the eye. Making builds the patience. Cooking keeps the hands honest.</p>
+    </header>
+
+    <div class="skills-grid">
+      {data.categories.map((cat, ci) => (
+        <div class={`skill-category reveal reveal-delay-${ci + 1}`}>
+          <div class="skill-cat-header">
+            <span class="skill-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                set:html={iconMap[cat.icon] ?? ''}
+              />
+            </span>
+            <h3>{cat.title}</h3>
+          </div>
+          <ul role="list" class="skill-list">
+            {cat.items.map(item => (
+              <li class={`skill-item skill-item--${item.level}`}>
+                <span class="skill-dot" aria-label={`Level: ${item.level}`}></span>
+                <span>{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Legend -->
+    <div class="skills-legend reveal" role="note" aria-label="Skill level legend">
+      <span class="legend-item">
+        <span class="skill-dot skill-dot--core"></span>
+        <span>Core</span>
+      </span>
+      <span class="legend-item">
+        <span class="skill-dot skill-dot--advanced"></span>
+        <span>Advanced</span>
+      </span>
+      <span class="legend-item">
+        <span class="skill-dot skill-dot--learning"></span>
+        <span>Building</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  #skills { background: var(--color-bone); }
+
+  .skills-header { margin-bottom: clamp(2.5rem, 4vw, 4rem); }
+  .skills-header h2 { margin-bottom: 1rem; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-category {
+    background: var(--color-bone-dk);
+    padding: 1.75rem;
+    border: 1px solid rgba(22,19,17,0.06);
+    border-top: 3px solid var(--color-oxblood);
+  }
+
+  .skill-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(22,19,17,0.08);
+  }
+  .skill-icon {
+    color: var(--color-oxblood);
+    flex-shrink: 0;
+  }
+  .skill-cat-header h3 {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-oxblood-dk);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .skill-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: rgba(22,19,17,0.82);
+  }
+
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .skill-dot--core, .skill-item--core .skill-dot { background: var(--color-oxblood); }
+  .skill-dot--advanced, .skill-item--advanced .skill-dot { background: var(--color-gold); }
+  .skill-dot--learning, .skill-item--learning .skill-dot {
+    background: transparent;
+    border: 1.5px solid var(--color-mist);
+  }
+
+  .skill-item--learning { color: rgba(22,19,17,0.5); }
+  .skill-item--learning span:last-child { font-style: italic; }
+
+  .skills-legend {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-bone-dk);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--color-mist);
+  }
+</style>

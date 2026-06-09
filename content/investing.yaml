@@ -1,0 +1,25 @@
+# ============================================================
+# INVESTING — philosophy and self-taught journey copy
+# HARD RULE: never publish specific dollar balances or returns.
+# Focus on skill, discipline, and the journey.
+# ============================================================
+
+headline: "I've been reading the market since I was ten."
+subhead: "Not paper trading. Not a simulator. A real account, real decisions, real consequences — and years of learning what not to do."
+
+body:
+  - "I started because money felt like a language no one had taught me but everyone seemed to speak. I read Buffett, Klarman, Lynch. I worked through 10-Ks and earnings calls before I had any formal instruction. I wanted to understand how value was created and destroyed."
+  - "The journey has been humbling and clarifying in equal measure. I've been wrong in ways that cost me and right in ways I didn't fully deserve. I've learned that discipline — showing up with the same process regardless of noise — matters more than any individual insight."
+  - "I'm drawn to the complexity: how geopolitical events ripple through supply chains into earnings, how narrative and reality diverge and eventually reconcile, how the market prices uncertainty differently from risk. The spiderweb structure of it."
+
+# Philosophy bullets — shown as a styled list
+philosophy:
+  - "Process over prediction — repeatable thinking compounds better than occasional brilliance"
+  - "Understand before you buy — if you can't explain the thesis simply, you don't own it yet"
+  - "The long view earns the right to have opinions about the short view"
+  - "Finance is one part of a larger system — the vineyards, the crafts, the food all feed back in"
+
+# Career anchor
+career_note: "The goal: BlackRock internship → junior data analyst → senior data analyst → fund manager. Every step is about building the compounding base — skills, judgment, track record."
+
+# No image needed here — this section is text-forward

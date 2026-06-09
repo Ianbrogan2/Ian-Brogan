@@ -1,0 +1,238 @@
+---
+import type { SiteData } from '../lib/content';
+interface Props { site: SiteData; }
+const { site } = Astro.props;
+const { contact } = site;
+---
+
+<section id="contact" class="section" aria-labelledby="contact-heading">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-text reveal">
+        <span class="eyebrow">Contact</span>
+        <span class="rule-gold"></span>
+        <h2 id="contact-heading">Say hello.</h2>
+        <p class="lead">Whether you're from an admissions office, a company, or you're just curious — I'm glad you're here. Reach out directly or use the form.</p>
+
+        <ul class="contact-channels" role="list">
+          <li>
+            <a href={`mailto:${contact.email}`} class="channel-link">
+              <span class="channel-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </span>
+              <span>{contact.email}</span>
+            </a>
+          </li>
+          <li>
+            <a href={contact.instagram_main_url} target="_blank" rel="noopener noreferrer" class="channel-link">
+              <span class="channel-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </span>
+              <span>{contact.instagram_main_handle}</span>
+            </a>
+          </li>
+          <li>
+            <a href={contact.instagram_food_url} target="_blank" rel="noopener noreferrer" class="channel-link">
+              <span class="channel-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </span>
+              <span>{contact.instagram_food_handle} — food</span>
+            </a>
+          </li>
+          {contact.linkedin_url && (
+            <li>
+              <a href={contact.linkedin_url} target="_blank" rel="noopener noreferrer" class="channel-link">
+                <span class="channel-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+                  </svg>
+                </span>
+                <span>LinkedIn</span>
+              </a>
+            </li>
+          )}
+        </ul>
+
+        <!-- Resume download -->
+        <a href="/resume.pdf" download class="btn btn-outline resume-dl">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+          Download résumé
+        </a>
+      </div>
+
+      <!-- Formspree contact form -->
+      <div class="contact-form-wrap reveal reveal-delay-2">
+        <form
+          method="POST"
+          action="https://formspree.io/f/FORMSPREE_ID"
+          class="contact-form"
+          id="contact-form"
+          novalidate
+          aria-label="Contact form"
+        >
+          <!-- TODO: replace FORMSPREE_ID above with your actual Formspree form ID -->
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What's this about?" />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Your message"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            Send message
+          </button>
+          <p class="form-success" id="form-success" role="status" aria-live="polite" style="display:none">
+            Message sent — thanks for reaching out.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #contact { background: var(--color-bone); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
+  }
+
+  .contact-text h2 { margin-bottom: 1.25rem; }
+  .lead { margin-bottom: 2rem; }
+
+  .contact-channels {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .channel-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--color-ink);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-bone-dk);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .channel-link:hover {
+    color: var(--color-oxblood);
+    border-color: var(--color-gold);
+  }
+  .channel-icon { color: var(--color-mist); flex-shrink: 0; transition: color 0.2s; }
+  .channel-link:hover .channel-icon { color: var(--color-oxblood); }
+
+  .resume-dl {
+    margin-top: 0.5rem;
+    gap: 0.6rem;
+  }
+
+  /* Form */
+  .contact-form-wrap {
+    background: var(--color-bone-dk);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgba(22,19,17,0.06);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-mist);
+    font-weight: 600;
+  }
+
+  input, textarea {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-ink);
+    background: var(--color-bone);
+    border: 1.5px solid var(--color-bone-dk);
+    padding: 0.7rem 0.9rem;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--color-mist); opacity: 0.7; }
+  input:focus, textarea:focus {
+    border-color: var(--color-oxblood);
+  }
+  textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit { width: 100%; justify-content: center; }
+
+  .form-success {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-sage);
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .contact-layout { grid-template-columns: 1fr; }
+    .contact-form-wrap { order: -1; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const successMsg = document.getElementById('form-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        form.reset();
+        if (successMsg) successMsg.style.display = 'block';
+      }
+    } catch {
+      // Fallback: let the form submit normally
+      form.submit();
+    }
+  });
+</script>

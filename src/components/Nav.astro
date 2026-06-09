@@ -1,0 +1,164 @@
+---
+import type { SiteData } from '../lib/content';
+interface Props { site: SiteData; }
+const { site } = Astro.props;
+---
+
+<header id="site-nav" role="banner">
+  <nav aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Ian Brogan — home">
+      <span class="nav-logo-letters" aria-hidden="true">IB</span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul id="nav-menu" role="list">
+      {site.nav_links.map(link => (
+        <li>
+          <a href={link.href} class="nav-link">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  #site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #site-nav.scrolled {
+    background: rgba(244, 239, 230, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 rgba(22, 19, 17, 0.08);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+    padding-block: 1.25rem;
+    gap: 2rem;
+  }
+
+  .nav-logo {
+    text-decoration: none;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-letters {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-variation-settings: 'opsz' 36;
+    color: var(--color-oxblood-dk);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.4em 0.75em;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-ink);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    border-bottom: 1.5px solid transparent;
+  }
+  .nav-link:hover, .nav-link[aria-current="page"] {
+    opacity: 1;
+    color: var(--color-oxblood);
+    border-bottom-color: var(--color-gold);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-ink);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+
+    ul {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--color-bone);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      z-index: 99;
+    }
+    ul.open { display: flex; }
+
+    .nav-link {
+      font-size: 1.25rem;
+      padding: 0.75em 1.5em;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('site-nav')!;
+  const toggle = document.getElementById('nav-toggle')!;
+  const menu = document.getElementById('nav-menu')!;
+
+  // Scroll effect
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // Mobile toggle
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Close on nav click (for same-page anchors)
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

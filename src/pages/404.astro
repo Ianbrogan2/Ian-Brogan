@@ -1,0 +1,61 @@
+---
+import Page from '../layouts/Page.astro';
+---
+
+<Page title="404 — Not Found" description="Page not found.">
+  <div class="container not-found">
+    <div class="nf-inner">
+      <span class="eyebrow">404</span>
+      <span class="rule-gold"></span>
+      <h1 class="display nf-headline">Off the chart.</h1>
+      <p class="lead">That page doesn't exist — or it's been moved. Either way, the line goes back up from here.</p>
+      <a href="/" class="btn btn-primary">Back to home</a>
+    </div>
+
+    <!-- Mini decorative market line -->
+    <div class="nf-chart" aria-hidden="true">
+      <svg viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline
+          points="0,80 40,75 80,85 120,60 160,65 200,40 240,50 280,20 320,30 360,10 400,5"
+          stroke="var(--color-oxblood)"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <!-- small dot at end -->
+        <circle cx="400" cy="5" r="4" fill="var(--color-gold)"/>
+      </svg>
+    </div>
+  </div>
+</Page>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 80dvh;
+    justify-content: center;
+    padding-block: clamp(8rem, 12vw, 12rem);
+    gap: 3rem;
+  }
+
+  .nf-inner {
+    max-width: 600px;
+  }
+
+  .nf-headline {
+    color: var(--color-oxblood-dk);
+    margin: 0 0 1.5rem;
+  }
+
+  .lead { margin-bottom: 2rem; }
+
+  .nf-chart {
+    width: 100%;
+    max-width: 400px;
+    opacity: 0.5;
+  }
+  .nf-chart svg { width: 100%; height: auto; }
+</style>

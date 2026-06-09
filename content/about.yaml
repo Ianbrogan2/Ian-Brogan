@@ -1,0 +1,32 @@
+# ============================================================
+# ABOUT / MY STORY — edit copy below freely
+# Displayed in the About section on the home page
+# ============================================================
+
+headline: "Two worlds, one through-line."
+subhead: "I grew up fascinated by the complex spiderwebs that create businesses — and equally drawn to the patience and craft of making things with your hands."
+
+# Each paragraph is its own block. Keep them short; they breathe better.
+body:
+  - "I've been teaching myself markets since I was ten — reading financial statements, building a personal investment account, learning how funds work. Not because anyone told me to. Because it felt like finding a language I already spoke."
+  - "A medically necessary year of independent study became the best thing that happened to me. It gave me time to learn 3D design, printing, woodworking, and graphic production. I built a resin table with my hands. I designed and vinyl-wrapped a custom 3D-printed spoiler shelf. I taught myself the full Adobe suite. I found out that I work best when I get to move between the precise and the tactile."
+  - "I was promoted to Lead Studio Director for my school's TV & Film program. I was entrusted with roughly $100,000 to revamp a CTE program from the ground up. I teach advanced cooking because I find the same satisfaction in a properly reduced sauce that I find in a properly constructed financial model."
+  - "My ADHD is my greatest asset. It's the engine behind the range. The thing that lets me care deeply about options pricing at 9 AM and be elbow-deep in resin work by 2 PM."
+
+# The duality callout — shown as a visual pull-quote
+duality_quote: "Precision in the numbers. Patience in the making."
+
+# Stats / quick facts — shown as a scannable accent row
+facts:
+  - label: "Self-taught investor"
+    value: "Since age 10"
+  - label: "Adobe suite"
+    value: "Full mastery"
+  - label: "CTE budget"
+    value: "~$100K entrusted"
+  - label: "Lead Studio Director"
+    value: "Promoted"
+
+# Photo path — swap by uploading to /content/images and updating this
+image: "/content/images/about-placeholder.jpg"
+image_alt: "TODO: candid photo of Ian — working, not posed"

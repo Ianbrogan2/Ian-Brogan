@@ -1,0 +1,157 @@
+# ============================================================
+# JOURNEY — stock-market life graph data
+# This file drives the SVG life-timeline graph on the home page.
+#
+# HOW TO EDIT:
+#   - "milestones" are labeled points shown on the chart with detail cards
+#   - "noise_points" are unlabeled volatility points that make the line feel real
+#   - "age" is a decimal number (e.g. 13.5 = age thirteen and a half)
+#   - "value" is a growth index (starts ~100, rises over time — adjust freely)
+#   - "present_age" marks where the solid past line ends and the dashed future begins
+#
+# DO NOT EDIT BELOW the "# --- chart rendering ---" comment
+# ============================================================
+
+present_age: 17.5
+
+milestones:
+  - age: 10
+    value: 100
+    label: "First investment account"
+    description: "Self-taught investor from day one. Read financial statements before I read novels."
+    type: "past"
+
+  - age: 13.5
+    value: 115
+    label: "Independent study year"
+    description: "A medical pivot, not a setback. It became a launchpad for self-teaching design, 3D printing, and craft."
+    type: "past"
+
+  - age: 14.5
+    value: 175
+    label: "ADHD as the engine"
+    description: "Reframed the diagnosis. The range, the intensity, the ability to move between worlds — that's the feature."
+    type: "past"
+
+  - age: 15.5
+    value: 265
+    label: "Self-taught 2D/3D design & printing"
+    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite."
+    type: "past"
+
+  - age: 16.5
+    value: 355
+    label: "Lead Studio Director"
+    description: "Promoted to lead director for the school's TV & Film and Digital Media program."
+    type: "past"
+
+  - age: 17
+    value: 430
+    label: "$100K CTE program revamp"
+    description: "Entrusted with roughly $100,000 to overhaul a CTE program launching summer 2026."
+    type: "past"
+
+  - age: 17.5
+    value: 465
+    label: "Present — Summer 2026"
+    description: "Building toward college, compounding every skill."
+    type: "current"
+
+  - age: 18.5
+    value: 520
+    label: "College"
+    description: "Business Economics + Data Analytics. Cal Poly SLO, UC Davis, or UC Berkeley — the gateway to everything next."
+    type: "future"
+
+  - age: 20
+    value: 620
+    label: "BlackRock internship"
+    description: "The foot in the door. Learn how real capital moves at scale."
+    type: "future"
+
+  - age: 23
+    value: 810
+    label: "Junior data analyst"
+    description: "First real career chapter. Data-driven decisions at an institutional level."
+    type: "future"
+
+  - age: 27
+    value: 1080
+    label: "Senior data analyst"
+    description: "Building the expertise and the track record."
+    type: "future"
+
+  - age: 32
+    value: 1550
+    label: "Fund manager"
+    description: "The long goal. Mastery over capital allocation — not just analysis."
+    type: "future"
+
+  - age: 42
+    value: 2400
+    label: "Compound wealth & mastery"
+    description: "Decades of compounding — financial, intellectual, personal."
+    type: "future"
+
+  - age: 55
+    value: 3000
+    label: "Retire to the vineyard"
+    description: "Where the two worlds finally merge. Precision in the growing season. Patience in the aging barrel."
+    type: "future"
+
+# Unlabeled volatility points — these make the line look like a real equity curve.
+# Add more if you want more texture; remove some for a cleaner look.
+noise_points:
+  - age: 10.6
+    value: 96
+  - age: 11.2
+    value: 113
+  - age: 11.8
+    value: 109
+  - age: 12.4
+    value: 118
+  - age: 12.9
+    value: 112
+  - age: 13.2
+    value: 108
+  - age: 14.1
+    value: 142
+  - age: 14.9
+    value: 200
+  - age: 15.2
+    value: 194
+  - age: 16.1
+    value: 298
+  - age: 16.8
+    value: 375
+  - age: 17.2
+    value: 445
+  - age: 19.0
+    value: 538
+  - age: 19.5
+    value: 525
+  - age: 21.0
+    value: 670
+  - age: 22.0
+    value: 715
+  - age: 24.5
+    value: 870
+  - age: 26.0
+    value: 960
+  - age: 29.0
+    value: 1230
+  - age: 31.0
+    value: 1390
+  - age: 36.0
+    value: 1870
+  - age: 40.0
+    value: 2150
+
+# --- chart rendering --- DO NOT EDIT BELOW THIS LINE ---
+# These control chart appearance and are intentionally not user-editable
+chart:
+  x_min_age: 10
+  x_max_age: 58
+  y_label: "Growth"
+  gridline_ages: [10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
+  gridline_values: [0, 500, 1000, 1500, 2000, 2500, 3000]

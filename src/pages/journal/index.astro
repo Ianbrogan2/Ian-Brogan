@@ -1,0 +1,108 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('journal', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+---
+
+<Page title="Journal" description="Writing about markets, making, and what it looks like to build something from the ground up.">
+  <div class="container">
+    <header class="page-header">
+      <span class="eyebrow">Journal</span>
+      <span class="rule-gold"></span>
+      <h1>Notes from the intersection.</h1>
+      <p class="lead">Writing about markets, making, and what it looks like to build something from the ground up.</p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="no-posts">No posts yet. Check back soon.</p>
+    ) : (
+      <ol class="journal-list" role="list">
+        {posts.map((post, i) => (
+          <li class={`journal-item reveal reveal-delay-${Math.min(i + 1, 4)}`}>
+            <article>
+              <div class="post-meta">
+                <time datetime={post.data.date.toISOString()} class="post-date">
+                  {formatDate(post.data.date)}
+                </time>
+                {post.data.tags?.map(tag => (
+                  <span class="post-tag">{tag}</span>
+                ))}
+              </div>
+              <h2 class="post-title">
+                <a href={`/journal/${post.id}`}>{post.data.title}</a>
+              </h2>
+              <p class="post-desc">{post.data.description}</p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</Page>
+
+<style>
+  .page-header {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(2.5rem, 4vw, 4rem);
+    max-width: 680px;
+  }
+  h1 { margin-bottom: 1rem; }
+  .no-posts { color: var(--color-mist); font-style: italic; padding-block: 3rem; }
+
+  .journal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(4rem, 8vw, 8rem);
+  }
+  .journal-item {
+    border-top: 1px solid rgba(22,19,17,0.1);
+    padding: 2.5rem 0;
+  }
+  .journal-item:last-child { border-bottom: 1px solid rgba(22,19,17,0.1); }
+
+  .post-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .post-date {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-mist);
+    text-transform: uppercase;
+  }
+  .post-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-oxblood);
+    padding: 0.2em 0.5em;
+    border: 1px solid rgba(107,31,42,0.3);
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    margin: 0 0 0.75rem;
+  }
+  h2 a {
+    text-decoration: none;
+    color: var(--color-oxblood-dk);
+    transition: color 0.2s;
+  }
+  h2 a:hover { color: var(--color-oxblood); }
+
+  .post-desc {
+    font-size: 0.9rem;
+    color: rgba(22,19,17,0.65);
+    max-width: 65ch;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+import Page from '../layouts/Page.astro';
+import Portfolio from '../components/Portfolio.astro';
+import { getSite, getPortfolio } from '../lib/content';
+
+const site = getSite();
+const portfolio = getPortfolio();
+---
+
+<Page title="Portfolio" description="Ian Brogan's design, media, maker, and culinary work.">
+  <div class="page-hero container">
+    <span class="eyebrow">Portfolio</span>
+    <span class="rule-gold"></span>
+    <h1>Design, making, and craft.</h1>
+    <p class="lead">Three domains. One thread: precision in process, care in execution.</p>
+  </div>
+  <Portfolio data={portfolio} />
+</Page>
+
+<style>
+  .page-hero {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+  }
+  h1 { margin-bottom: 1rem; }
+</style>

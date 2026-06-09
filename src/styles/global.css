@@ -1,0 +1,241 @@
+/* ── Fonts (self-hosted via fontsource) ─────────────────── */
+@import '@fontsource-variable/fraunces/index.css';
+@import '@fontsource-variable/fraunces/opsz.css';
+@import '@fontsource-variable/dm-sans/index.css';
+
+/* ── Tailwind v4 ─────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ── Design tokens ───────────────────────────────────────── */
+@theme {
+  /* Colors — Markets & Vineyards palette */
+  --color-oxblood:    #6B1F2A;
+  --color-oxblood-dk: #3D1119;
+  --color-bone:       #F4EFE6;
+  --color-bone-dk:    #EAE3D6;
+  --color-ink:        #161311;
+  --color-gold:       #C9A227;
+  --color-sage:       #4A5340;
+  --color-mist:       #9E9488;
+
+  /* Fonts */
+  --font-display: 'Fraunces Variable', 'Georgia', serif;
+  --font-body:    'DM Sans Variable', 'system-ui', sans-serif;
+
+  /* Type scale — push scale contrast hard */
+  --text-display:  clamp(3.5rem, 9vw, 8rem);
+  --text-headline: clamp(2.25rem, 5vw, 4rem);
+  --text-title:    clamp(1.5rem, 3vw, 2.25rem);
+  --text-lead:     clamp(1.05rem, 1.5vw, 1.25rem);
+  --text-body:     1rem;
+  --text-small:    0.875rem;
+  --text-label:    0.75rem;
+
+  /* Spacing rhythm */
+  --section-gap: clamp(5rem, 10vw, 10rem);
+
+  /* Easing — weighty, slow, not the default */
+  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  min-height: 100dvh;
+}
+
+/* ── Film-grain overlay ──────────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-oxblood-dk);
+  letter-spacing: -0.02em;
+}
+
+.display {
+  font-size: var(--text-display);
+  font-variation-settings: 'opsz' 144;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+h1 { font-size: var(--text-headline); font-variation-settings: 'opsz' 72; }
+h2 { font-size: var(--text-title); font-variation-settings: 'opsz' 48; }
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  color: var(--color-ink);
+  font-weight: 300;
+  font-family: var(--font-body);
+}
+
+p { max-width: 65ch; }
+p + p { margin-top: 1.25em; }
+
+a {
+  color: var(--color-oxblood);
+  text-underline-offset: 3px;
+  transition: color 0.2s var(--ease-expo), opacity 0.2s var(--ease-expo);
+}
+a:hover { color: var(--color-oxblood-dk); }
+
+/* ── Layout utilities ────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+
+.section { padding-block: var(--section-gap); }
+
+/* Alternate section backgrounds */
+.section--alt { background-color: var(--color-bone-dk); }
+.section--dark { background-color: var(--color-oxblood-dk); color: var(--color-bone); }
+.section--dark h1, .section--dark h2, .section--dark h3 { color: var(--color-bone); }
+
+/* ── Button system ───────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75em 1.75em;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-expo);
+}
+
+.btn-primary {
+  background: var(--color-oxblood);
+  color: var(--color-bone);
+  border-color: var(--color-oxblood);
+}
+.btn-primary:hover {
+  background: var(--color-oxblood-dk);
+  border-color: var(--color-oxblood-dk);
+  color: var(--color-bone);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-oxblood);
+  border-color: var(--color-oxblood);
+}
+.btn-outline:hover {
+  background: var(--color-oxblood);
+  color: var(--color-bone);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-bone);
+  border-color: rgba(244, 239, 230, 0.5);
+}
+.btn-ghost:hover {
+  background: rgba(244, 239, 230, 0.1);
+  border-color: var(--color-bone);
+  color: var(--color-bone);
+}
+
+/* ── Section label / eyebrow ─────────────────────────────── */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 1rem;
+}
+
+/* ── Image placeholder ───────────────────────────────────── */
+.img-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-bone-dk);
+  border: 1px dashed var(--color-mist);
+  color: var(--color-mist);
+  font-size: var(--text-small);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* ── Reveal animations ───────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Gold accent line ─────────────────────────────────────── */
+.rule-gold {
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--color-gold);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Print utilities (for /resume) ───────────────────────── */
+@media print {
+  body::after { display: none; }
+  .no-print { display: none !important; }
+  .container { max-width: none; padding: 0; }
+  a { color: inherit; text-decoration: none; }
+}

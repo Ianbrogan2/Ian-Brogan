@@ -1,0 +1,245 @@
+---
+import type { VisionData } from '../lib/content';
+interface Props { data: VisionData; }
+const { data } = Astro.props;
+---
+
+<section id="vision" class="section section--dark" aria-labelledby="vision-heading">
+  <div class="container">
+    <header class="vision-header reveal">
+      <span class="eyebrow" style="color: var(--color-gold)">Vision</span>
+      <span class="rule-gold"></span>
+      <h2 id="vision-heading">{data.headline}</h2>
+      <p class="lead">{data.subhead}</p>
+    </header>
+
+    <div class="vision-layout">
+      <!-- Schools -->
+      <div class="vision-schools reveal reveal-delay-1">
+        <h3 class="vision-section-title">{data.schools.headline}</h3>
+        <ul role="list" class="school-list">
+          {data.schools.items.map((school, i) => (
+            <li class="school-item">
+              <div class="school-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</div>
+              <div class="school-detail">
+                <strong>{school.name}</strong>
+                <span class="school-program">{school.program}</span>
+                <span class="school-note">{school.note}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Career arc -->
+      <div class="vision-arc reveal reveal-delay-2">
+        <h3 class="vision-section-title">{data.career_arc.headline}</h3>
+        <ol role="list" class="arc-list">
+          {data.career_arc.stages.map((stage, i) => (
+            <li class="arc-stage">
+              <div class="arc-connector" aria-hidden="true">
+                <div class="arc-dot"></div>
+                {i < data.career_arc.stages.length - 1 && <div class="arc-line"></div>}
+              </div>
+              <div class="arc-content">
+                <span class="arc-phase">{stage.phase}</span>
+                <strong class="arc-label">{stage.label}</strong>
+                <p class="arc-detail">{stage.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+
+    <!-- Closing -->
+    <div class="vision-closing reveal">
+      <p class="closing-text">"{data.closing}"</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #vision {
+    background: var(--color-oxblood-dk);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle vine/grid bg texture */
+  #vision::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(244,239,230,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244,239,230,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .vision-header { max-width: 680px; margin-bottom: clamp(3rem, 5vw, 5rem); position: relative; }
+  .vision-header h2 { color: var(--color-bone); margin-bottom: 1rem; }
+  .vision-header .lead { color: rgba(244,239,230,0.7); }
+
+  .vision-layout {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    margin-bottom: clamp(3rem, 5vw, 5rem);
+    position: relative;
+  }
+
+  .vision-section-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin: 0 0 1.75rem;
+  }
+
+  /* Schools */
+  .school-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .school-item {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(244,239,230,0.08);
+  }
+  .school-item:first-child { padding-top: 0; }
+  .school-item:last-child { border: none; }
+
+  .school-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    font-variation-settings: 'opsz' 48;
+    color: rgba(244,239,230,0.12);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .school-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .school-detail strong {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-variation-settings: 'opsz' 18;
+    font-weight: 700;
+    color: var(--color-bone);
+  }
+  .school-program {
+    font-size: 0.825rem;
+    color: var(--color-gold);
+    font-style: italic;
+  }
+  .school-note {
+    font-size: 0.78rem;
+    color: rgba(244,239,230,0.5);
+  }
+
+  /* Career arc */
+  .arc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .arc-stage {
+    display: flex;
+    gap: 1.25rem;
+  }
+  .arc-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+  }
+  .arc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .arc-line {
+    flex: 1;
+    width: 1px;
+    background: rgba(244,239,230,0.12);
+    margin-block: 6px;
+    min-height: 1.5rem;
+  }
+
+  .arc-content {
+    padding-bottom: 1.75rem;
+    flex: 1;
+  }
+  .arc-stage:last-child .arc-content { padding-bottom: 0; }
+
+  .arc-phase {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 0.25rem;
+  }
+  .arc-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-variation-settings: 'opsz' 18;
+    font-weight: 700;
+    color: var(--color-bone);
+    margin-bottom: 0.4rem;
+  }
+  .arc-detail {
+    font-size: 0.825rem;
+    color: rgba(244,239,230,0.6);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 50ch;
+  }
+
+  /* Last arc stage — vineyard */
+  .arc-list li:last-child .arc-dot { background: var(--color-sage); }
+  .arc-list li:last-child .arc-label { color: var(--color-sage); }
+
+  /* Closing */
+  .vision-closing {
+    position: relative;
+    padding: 2.5rem 0 0;
+    border-top: 1px solid rgba(244,239,230,0.1);
+  }
+  .closing-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-variation-settings: 'opsz' 36;
+    font-style: italic;
+    color: rgba(244,239,230,0.6);
+    line-height: 1.45;
+    max-width: 70ch;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .vision-layout { grid-template-columns: 1fr; }
+  }
+</style>

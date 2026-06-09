@@ -1,0 +1,268 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSite, getResume } from '../lib/content';
+
+const site = getSite();
+const r = getResume();
+const year = new Date().getFullYear();
+---
+
+<Base
+  title="Résumé"
+  description={`One-page résumé for ${r.name} — ${r.tagline}`}
+>
+  <!-- Print button — hidden in print -->
+  <div class="print-controls no-print">
+    <a href="/" class="back-link">← Back to site</a>
+    <button onclick="window.print()" class="btn btn-primary print-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <polyline points="6 9 6 2 18 2 18 9"/>
+        <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+        <rect x="6" y="14" width="12" height="8"/>
+      </svg>
+      Print / Save PDF
+    </button>
+    <a href="/resume.pdf" download class="btn btn-outline">Download PDF</a>
+  </div>
+
+  <main class="resume" aria-label="Résumé">
+    <header class="resume-header">
+      <div class="resume-name-block">
+        <h1>{r.name}</h1>
+        <p class="resume-tagline">{r.tagline}</p>
+      </div>
+      <div class="resume-contact">
+        <a href={`mailto:${r.email}`}>{r.email}</a>
+        <a href={site.contact.instagram_main_url} target="_blank" rel="noopener noreferrer">{r.instagram}</a>
+        <span>{r.location}</span>
+      </div>
+    </header>
+
+    <section class="resume-section">
+      <h2>Education</h2>
+      {r.education.map(ed => (
+        <div class="resume-entry">
+          <div class="entry-header">
+            <strong>{ed.institution}</strong>
+            <span class="entry-date">{ed.years}</span>
+          </div>
+          <div class="entry-detail">{ed.degree}{ed.minors ? ` · ${ed.minors}` : ''}</div>
+          {ed.note && <div class="entry-note">{ed.note}</div>}
+        </div>
+      ))}
+    </section>
+
+    <section class="resume-section">
+      <h2>Experience</h2>
+      {r.experience.map(exp => (
+        <div class="resume-entry">
+          <div class="entry-header">
+            <strong>{exp.title} — {exp.org}</strong>
+            <span class="entry-date">{exp.years}</span>
+          </div>
+          <ul class="entry-bullets">
+            {exp.bullets.map(b => <li>{b}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="resume-section">
+      <h2>Skills</h2>
+      <div class="skills-summary">
+        {r.skills_summary.map(s => (
+          <div class="skill-row">
+            <span class="skill-cat">{s.category}</span>
+            <span class="skill-items">{s.items}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Projects</h2>
+      {r.projects.map(p => (
+        <div class="resume-entry">
+          <div class="entry-header">
+            <strong>{p.title}</strong>
+            {p.url && <a href={p.url} target="_blank" rel="noopener noreferrer" class="project-url">{p.url.replace('https://', '')}</a>}
+          </div>
+          <div class="entry-detail">{p.description}</div>
+        </div>
+      ))}
+    </section>
+
+    <section class="resume-section resume-section--inline">
+      <h2>Interests</h2>
+      <p>{r.interests.join(' · ')}</p>
+    </section>
+
+    <footer class="resume-footer no-print">
+      <p>Updated {year} · <a href={site.meta.url}>{site.meta.url}</a></p>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  body { background: white; }
+
+  .print-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: var(--color-bone-dk);
+    border-bottom: 1px solid rgba(22,19,17,0.08);
+  }
+  .back-link {
+    font-size: 0.8rem;
+    color: var(--color-mist);
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .back-link:hover { color: var(--color-oxblood); }
+  .print-btn { gap: 0.5rem; }
+
+  .resume {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 3rem;
+    background: white;
+  }
+
+  /* Header */
+  .resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-oxblood);
+  }
+  h1 {
+    font-size: 2rem;
+    color: var(--color-oxblood-dk);
+    margin: 0 0 0.25rem;
+  }
+  .resume-tagline {
+    font-size: 0.85rem;
+    color: var(--color-mist);
+    font-style: italic;
+    margin: 0;
+    max-width: none;
+  }
+  .resume-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+  }
+  .resume-contact a, .resume-contact span {
+    color: rgba(22,19,17,0.65);
+    text-decoration: none;
+  }
+  .resume-contact a:hover { color: var(--color-oxblood); }
+
+  /* Sections */
+  .resume-section {
+    margin-bottom: 1.75rem;
+  }
+  h2 {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-oxblood);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-bone-dk);
+  }
+
+  .resume-entry { margin-bottom: 1rem; }
+  .resume-entry:last-child { margin-bottom: 0; }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .entry-header strong {
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+  }
+  .entry-date {
+    font-size: 0.75rem;
+    color: var(--color-mist);
+    white-space: nowrap;
+  }
+  .entry-detail {
+    font-size: 0.825rem;
+    color: rgba(22,19,17,0.7);
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+  .entry-note {
+    font-size: 0.775rem;
+    color: var(--color-mist);
+    margin-top: 0.15rem;
+  }
+  .entry-bullets {
+    margin: 0.4rem 0 0 1.25rem;
+    padding: 0;
+  }
+  .entry-bullets li {
+    font-size: 0.825rem;
+    color: rgba(22,19,17,0.82);
+    margin-bottom: 0.25rem;
+    line-height: 1.55;
+  }
+
+  .skills-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .skill-row {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.825rem;
+    align-items: baseline;
+  }
+  .skill-cat {
+    font-weight: 600;
+    color: var(--color-oxblood-dk);
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+  .skill-items { color: rgba(22,19,17,0.7); }
+
+  .resume-section--inline { display: flex; gap: 2rem; align-items: baseline; }
+  .resume-section--inline p { font-size: 0.825rem; color: rgba(22,19,17,0.65); margin: 0; max-width: none; }
+
+  .project-url { font-size: 0.75rem; color: var(--color-mist); }
+
+  .resume-footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-bone-dk);
+    font-size: 0.75rem;
+    color: var(--color-mist);
+    text-align: center;
+  }
+  .resume-footer p { max-width: none; margin: 0; }
+
+  @media print {
+    body { font-size: 11pt; }
+    .resume { margin: 0; padding: 1.5cm; max-width: none; }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 8pt; }
+    .entry-header strong { font-size: 10pt; }
+    .entry-bullets li, .entry-detail, .skill-items { font-size: 9.5pt; }
+    a { color: inherit; }
+  }
+</style>

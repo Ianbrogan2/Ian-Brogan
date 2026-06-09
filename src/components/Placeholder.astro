@@ -1,0 +1,41 @@
+---
+interface Props {
+  caption: string;
+  aspectRatio?: string;
+  class?: string;
+}
+const { caption, aspectRatio = '4/3', class: className = '' } = Astro.props;
+---
+
+<div
+  class={`img-placeholder ${className}`}
+  style={`aspect-ratio: ${aspectRatio}`}
+  role="img"
+  aria-label={`Placeholder: ${caption}`}
+>
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="2"/>
+    <circle cx="8.5" cy="8.5" r="1.5"/>
+    <polyline points="21 15 16 10 5 21"/>
+  </svg>
+  <span>{caption}</span>
+</div>
+
+<style>
+  .img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: var(--color-bone-dk);
+    border: 1px dashed var(--color-mist);
+    color: var(--color-mist);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+    padding: 1.5rem;
+    width: 100%;
+  }
+</style>

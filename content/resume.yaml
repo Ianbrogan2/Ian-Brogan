@@ -1,0 +1,80 @@
+# ============================================================
+# RÉSUMÉ DATA — sources both /resume (print view) and /admissions
+# Edit here; it automatically updates both pages.
+# HARD RULE: no phone number, no specific dollar balances.
+# ============================================================
+
+name: "Ian Brogan"
+tagline: "Business Economics student-to-be | Investor | Studio Director | Maker"
+email: "ianbrogan2@hotmail.com"
+instagram: "@ianbrogan1227"
+location: "California"
+
+# ── Education ───────────────────────────────────────────────
+education:
+  - institution: "Target: Cal Poly SLO / UC Davis / UC Berkeley"
+    degree: "B.S. Business Economics"
+    minors: "Data Analytics & Excel Modeling; weighing Viticulture & Enology or Film/Production"
+    years: "2026–2030 (projected)"
+    note: "Rising senior, applying fall 2026"
+
+  - institution: "High School"
+    degree: "College Preparatory"
+    years: "2022–2026"
+    note: "Independent study year; promoted to Lead Studio Director"
+
+# ── Experience ──────────────────────────────────────────────
+experience:
+  - title: "Lead Studio Director"
+    org: "TV, Film & Digital Media Program"
+    years: "2025–2026"
+    bullets:
+      - "Promoted to lead director overseeing broadcast-quality productions and the full digital media curriculum"
+      - "Directed, edited, and color-graded content using Premiere Pro, After Effects, and the full Adobe suite"
+      - "Mentored peers in production workflow, audio, and post-production"
+
+  - title: "CTE Program Revamp — Lead"
+    org: "Career Technical Education"
+    years: "Summer 2026"
+    bullets:
+      - "Entrusted with roughly $100,000 budget to overhaul and relaunch a CTE program from the ground up"
+      - "Responsible for curriculum design, equipment procurement, and brand identity"
+
+  - title: "Self-Directed Investor"
+    org: "Personal"
+    years: "2019–present"
+    bullets:
+      - "Built and managed a personal investment account from age ten — real capital, real decisions"
+      - "Self-taught through primary sources: financial statements, earnings calls, fund letters"
+      - "Focus on fundamental analysis, long-term compounding, and understanding how value is created"
+
+# ── Skills ──────────────────────────────────────────────────
+skills_summary:
+  - category: "Finance & Data"
+    items: "Investment analysis, financial statements, Excel modeling, data analytics"
+  - category: "Design & Media"
+    items: "Premiere Pro, After Effects, Photoshop, Lightroom, Illustrator, color grading, logo design, audio"
+  - category: "Making & Craft"
+    items: "3D design & printing, woodworking, resin casting, vinyl fabrication, crochet"
+  - category: "Culinary"
+    items: "Advanced pastry, French technique, food styling & photography"
+
+# ── Projects ────────────────────────────────────────────────
+projects:
+  - title: "Handmade Resin Table"
+    description: "Designed, poured, and finished a resin-inlaid dining table from raw materials."
+
+  - title: "3D-Printed Spoiler Shelf"
+    description: "Self-designed, 3D-printed, and vinyl-wrapped automotive-style shelf. Form and function."
+
+  - title: "@brogan.bites"
+    description: "Food Instagram documenting self-taught advanced cooking and pastry."
+    url: "https://instagram.com/brogan.bites"
+
+# ── Interests ───────────────────────────────────────────────
+interests:
+  - "Vineyards & wine production"
+  - "Quantitative finance"
+  - "Industrial design"
+  - "Culinary arts"
+  - "Film & broadcast production"

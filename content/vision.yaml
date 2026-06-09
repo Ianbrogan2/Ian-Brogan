@@ -1,0 +1,43 @@
+# ============================================================
+# VISION / GOALS — target schools, career roadmap, endgame
+# ============================================================
+
+headline: "The roadmap is long. That's the point."
+subhead: "I don't want a career. I want a compounding arc — one where every stage builds the foundation for the next."
+
+# Target schools for college
+schools:
+  headline: "Where I'm applying"
+  items:
+    - name: "Cal Poly SLO"
+      program: "Business Economics + Data Analytics"
+      note: "Strong applied-learning culture. Practical foundation."
+    - name: "UC Davis"
+      program: "Business Economics + potential Viticulture & Enology minor"
+      note: "The vineyard thread runs directly through UC Davis."
+    - name: "UC Berkeley"
+      program: "Business / Haas (if eligible) + Data Analytics"
+      note: "The academic ceiling. Haas feeds directly into finance."
+
+# Career arc — shown as a styled timeline
+career_arc:
+  headline: "The arc"
+  stages:
+    - phase: "Near term"
+      label: "College"
+      detail: "Business Economics major. Data Analytics minor. Possibly Viticulture & Enology or Film/Production as a second minor."
+    - phase: "Early career"
+      label: "BlackRock internship"
+      detail: "Family connection provides the foot in the door. I bring the prep work — years of self-directed market study."
+    - phase: "Building"
+      label: "Junior → Senior data analyst"
+      detail: "Learn how institutional capital actually moves. Build the quantitative depth the fund management role demands."
+    - phase: "The goal"
+      label: "Fund manager"
+      detail: "Not just managing returns — mastering the discipline of capital allocation at scale."
+    - phase: "The endgame"
+      label: "Retire to the vineyard"
+      detail: "Where the two worlds finally merge. Precision in the growing season. Patience in the aging barrel. Craft at the end of a long, compounding arc."
+
+# Closing line
+closing: "The vineyard isn't a retirement. It's the proof that you built something worth resting in."

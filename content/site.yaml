@@ -1,0 +1,62 @@
+# ============================================================
+# SITE-WIDE DATA — edit anything in this file freely
+# Changes here affect: page titles, SEO, nav, footer, contact
+# ============================================================
+
+meta:
+  title: "Ian Brogan"
+  tagline: "Markets & Maker"
+  description: "Ian Brogan — finance-obsessed, craft-driven. Building toward fund management, with a vineyard at the end of the road."
+  url: "https://ianbrogan.com"
+  og_image: "/og-image.png"
+  author: "Ian Brogan"
+
+# ── Contact ─────────────────────────────────────────────────
+# HARD RULE: no phone number displayed anywhere on the site.
+contact:
+  email: "ianbrogan2@hotmail.com"
+  instagram_main_handle: "@ianbrogan1227"
+  instagram_main_url: "https://instagram.com/ianbrogan1227"
+  instagram_food_handle: "@brogan.bites"
+  instagram_food_url: "https://instagram.com/brogan.bites"
+  # linkedin_url: ""       # TODO: add when ready — remove the # to enable
+  # github_url: ""         # TODO: add when ready — remove the # to enable
+  # phone: ""              # PERMANENTLY DISABLED — do not display
+
+# ── Hero ────────────────────────────────────────────────────
+hero:
+  headline: "I think in markets."
+  headline_line2: "I make by hand."
+  subhead: "Seventeen, self-taught, and building toward a career in fund management — with a vineyard at the end of the road."
+  cta_primary_label: "My story"
+  cta_primary_href: "#about"
+  cta_secondary_label: "See the work"
+  cta_secondary_href: "#portfolio"
+  # Path to hero image — swap by uploading to /content/images and changing this path
+  image: "/content/images/hero-placeholder.jpg"
+  image_alt: "TODO: photo of Ian — candid, warm light, at his workbench or outdoors"
+
+# ── Navigation ──────────────────────────────────────────────
+# Order determines the order items appear in the nav
+nav_links:
+  - label: "About"
+    href: "#about"
+  - label: "Journey"
+    href: "#journey"
+  - label: "Portfolio"
+    href: "#portfolio"
+  - label: "Investing"
+    href: "#investing"
+  - label: "Skills"
+    href: "#skills"
+  - label: "Vision"
+    href: "#vision"
+  - label: "Journal"
+    href: "/journal"
+  - label: "Contact"
+    href: "#contact"
+
+# ── Footer ──────────────────────────────────────────────────
+footer:
+  tagline: "Markets & Maker — ianbrogan.com"
+  copyright_name: "Ian Brogan"
