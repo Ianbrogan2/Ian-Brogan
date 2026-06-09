@@ -193,9 +193,9 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
       </div>
     </div>
 
-    <!-- Accessible fallback -->
+    <!-- Accessible fallback (desktop) -->
     <details class="journey-fallback">
-      <summary>View all milestones as a list</summary>
+      <summary>▸ View all milestones as a list</summary>
       <table>
         <caption>Ian Brogan's life milestones</caption>
         <thead><tr><th>Age</th><th>Milestone</th><th>Description</th><th>Phase</th></tr></thead>
@@ -211,6 +211,26 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
         </tbody>
       </table>
     </details>
+
+    <!-- Mobile timeline list (replaces chart on small screens) -->
+    <div class="journey-mobile-list" aria-label="Life milestones timeline">
+      {milestones.map((m) => (
+        <div class={`jml-item jml-item--${m.type}`}>
+          <div class="jml-spine">
+            <div class="jml-dot"></div>
+            <div class="jml-line"></div>
+          </div>
+          <div class="jml-body">
+            <div class="jml-meta">
+              <span class="jml-age">Age {m.age}</span>
+              <span class="jml-tag">{m.type === 'current' ? 'Now' : m.type === 'future' ? 'Projected' : 'Past'}</span>
+            </div>
+            <h3 class="jml-label">{m.label}</h3>
+            <p class="jml-desc">{m.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
 
@@ -352,6 +372,111 @@ const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, desc
     font-size: 0.8rem;
     color: var(--color-muted);
     margin-bottom: 0.75rem;
+  }
+
+  /* ── Mobile timeline list ─────────────────────────────────── */
+  .journey-mobile-list { display: none; }
+
+  @media (max-width: 768px) {
+    .journey-graph-wrap,
+    .milestone-panel,
+    .journey-fallback { display: none !important; }
+
+    .journey-mobile-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .jml-item {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .jml-spine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    .jml-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+      background: var(--color-gold);
+      border: 2px solid var(--color-bg);
+      box-shadow: 0 0 0 1px var(--color-gold);
+    }
+    .jml-item--future .jml-dot {
+      background: transparent;
+      border-color: rgba(201,162,39,0.4);
+      box-shadow: 0 0 0 1px rgba(201,162,39,0.3);
+    }
+    .jml-item--current .jml-dot {
+      background: var(--color-gold);
+      box-shadow: 0 0 8px var(--color-gold);
+    }
+
+    .jml-line {
+      flex: 1;
+      width: 1px;
+      background: var(--color-border);
+      margin-block: 4px;
+    }
+    .jml-item:last-child .jml-line { display: none; }
+
+    .jml-body {
+      padding-bottom: 1.75rem;
+    }
+
+    .jml-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .jml-age {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+    }
+
+    .jml-tag {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      padding: 0.15em 0.5em;
+      border: 1px solid var(--color-border);
+    }
+    .jml-item--current .jml-tag {
+      color: var(--color-gold);
+      border-color: rgba(201,162,39,0.4);
+    }
+
+    .jml-label {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-variation-settings: 'opsz' 24;
+      color: var(--color-text);
+      margin: 0 0 0.4rem;
+      line-height: 1.2;
+    }
+    .jml-item--future .jml-label { color: var(--color-text-dim); }
+
+    .jml-desc {
+      font-size: 0.82rem;
+      color: var(--color-text-dim);
+      line-height: 1.65;
+      margin: 0;
+    }
   }
 </style>
 

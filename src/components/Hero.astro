@@ -376,27 +376,16 @@ const { contact } = site;
     .hero-stats { gap: 1.5rem; }
   }
   @media (max-width: 600px) {
-    .hero-inner { padding-top: 6rem; }
+    .hero-inner { padding-top: 11rem; }
     .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
     .hero-cta .btn:last-child { display: none; }
+    .hero-kicker { display: none; }
   }
 </style>
 
 <script>
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    // ── Scroll lock (hero animation duration) ─────────────────
-    let locked = true;
-    const stopScroll = (e: Event) => { if (locked) e.preventDefault(); };
-    window.addEventListener('wheel',     stopScroll, { passive: false });
-    window.addEventListener('touchmove', stopScroll, { passive: false });
-    window.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (locked && ['ArrowDown','ArrowUp','Space','PageDown','PageUp'].includes(e.code)) {
-        e.preventDefault();
-      }
-    });
-    setTimeout(() => { locked = false; }, 4200);
 
     // ── Countup for stats ─────────────────────────────────────
     document.querySelectorAll<HTMLElement>('.hstat-num[data-count]').forEach(el => {
