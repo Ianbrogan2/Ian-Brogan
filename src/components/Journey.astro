@@ -5,7 +5,6 @@ const { data } = Astro.props;
 
 const { milestones, noise_points, chart, present_age } = data;
 
-// ── Build the full sorted point list (milestones + noise) ──
 type Point = { age: number; value: number; isMilestone: boolean; milestone?: JourneyMilestone };
 
 const allPoints: Point[] = [
@@ -13,7 +12,6 @@ const allPoints: Point[] = [
   ...noise_points.map(n => ({ age: n.age, value: n.value, isMilestone: false })),
 ].sort((a, b) => a.age - b.age);
 
-// ── SVG coordinate mapping ─────────────────────────────────
 const W = 1200, H = 480;
 const gLeft = 80, gRight = 1160, gTop = 40, gBottom = 420;
 const gW = gRight - gLeft, gH = gBottom - gTop;
@@ -23,12 +21,10 @@ const yMin = 0, yMax = 3200;
 function xOf(age: number) { return gLeft + (age - xMin) / (xMax - xMin) * gW; }
 function yOf(value: number) { return gBottom - (value - yMin) / (yMax - yMin) * gH; }
 
-// Split points at present_age
 const presentIdx = allPoints.findIndex(p => p.age >= present_age);
-const pastPoints = allPoints.slice(0, presentIdx + 1);
-const futurePoints = allPoints.slice(presentIdx);  // overlap at junction
+const pastPoints  = allPoints.slice(0, presentIdx + 1);
+const futurePoints = allPoints.slice(presentIdx);
 
-// ── Catmull-Rom → cubic bezier smooth path ────────────────
 function smoothPath(pts: Point[]): string {
   if (pts.length < 2) return '';
   const coords = pts.map(p => ({ x: xOf(p.age), y: yOf(p.value) }));
@@ -47,95 +43,79 @@ function smoothPath(pts: Point[]): string {
   return d;
 }
 
-const pastPath = smoothPath(pastPoints);
+const pastPath   = smoothPath(pastPoints);
 const futurePath = smoothPath(futurePoints);
 
-// ── Milestone coordinates for labels/markers ─────────────
 const milestoneCoords = milestones.map(m => ({
   ...m,
   x: xOf(m.age),
   y: yOf(m.value),
 }));
 
-// ── Axis gridlines ────────────────────────────────────────
-const gridAges = chart.gridline_ages.filter(a => a >= xMin && a <= xMax);
-const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
+const gridAges   = chart.gridline_ages.filter((a: number) => a >= xMin && a <= xMax);
+const gridValues = chart.gridline_values.filter((v: number) => v >= yMin && v <= yMax);
+
+// Milestone data as JSON for the client script
+const milestoneJSON = JSON.stringify(milestones.map(m => ({ label: m.label, description: m.description, type: m.type, age: m.age })));
 ---
 
-<section id="journey" class="section section--alt" aria-labelledby="journey-heading">
+<section id="journey" class="section" aria-labelledby="journey-heading">
   <div class="container">
-    <div class="journey-header reveal">
-      <span class="eyebrow">Journey</span>
-      <span class="rule-gold"></span>
-      <h2 id="journey-heading">The equity curve of a life.</h2>
-      <p class="lead">Every milestone, mapped like a market. The solid line is where I've been. The dashed line is where I'm headed.</p>
-    </div>
-
-    <!-- The graph -->
-    <div class="journey-graph-wrap reveal reveal-delay-1" id="journey-section" aria-hidden="true">
+    <!-- Graph -->
+    <div class="journey-graph-wrap" id="journey-section">
       <svg
         id="journey-svg"
         viewBox={`0 0 ${W} ${H}`}
         preserveAspectRatio="xMidYMid meet"
         role="img"
-        aria-label="Ian Brogan's life timeline rendered as a stock market equity curve"
+        aria-label="Ian Brogan life timeline as an equity curve chart"
       >
         <!-- Background -->
-        <rect width={W} height={H} fill="var(--color-bone-dk)" rx="2"/>
+        <rect width={W} height={H} fill="var(--color-elevated)" rx="2"/>
 
-        <!-- Grain filter -->
         <defs>
-          <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" stitchTiles="stitch"/>
-            <feColorMatrix type="saturate" values="0"/>
-            <feBlend in="SourceGraphic" mode="multiply"/>
-          </filter>
-          <rect id="grain-rect" width={W} height={H} filter="url(#grain-filter)" opacity="0.04" rx="2"/>
-
-          <!-- Gradient: past line oxblood, future drifts toward sage -->
           <linearGradient id="future-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="var(--color-oxblood)"/>
-            <stop offset="100%" stop-color="var(--color-sage)"/>
+            <stop offset="0%" stop-color="var(--color-gold)"/>
+            <stop offset="100%" stop-color="var(--color-green)"/>
           </linearGradient>
-          <use href="#grain-rect"/>
         </defs>
 
         <!-- Y gridlines -->
-        {gridValues.map(v => (
+        {gridValues.map((v: number) => (
           <g class="grid-row">
             <line
               x1={gLeft} y1={yOf(v)} x2={gRight} y2={yOf(v)}
-              stroke="rgba(22,19,17,0.07)" stroke-width="1"
+              stroke="rgba(237,232,223,0.06)" stroke-width="1"
             />
             <text
               x={gLeft - 8} y={yOf(v)}
               text-anchor="end" dominant-baseline="middle"
-              fill="rgba(22,19,17,0.35)" font-size="11" font-family="var(--font-body)"
+              fill="rgba(237,232,223,0.3)" font-size="11" font-family="var(--font-body)"
             >{v === 0 ? '' : v.toLocaleString()}</text>
           </g>
         ))}
 
         <!-- X gridlines / age labels -->
-        {gridAges.map(a => (
+        {gridAges.map((a: number) => (
           <g class="grid-col">
             <line
               x1={xOf(a)} y1={gTop} x2={xOf(a)} y2={gBottom + 10}
-              stroke="rgba(22,19,17,0.07)" stroke-width="1"
+              stroke="rgba(237,232,223,0.06)" stroke-width="1"
             />
             <text
               x={xOf(a)} y={gBottom + 22}
               text-anchor="middle"
-              fill="rgba(22,19,17,0.35)" font-size="11" font-family="var(--font-body)"
+              fill="rgba(237,232,223,0.3)" font-size="11" font-family="var(--font-body)"
             >{a}</text>
           </g>
         ))}
 
         <!-- Axis labels -->
         <text x={gLeft - 8} y={gTop - 14} text-anchor="start"
-          fill="rgba(22,19,17,0.45)" font-size="11" font-family="var(--font-body)"
+          fill="rgba(237,232,223,0.4)" font-size="11" font-family="var(--font-body)"
           letter-spacing="1">GROWTH</text>
         <text x={gRight + 8} y={gBottom + 22} text-anchor="end"
-          fill="rgba(22,19,17,0.45)" font-size="11" font-family="var(--font-body)"
+          fill="rgba(237,232,223,0.4)" font-size="11" font-family="var(--font-body)"
           letter-spacing="1">AGE</text>
 
         <!-- Present-line vertical marker -->
@@ -147,7 +127,7 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
           fill="var(--color-gold)" font-size="10" font-family="var(--font-body)"
           letter-spacing="1">NOW</text>
 
-        <!-- Future path (dashed, drawn second) -->
+        <!-- Future path -->
         <path
           id="journey-future-path"
           d={futurePath}
@@ -159,62 +139,66 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
           opacity="0.9"
         />
 
-        <!-- Past path (solid oxblood, drawn first) -->
+        <!-- Past path -->
         <path
           id="journey-past-path"
           d={pastPath}
           fill="none"
-          stroke="var(--color-oxblood)"
+          stroke="var(--color-gold)"
           stroke-width="2.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         />
 
-        <!-- Milestone markers — hidden until revealed by scroll -->
+        <!-- Milestone markers -->
         {milestoneCoords.map((m, i) => (
           <g
             class="milestone-marker"
             data-index={i}
             data-age={m.age}
             data-type={m.type}
-            style="opacity: 0"
+            style="opacity:0; cursor:pointer"
             role="button"
             tabindex="0"
             aria-label={`${m.label}: ${m.description}`}
           >
-            <!-- Outer ring -->
-            <circle cx={m.x} cy={m.y} r="9"
-              fill={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-bone-dk)' : 'var(--color-oxblood-dk)'}
-              stroke={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-sage)' : 'var(--color-oxblood)'}
-              stroke-width={m.type === 'current' ? "3" : "1.5"}
+            <circle cx={m.x} cy={m.y} r="14"
+              fill="transparent"
             />
-            <!-- Inner dot -->
-            <circle cx={m.x} cy={m.y} r="3"
-              fill={m.type === 'future' ? 'var(--color-sage)' : 'var(--color-bone)'}
+            <circle cx={m.x} cy={m.y} r="7"
+              fill={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-elevated)' : 'var(--color-elevated)'}
+              stroke={m.type === 'current' ? 'var(--color-gold)' : m.type === 'future' ? 'var(--color-green)' : 'var(--color-gold)'}
+              stroke-width="2"
             />
-            <!-- Label tick -->
-            <line x1={m.x} y1={m.y - 9} x2={m.x} y2={m.y - 20}
-              stroke={m.type === 'current' ? 'var(--color-gold)' : 'rgba(22,19,17,0.3)'} stroke-width="1"
+            <circle cx={m.x} cy={m.y} r="2.5"
+              fill={m.type === 'future' ? 'var(--color-green)' : 'var(--color-text)'}
             />
           </g>
         ))}
       </svg>
+    </div>
 
-      <!-- Detail card — shown on hover/focus of a milestone -->
-      <div id="milestone-card" class="milestone-card" role="tooltip" aria-live="polite">
-        <span class="milestone-card-label"></span>
-        <p class="milestone-card-desc"></p>
+    <!-- Description panel — updates when a milestone is clicked/tapped -->
+    <div id="milestone-panel" class="milestone-panel" aria-live="polite">
+      <div class="milestone-panel-empty">
+        <span>← Tap any point on the chart to see details</span>
+      </div>
+      <div class="milestone-panel-content" hidden>
+        <div class="mp-meta">
+          <span class="mp-age" id="mp-age"></span>
+          <span class="mp-type" id="mp-type"></span>
+        </div>
+        <h3 class="mp-label" id="mp-label"></h3>
+        <p class="mp-desc" id="mp-desc"></p>
       </div>
     </div>
 
-    <!-- Accessible text / data-table fallback -->
+    <!-- Accessible fallback -->
     <details class="journey-fallback">
-      <summary>View milestones as a list</summary>
+      <summary>View all milestones as a list</summary>
       <table>
-        <caption>Ian Brogan's life milestones — age and description</caption>
-        <thead>
-          <tr><th scope="col">Age</th><th scope="col">Milestone</th><th scope="col">Description</th><th scope="col">Phase</th></tr>
-        </thead>
+        <caption>Ian Brogan's life milestones</caption>
+        <thead><tr><th>Age</th><th>Milestone</th><th>Description</th><th>Phase</th></tr></thead>
         <tbody>
           {milestones.map(m => (
             <tr>
@@ -231,10 +215,7 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
 </section>
 
 <style>
-  #journey {
-    background: var(--color-bone-dk);
-    position: relative;
-  }
+  #journey { background: var(--color-surface); }
 
   .journey-header {
     max-width: 700px;
@@ -242,13 +223,12 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
   }
   .journey-header h2 { margin-bottom: 1rem; }
 
-  /* Graph wrapper */
   .journey-graph-wrap {
     position: relative;
     width: 100%;
-    background: var(--color-bone-dk);
-    border: 1px solid rgba(22,19,17,0.08);
-    overflow: visible;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    border-radius: 2px;
   }
 
   #journey-svg {
@@ -258,63 +238,91 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
     cursor: crosshair;
   }
 
-  /* Milestone markers */
-  .milestone-marker {
-    cursor: pointer;
-    transition: opacity 0.4s var(--ease-expo);
-  }
+  .milestone-marker { transition: opacity 0.5s var(--ease-expo); }
   .milestone-marker:focus { outline: none; }
-  .milestone-marker:focus > circle:first-child { stroke-width: 3; }
+  .milestone-marker:hover circle:nth-child(2),
+  .milestone-marker:focus circle:nth-child(2) {
+    filter: brightness(1.3);
+  }
+  .milestone-marker.active circle:nth-child(2) {
+    stroke-width: 3;
+  }
 
-  /* Detail card */
-  .milestone-card {
-    position: absolute;
-    background: var(--color-ink);
-    color: var(--color-bone);
-    padding: 0.75rem 1rem;
-    max-width: 240px;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.2s var(--ease-expo), transform 0.2s var(--ease-expo);
-    z-index: 10;
-    box-shadow: 0 8px 32px rgba(22,19,17,0.15);
+  /* Description panel */
+  .milestone-panel {
+    margin-top: 1.5rem;
+    min-height: 6rem;
+    padding: 1.5rem 2rem;
+    background: var(--color-elevated);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-gold);
+    transition: border-color 0.3s;
   }
-  .milestone-card.visible {
-    opacity: 1;
-    transform: none;
+
+  .milestone-panel-empty {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
-  .milestone-card-label {
-    font-family: var(--font-display);
-    font-size: 0.875rem;
+
+  .milestone-panel-content { }
+
+  .mp-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .mp-age {
+    font-size: 0.65rem;
     font-weight: 700;
-    font-variation-settings: 'opsz' 18;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--color-gold);
-    display: block;
-    margin-bottom: 0.35rem;
-    letter-spacing: -0.01em;
   }
-  .milestone-card-desc {
-    font-size: 0.775rem;
-    line-height: 1.5;
-    color: rgba(244,239,230,0.8);
+  .mp-type {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    border: 1px solid var(--color-border-lt);
+    padding: 0.15em 0.5em;
+  }
+  .mp-label {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-variation-settings: 'opsz' 24;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .mp-desc {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: rgba(237,232,223,0.75);
     margin: 0;
-    max-width: none;
+    max-width: 70ch;
   }
 
-  /* Accessible fallback */
+  /* Fallback table */
   .journey-fallback {
     margin-top: 2.5rem;
   }
   .journey-fallback summary {
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-mist);
+    color: var(--color-muted);
     cursor: pointer;
-    user-select: none;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-bone-dk);
+    border-bottom: 1px solid var(--color-border);
   }
   .journey-fallback table {
     width: 100%;
@@ -324,168 +332,169 @@ const gridValues = chart.gridline_values.filter(v => v >= yMin && v <= yMax);
   }
   .journey-fallback th {
     text-align: left;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-mist);
+    color: var(--color-muted);
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--color-bone-dk);
+    border-bottom: 1px solid var(--color-border);
   }
   .journey-fallback td {
     padding: 0.6rem 0.75rem;
-    border-bottom: 1px solid rgba(22,19,17,0.05);
+    border-bottom: 1px solid var(--color-border);
     vertical-align: top;
+    color: var(--color-text-dim);
   }
-  .journey-fallback td:first-child { white-space: nowrap; font-weight: 600; }
+  .journey-fallback td:first-child { white-space: nowrap; font-weight: 600; color: var(--color-text); }
   .journey-fallback caption {
     caption-side: top;
     text-align: left;
     font-size: 0.8rem;
-    color: var(--color-mist);
+    color: var(--color-muted);
     margin-bottom: 0.75rem;
   }
 </style>
 
-<script>
-  // ── Journey scroll-draw animation ─────────────────────────
-  const section = document.getElementById('journey-section');
-  const pastPath = document.getElementById('journey-past-path') as SVGPathElement | null;
-  const futurePath = document.getElementById('journey-future-path') as SVGPathElement | null;
-  const card = document.getElementById('milestone-card');
-  const markers = document.querySelectorAll('.milestone-marker') as NodeListOf<SVGGElement>;
+<script define:vars={{ milestoneJSON, present_age }}>
+  const milestoneData = JSON.parse(milestoneJSON);
 
-  if (!section || !pastPath || !futurePath || !card) {
-    // If elements not found, show everything immediately
-  } else {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const section    = document.getElementById('journey-section');
+  const svgEl      = document.getElementById('journey-svg');
+  const pastPathEl = document.getElementById('journey-past-path');
+  const futurePathEl = document.getElementById('journey-future-path');
+  const markers    = Array.from(document.querySelectorAll('.milestone-marker'));
 
-    if (prefersReduced) {
-      // Static state — show fully drawn
-      pastPath.style.opacity = '1';
-      futurePath.style.opacity = '0.9';
-      markers.forEach(m => (m.style.opacity = '1'));
-    } else {
-      // Init paths for animation
-      const pastLen = pastPath.getTotalLength();
-      const futureLen = futurePath.getTotalLength();
+  const panel        = document.getElementById('milestone-panel');
+  const panelEmpty   = panel?.querySelector('.milestone-panel-empty');
+  const panelContent = panel?.querySelector('.milestone-panel-content');
+  const mpAge        = document.getElementById('mp-age');
+  const mpType       = document.getElementById('mp-type');
+  const mpLabel      = document.getElementById('mp-label');
+  const mpDesc       = document.getElementById('mp-desc');
 
-      pastPath.style.strokeDasharray = String(pastLen);
-      pastPath.style.strokeDashoffset = String(pastLen);
-      futurePath.style.strokeDasharray = String(futureLen);
-      futurePath.style.strokeDashoffset = String(futureLen);
+  // ── Description panel ────────────────────────────────────
+  function showMilestone(index) {
+    const m = milestoneData[index];
+    if (!m || !panel) return;
 
-      // Build a map: markerIndex -> when it reveals (0..1 progress range)
-      // past markers animate in first 0.6 of scroll, future in 0.6..1.0
-      const markerReveal: number[] = [];
-      markers.forEach(marker => {
-        const t = marker.dataset.type!;
-        const age = parseFloat(marker.dataset.age!);
-        markerReveal.push(t === 'future' ? 0.6 + 0.4 * 0.3 : 0.6 * 0.7); // approximate
-      });
+    if (panelEmpty) panelEmpty.hidden = true;
+    if (panelContent) panelContent.hidden = false;
+    if (mpAge)   mpAge.textContent   = `Age ${m.age}`;
+    if (mpType)  mpType.textContent  = m.type === 'current' ? 'Present' : m.type === 'future' ? 'Projected' : 'Past';
+    if (mpLabel) mpLabel.textContent = m.label;
+    if (mpDesc)  mpDesc.textContent  = m.description;
 
-      // More precise: assign reveal based on position in the sorted age list
-      const totalAgeSpan = 55 - 10;
-      markers.forEach(marker => {
-        const age = parseFloat(marker.dataset.age!);
-        const t = marker.dataset.type!;
-        const ageProgress = (age - 10) / totalAgeSpan;
-        if (t === 'future') {
-          markerReveal[parseInt(marker.dataset.index!)] = 0.55 + ageProgress * 0.45;
-        } else {
-          markerReveal[parseInt(marker.dataset.index!)] = ageProgress * 0.55;
-        }
-      });
+    // Update panel border color by type
+    if (panel) {
+      panel.style.borderLeftColor = m.type === 'future' ? 'var(--color-green)' :
+                                    m.type === 'current' ? 'var(--color-gold)' :
+                                    'var(--color-gold)';
+    }
 
-      let ticking = false;
-      let isVisible = false;
+    // Highlight active marker
+    markers.forEach(el => el.classList.remove('active'));
+    markers[index]?.classList.add('active');
 
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { isVisible = e.isIntersecting; });
-        if (isVisible) window.addEventListener('scroll', onScroll, { passive: true });
-        else window.removeEventListener('scroll', onScroll);
-      }, { threshold: 0 });
-      io.observe(section);
-
-      function onScroll() {
-        if (!ticking) {
-          requestAnimationFrame(update);
-          ticking = true;
-        }
-      }
-
-      function update() {
-        ticking = false;
-        const rect = section!.getBoundingClientRect();
-        const vh = window.innerHeight;
-        // progress: 0 when section top is at bottom of viewport, 1 when section bottom leaves top
-        const raw = (vh - rect.top) / (vh + rect.height);
-        const progress = Math.max(0, Math.min(1, raw));
-
-        // Past path: first 60% of scroll
-        const pastProg = Math.min(1, progress / 0.6);
-        pastPath!.style.strokeDashoffset = String(pastLen * (1 - pastProg));
-
-        // Future path: remaining 40%
-        const futureProg = Math.max(0, (progress - 0.6) / 0.4);
-        futurePath!.style.strokeDashoffset = String(futureLen * (1 - futureProg));
-
-        // Reveal markers
-        markers.forEach((marker, i) => {
-          if (progress >= (markerReveal[i] ?? 0)) {
-            marker.style.opacity = '1';
-          }
-        });
-      }
-
-      // Run once on load (in case already scrolled)
-      update();
+    // Scroll panel into view on mobile
+    if (window.innerWidth < 768) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }
 
-  // ── Milestone card tooltip ─────────────────────────────────
-  const milestoneData: { label: string; description: string }[] = [];
-  document.querySelectorAll('.milestone-marker').forEach(m => {
-    // Data stored in aria-label, but we need structured access
-    // We'll use data attributes set at render
+  markers.forEach((marker, i) => {
+    marker.addEventListener('click',      () => showMilestone(i));
+    marker.addEventListener('touchstart', (e) => { e.preventDefault(); showMilestone(i); }, { passive: false });
+    marker.addEventListener('keydown',    (e) => { if (e.key === 'Enter' || e.key === ' ') showMilestone(i); });
   });
 
-  // Build structured data from aria-label (accessible fallback)
-  const svgEl = document.getElementById('journey-svg');
-  const allMilestoneMarkers = svgEl?.querySelectorAll('.milestone-marker');
+  // ── Chart animation (time-based, not scroll-based) ────────
+  if (!pastPathEl || !futurePathEl || !section) return;
 
-  allMilestoneMarkers?.forEach(marker => {
-    ['mouseenter', 'focus'].forEach(evt => {
-      marker.addEventListener(evt, (e) => {
-        if (!card) return;
-        const label = (marker as SVGGElement).getAttribute('aria-label') || '';
-        const [title, ...rest] = label.split(': ');
-        const labelEl = card.querySelector('.milestone-card-label');
-        const descEl = card.querySelector('.milestone-card-desc');
-        if (labelEl) labelEl.textContent = title;
-        if (descEl) descEl.textContent = rest.join(': ');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Position card near the marker's circle
-        const circle = marker.querySelector('circle');
-        if (circle && svgEl) {
-          const svgRect = svgEl.getBoundingClientRect();
-          const svgViewBox = (svgEl as SVGSVGElement).viewBox.baseVal;
-          const scaleX = svgRect.width / svgViewBox.width;
-          const scaleY = svgRect.height / svgViewBox.height;
-          const cx = parseFloat(circle.getAttribute('cx') || '0');
-          const cy = parseFloat(circle.getAttribute('cy') || '0');
-          const wrapRect = (svgEl.parentElement as HTMLElement).getBoundingClientRect();
-          const cardX = cx * scaleX - (card.offsetWidth / 2);
-          const cardY = cy * scaleY - card.offsetHeight - 24;
-          card.style.left = `${Math.max(0, cardX)}px`;
-          card.style.top = `${Math.max(0, cardY)}px`;
+  if (prefersReduced) {
+    pastPathEl.style.strokeDasharray = '';
+    pastPathEl.style.strokeDashoffset = '0';
+    futurePathEl.style.strokeDasharray = '';
+    futurePathEl.style.strokeDashoffset = '0';
+    markers.forEach(m => m.style.opacity = '1');
+    return;
+  }
+
+  const pastLen   = pastPathEl.getTotalLength();
+  const futureLen = futurePathEl.getTotalLength();
+
+  pastPathEl.style.strokeDasharray  = String(pastLen);
+  pastPathEl.style.strokeDashoffset = String(pastLen);
+  futurePathEl.style.strokeDasharray  = String(futureLen);
+  futurePathEl.style.strokeDashoffset = String(futureLen);
+  markers.forEach(m => m.style.opacity = '0');
+
+  const PAST_DURATION   = 2200;  // ms for past line to draw
+  const FUTURE_DELAY    = 1800;  // ms after start before future begins
+  const FUTURE_DURATION = 1600;  // ms for future line to draw
+
+  // Age spans for marker reveal timing
+  const ageSpan = 55 - 10;
+
+  function easeOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  let started = false;
+
+  function startAnimation() {
+    if (started) return;
+    started = true;
+
+    const startTime = performance.now();
+
+    function step(now) {
+      const elapsed = now - startTime;
+
+      // Past path
+      const pastProg = easeOut(Math.min(1, elapsed / PAST_DURATION));
+      pastPathEl.style.strokeDashoffset = String(pastLen * (1 - pastProg));
+
+      // Future path
+      const futureElapsed = Math.max(0, elapsed - FUTURE_DELAY);
+      const futureProg = easeOut(Math.min(1, futureElapsed / FUTURE_DURATION));
+      futurePathEl.style.strokeDashoffset = String(futureLen * (1 - futureProg));
+
+      // Reveal markers as their age is "reached" by the drawing
+      markers.forEach((marker) => {
+        const age = parseFloat(marker.dataset.age);
+        const type = marker.dataset.type;
+        let revealTime;
+        if (type === 'future') {
+          const futureAgeProgress = (age - present_age) / (55 - present_age);
+          revealTime = FUTURE_DELAY + futureAgeProgress * FUTURE_DURATION * 0.9;
+        } else {
+          const pastAgeProgress = (age - 10) / (present_age - 10);
+          revealTime = pastAgeProgress * PAST_DURATION * 0.9;
         }
-
-        card.classList.add('visible');
+        if (elapsed >= revealTime) {
+          marker.style.opacity = '1';
+          marker.style.transition = 'opacity 0.4s ease';
+        }
       });
-    });
 
-    ['mouseleave', 'blur'].forEach(evt => {
-      marker.addEventListener(evt, () => { card?.classList.remove('visible'); });
-    });
-  });
+      const totalDuration = FUTURE_DELAY + FUTURE_DURATION + 300;
+      if (elapsed < totalDuration) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  // Fire when the section comes into view
+  const io = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      io.disconnect();
+      startAnimation();
+    }
+  }, { threshold: 0.15 });
+
+  io.observe(section);
 </script>

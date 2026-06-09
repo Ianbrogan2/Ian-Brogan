@@ -8,12 +8,8 @@ const { contact } = site;
 <section id="contact" class="section" aria-labelledby="contact-heading">
   <div class="container">
     <div class="contact-layout">
-      <div class="contact-text reveal">
-        <span class="eyebrow">Contact</span>
-        <span class="rule-gold"></span>
-        <h2 id="contact-heading">Say hello.</h2>
-        <p class="lead">Whether you're from an admissions office, a company, or you're just curious — I'm glad you're here. Reach out directly or use the form.</p>
-
+      <div class="contact-text">
+        <div class="contact-channels-label">Direct</div>
         <ul class="contact-channels" role="list">
           <li>
             <a href={`mailto:${contact.email}`} class="channel-link">
@@ -65,7 +61,6 @@ const { contact } = site;
           )}
         </ul>
 
-        <!-- Resume download -->
         <a href="/resume.pdf" download class="btn btn-outline resume-dl">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
@@ -74,8 +69,7 @@ const { contact } = site;
         </a>
       </div>
 
-      <!-- Formspree contact form -->
-      <div class="contact-form-wrap reveal reveal-delay-2">
+      <div class="contact-form-wrap">
         <form
           method="POST"
           action="https://formspree.io/f/FORMSPREE_ID"
@@ -84,7 +78,6 @@ const { contact } = site;
           novalidate
           aria-label="Contact form"
         >
-          <!-- TODO: replace FORMSPREE_ID above with your actual Formspree form ID -->
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" />
@@ -114,7 +107,7 @@ const { contact } = site;
 </section>
 
 <style>
-  #contact { background: var(--color-bone); }
+  #contact { background: var(--color-surface); }
 
   .contact-layout {
     display: grid;
@@ -123,8 +116,14 @@ const { contact } = site;
     align-items: start;
   }
 
-  .contact-text h2 { margin-bottom: 1.25rem; }
-  .lead { margin-bottom: 2rem; }
+  .contact-channels-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+  }
 
   .contact-channels {
     list-style: none;
@@ -132,7 +131,7 @@ const { contact } = site;
     margin: 0 0 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.25rem;
   }
 
   .channel-link {
@@ -141,28 +140,27 @@ const { contact } = site;
     gap: 0.75rem;
     text-decoration: none;
     font-size: 0.9rem;
-    color: var(--color-ink);
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-bone-dk);
+    color: var(--color-text-dim);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
     transition: color 0.2s, border-color 0.2s;
   }
   .channel-link:hover {
-    color: var(--color-oxblood);
+    color: var(--color-text);
     border-color: var(--color-gold);
   }
-  .channel-icon { color: var(--color-mist); flex-shrink: 0; transition: color 0.2s; }
-  .channel-link:hover .channel-icon { color: var(--color-oxblood); }
+  .channel-icon { color: var(--color-muted); flex-shrink: 0; transition: color 0.2s; }
+  .channel-link:hover .channel-icon { color: var(--color-gold); }
 
   .resume-dl {
     margin-top: 0.5rem;
     gap: 0.6rem;
   }
 
-  /* Form */
   .contact-form-wrap {
-    background: var(--color-bone-dk);
+    background: var(--color-elevated);
     padding: clamp(1.5rem, 3vw, 2.5rem);
-    border: 1px solid rgba(22,19,17,0.06);
+    border: 1px solid var(--color-border);
   }
 
   .form-group {
@@ -176,25 +174,25 @@ const { contact } = site;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-mist);
+    color: var(--color-muted);
     font-weight: 600;
   }
 
   input, textarea {
     font-family: var(--font-body);
     font-size: 0.9rem;
-    color: var(--color-ink);
-    background: var(--color-bone);
-    border: 1.5px solid var(--color-bone-dk);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
     padding: 0.7rem 0.9rem;
     width: 100%;
     transition: border-color 0.2s;
     outline: none;
     -webkit-appearance: none;
   }
-  input::placeholder, textarea::placeholder { color: var(--color-mist); opacity: 0.7; }
+  input::placeholder, textarea::placeholder { color: var(--color-muted); opacity: 0.7; }
   input:focus, textarea:focus {
-    border-color: var(--color-oxblood);
+    border-color: var(--color-gold);
   }
   textarea { resize: vertical; min-height: 120px; }
 
@@ -231,7 +229,6 @@ const { contact } = site;
         if (successMsg) successMsg.style.display = 'block';
       }
     } catch {
-      // Fallback: let the form submit normally
       form.submit();
     }
   });

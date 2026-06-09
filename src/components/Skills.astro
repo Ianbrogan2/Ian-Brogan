@@ -13,16 +13,9 @@ const iconMap: Record<string, string> = {
 
 <section id="skills" class="section" aria-labelledby="skills-heading">
   <div class="container">
-    <header class="skills-header reveal">
-      <span class="eyebrow">Skills</span>
-      <span class="rule-gold"></span>
-      <h2 id="skills-heading">Four domains. One disposition.</h2>
-      <p class="lead">Finance sharpens the analysis. Design trains the eye. Making builds the patience. Cooking keeps the hands honest.</p>
-    </header>
-
     <div class="skills-grid">
       {data.categories.map((cat, ci) => (
-        <div class={`skill-category reveal reveal-delay-${ci + 1}`}>
+        <div class="skill-category">
           <div class="skill-cat-header">
             <span class="skill-icon" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
@@ -43,8 +36,7 @@ const iconMap: Record<string, string> = {
       ))}
     </div>
 
-    <!-- Legend -->
-    <div class="skills-legend reveal" role="note" aria-label="Skill level legend">
+    <div class="skills-legend" role="note" aria-label="Skill level legend">
       <span class="legend-item">
         <span class="skill-dot skill-dot--core"></span>
         <span>Core</span>
@@ -62,22 +54,20 @@ const iconMap: Record<string, string> = {
 </section>
 
 <style>
-  #skills { background: var(--color-bone); }
-
-  .skills-header { margin-bottom: clamp(2.5rem, 4vw, 4rem); }
-  .skills-header h2 { margin-bottom: 1rem; }
+  #skills { background: var(--color-bg); }
 
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .skill-category {
-    background: var(--color-bone-dk);
+    background: var(--color-elevated);
     padding: 1.75rem;
-    border: 1px solid rgba(22,19,17,0.06);
-    border-top: 3px solid var(--color-oxblood);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-gold);
   }
 
   .skill-cat-header {
@@ -86,17 +76,17 @@ const iconMap: Record<string, string> = {
     gap: 0.75rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(22,19,17,0.08);
+    border-bottom: 1px solid var(--color-border);
   }
   .skill-icon {
-    color: var(--color-oxblood);
+    color: var(--color-gold);
     flex-shrink: 0;
   }
   .skill-cat-header h3 {
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-oxblood-dk);
+    color: var(--color-text);
     font-family: var(--font-body);
     font-weight: 600;
     margin: 0;
@@ -116,7 +106,7 @@ const iconMap: Record<string, string> = {
     align-items: center;
     gap: 0.6rem;
     font-size: 0.875rem;
-    color: rgba(22,19,17,0.82);
+    color: var(--color-text-dim);
   }
 
   .skill-dot {
@@ -125,22 +115,21 @@ const iconMap: Record<string, string> = {
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .skill-dot--core, .skill-item--core .skill-dot { background: var(--color-oxblood); }
-  .skill-dot--advanced, .skill-item--advanced .skill-dot { background: var(--color-gold); }
+  .skill-dot--core, .skill-item--core .skill-dot { background: var(--color-gold); }
+  .skill-dot--advanced, .skill-item--advanced .skill-dot { background: var(--color-text-dim); }
   .skill-dot--learning, .skill-item--learning .skill-dot {
     background: transparent;
-    border: 1.5px solid var(--color-mist);
+    border: 1.5px solid var(--color-muted);
   }
 
-  .skill-item--learning { color: rgba(22,19,17,0.5); }
+  .skill-item--learning { color: var(--color-muted); }
   .skill-item--learning span:last-child { font-style: italic; }
 
   .skills-legend {
     display: flex;
     gap: 2rem;
-    margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--color-bone-dk);
+    border-top: 1px solid var(--color-border);
   }
   .legend-item {
     display: flex;
@@ -148,6 +137,6 @@ const iconMap: Record<string, string> = {
     gap: 0.5rem;
     font-size: 0.75rem;
     letter-spacing: 0.04em;
-    color: var(--color-mist);
+    color: var(--color-muted);
   }
 </style>

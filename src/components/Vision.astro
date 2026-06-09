@@ -4,18 +4,11 @@ interface Props { data: VisionData; }
 const { data } = Astro.props;
 ---
 
-<section id="vision" class="section section--dark" aria-labelledby="vision-heading">
+<section id="vision" class="section" aria-labelledby="vision-heading">
   <div class="container">
-    <header class="vision-header reveal">
-      <span class="eyebrow" style="color: var(--color-gold)">Vision</span>
-      <span class="rule-gold"></span>
-      <h2 id="vision-heading">{data.headline}</h2>
-      <p class="lead">{data.subhead}</p>
-    </header>
-
     <div class="vision-layout">
       <!-- Schools -->
-      <div class="vision-schools reveal reveal-delay-1">
+      <div class="vision-schools">
         <h3 class="vision-section-title">{data.schools.headline}</h3>
         <ul role="list" class="school-list">
           {data.schools.items.map((school, i) => (
@@ -32,7 +25,7 @@ const { data } = Astro.props;
       </div>
 
       <!-- Career arc -->
-      <div class="vision-arc reveal reveal-delay-2">
+      <div class="vision-arc">
         <h3 class="vision-section-title">{data.career_arc.headline}</h3>
         <ol role="list" class="arc-list">
           {data.career_arc.stages.map((stage, i) => (
@@ -52,8 +45,7 @@ const { data } = Astro.props;
       </div>
     </div>
 
-    <!-- Closing -->
-    <div class="vision-closing reveal">
+    <div class="vision-closing">
       <p class="closing-text">"{data.closing}"</p>
     </div>
   </div>
@@ -61,26 +53,21 @@ const { data } = Astro.props;
 
 <style>
   #vision {
-    background: var(--color-oxblood-dk);
+    background: var(--color-elevated);
     position: relative;
     overflow: hidden;
   }
 
-  /* Subtle vine/grid bg texture */
   #vision::before {
     content: '';
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(244,239,230,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(244,239,230,0.025) 1px, transparent 1px);
+      linear-gradient(rgba(237,232,223,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,232,223,0.025) 1px, transparent 1px);
     background-size: 80px 80px;
     pointer-events: none;
   }
-
-  .vision-header { max-width: 680px; margin-bottom: clamp(3rem, 5vw, 5rem); position: relative; }
-  .vision-header h2 { color: var(--color-bone); margin-bottom: 1rem; }
-  .vision-header .lead { color: rgba(244,239,230,0.7); }
 
   .vision-layout {
     display: grid;
@@ -100,7 +87,6 @@ const { data } = Astro.props;
     margin: 0 0 1.75rem;
   }
 
-  /* Schools */
   .school-list {
     list-style: none;
     padding: 0;
@@ -113,7 +99,7 @@ const { data } = Astro.props;
     display: flex;
     gap: 1.25rem;
     padding: 1.5rem 0;
-    border-bottom: 1px solid rgba(244,239,230,0.08);
+    border-bottom: 1px solid var(--color-border);
   }
   .school-item:first-child { padding-top: 0; }
   .school-item:last-child { border: none; }
@@ -123,7 +109,7 @@ const { data } = Astro.props;
     font-size: 2rem;
     font-weight: 700;
     font-variation-settings: 'opsz' 48;
-    color: rgba(244,239,230,0.12);
+    color: rgba(237,232,223,0.1);
     line-height: 1;
     flex-shrink: 0;
     width: 2rem;
@@ -140,7 +126,7 @@ const { data } = Astro.props;
     font-size: 1.05rem;
     font-variation-settings: 'opsz' 18;
     font-weight: 700;
-    color: var(--color-bone);
+    color: var(--color-text);
   }
   .school-program {
     font-size: 0.825rem;
@@ -149,10 +135,9 @@ const { data } = Astro.props;
   }
   .school-note {
     font-size: 0.78rem;
-    color: rgba(244,239,230,0.5);
+    color: var(--color-muted);
   }
 
-  /* Career arc */
   .arc-list {
     list-style: none;
     padding: 0;
@@ -182,7 +167,7 @@ const { data } = Astro.props;
   .arc-line {
     flex: 1;
     width: 1px;
-    background: rgba(244,239,230,0.12);
+    background: var(--color-border-lt);
     margin-block: 6px;
     min-height: 1.5rem;
   }
@@ -207,33 +192,31 @@ const { data } = Astro.props;
     font-size: 1.1rem;
     font-variation-settings: 'opsz' 18;
     font-weight: 700;
-    color: var(--color-bone);
+    color: var(--color-text);
     margin-bottom: 0.4rem;
   }
   .arc-detail {
     font-size: 0.825rem;
-    color: rgba(244,239,230,0.6);
+    color: var(--color-text-dim);
     line-height: 1.55;
     margin: 0;
     max-width: 50ch;
   }
 
-  /* Last arc stage — vineyard */
   .arc-list li:last-child .arc-dot { background: var(--color-sage); }
   .arc-list li:last-child .arc-label { color: var(--color-sage); }
 
-  /* Closing */
   .vision-closing {
     position: relative;
     padding: 2.5rem 0 0;
-    border-top: 1px solid rgba(244,239,230,0.1);
+    border-top: 1px solid var(--color-border);
   }
   .closing-text {
     font-family: var(--font-display);
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     font-variation-settings: 'opsz' 36;
     font-style: italic;
-    color: rgba(244,239,230,0.6);
+    color: var(--color-text-dim);
     line-height: 1.45;
     max-width: 70ch;
     margin: 0;
