@@ -41,8 +41,6 @@ hero:
 nav_links:
   - label: "About"
     href: "/about"
-  - label: "Journey"
-    href: "/journey"
   - label: "Portfolio"
     href: "/portfolio"
   - label: "Investing"
@@ -51,8 +49,6 @@ nav_links:
     href: "/skills"
   - label: "Vision"
     href: "/vision"
-  - label: "Journal"
-    href: "/journal"
   - label: "Contact"
     href: "/contact"
 
