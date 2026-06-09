@@ -24,3 +24,16 @@ const portfolio = getPortfolio();
   }
   h1 { margin-bottom: 1rem; }
 </style>
+
+<script is:inline>
+  (function() {
+    var key = 'portfolio_reload_count';
+    var count = parseInt(sessionStorage.getItem(key) || '0', 10);
+    if (count < 2) {
+      sessionStorage.setItem(key, String(count + 1));
+      window.location.reload();
+    } else {
+      sessionStorage.removeItem(key);
+    }
+  })();
+</script>
