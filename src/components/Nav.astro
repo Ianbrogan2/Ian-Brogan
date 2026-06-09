@@ -236,14 +236,27 @@ const { site } = Astro.props;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      z-index: 99;
+      z-index: 200;
     }
     ul.open { display: flex; }
 
+    /* Toggle sits above the open menu so it stays tappable */
+    .nav-toggle { position: relative; z-index: 201; }
+
     .nav-link {
       font-size: 1.25rem;
-      padding: 0.75em 1.5em;
+      /* 56px min tap target — eliminates missed taps */
+      padding: 0.9em 2em;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 1;
+      /* Kill iOS 300ms tap delay */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      width: 100%;
+      text-align: center;
     }
   }
 </style>

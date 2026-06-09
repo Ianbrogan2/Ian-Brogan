@@ -18,7 +18,7 @@ milestones:
   - age: 10
     value: 100
     label: "First investment account"
-    description: "Brokerage account opened by my grandparents. Mentored through the early years by family with deep roots in finance — and I ran with it."
+    description: "My family opened a brokerage account for me and pointed me toward the right books. They had the background, I had the drive. I ran with it."
     type: "past"
 
   - age: 13.5
@@ -30,13 +30,13 @@ milestones:
   - age: 14.5
     value: 175
     label: "ADHD as the engine"
-    description: "Reframed the diagnosis. The range, the intensity, the ability to move between worlds — that's the feature."
+    description: "Reframed the diagnosis. The range, the intensity, the ability to move between worlds. That's the feature."
     type: "past"
 
   - age: 15.5
     value: 265
     label: "Design, 3D printing & making"
-    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite — all self-directed."
+    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite, all self-directed."
     type: "past"
 
   - age: 16.5
@@ -60,7 +60,7 @@ milestones:
   - age: 18.5
     value: 520
     label: "College"
-    description: "Business Economics + Data Analytics. Cal Poly SLO, UC Davis, or UC Berkeley — the gateway to everything next."
+    description: "Business Economics + Data Analytics. Cal Poly SLO, UC Davis, or UC Berkeley, the gateway to everything next."
     type: "future"
 
   - age: 20
@@ -84,13 +84,13 @@ milestones:
   - age: 32
     value: 1550
     label: "Fund manager"
-    description: "The long goal. Mastery over capital allocation — not just analysis."
+    description: "The long goal. Mastery over capital allocation, not just analysis."
     type: "future"
 
   - age: 42
     value: 2400
     label: "Compound wealth & mastery"
-    description: "Decades of compounding — financial, intellectual, personal."
+    description: "Decades of compounding: financial, intellectual, personal."
     type: "future"
 
   - age: 55

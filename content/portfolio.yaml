@@ -10,7 +10,7 @@ sections:
     description: "Lead Studio Director. Full Adobe suite. Motion graphics, color grading, logo design, broadcast production."
     items:
       - title: "CTE Program Identity"
-        description: "Full brand identity and motion graphics suite for the program revamp — ~$100K budget."
+        description: "Full brand identity and motion graphics suite for the program revamp, ~$100K budget."
         image: "/content/images/portfolio-cte-placeholder.jpg"
         image_alt: "TODO: screenshot or mockup of the CTE brand work"
         tags: ["Brand", "Motion", "Premiere Pro"]
@@ -39,13 +39,13 @@ sections:
         tags: ["Woodworking", "Resin", "Handmade"]
 
       - title: "3D-Printed Spoiler Shelf"
-        description: "Self-designed, 3D-printed, and vinyl-wrapped. Form follows function — but also looks good."
+        description: "Self-designed, 3D-printed, and vinyl-wrapped. Form follows function, but it also looks good."
         image: "/content/images/maker-spoiler-shelf.jpg"
         image_alt: "TODO: photo of the spoiler shelf — showing design detail and wrap"
         tags: ["3D Printing", "Vinyl Wrap", "Industrial Design"]
 
       - title: "Kinetic 3D Art"
-        description: "Modular moving pieces — the intersection of engineering precision and visual art."
+        description: "Modular moving pieces at the intersection of engineering precision and visual art."
         image: "/content/images/maker-kinetic-placeholder.jpg"
         image_alt: "TODO: photo of kinetic piece in motion or assembled"
         tags: ["3D Printing", "Kinetics", "Art"]
@@ -53,12 +53,12 @@ sections:
 
   - id: "culinary"
     title: "Culinary"
-    description: "Self-taught advanced cooking and pastry. Food as craft — documented at @brogan.bites."
+    description: "Self-taught advanced cooking and pastry. Food as craft, documented at @brogan.bites."
     instagram_handle: "@brogan.bites"
     instagram_url: "https://instagram.com/brogan.bites"
     items:
       - title: "Advanced Pastry"
-        description: "Laminated doughs, tarts, confectionery. The same precision as a financial model — different medium."
+        description: "Laminated doughs, tarts, confectionery. The same precision as a financial model, different medium."
         image: "/content/images/culinary-pastry-placeholder.jpg"
         image_alt: "TODO: food photo from @brogan.bites — pastry, warm light"
         tags: ["Pastry", "Advanced Technique"]

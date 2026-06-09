@@ -134,7 +134,11 @@ const { data } = Astro.props;
     .about-grid {
       grid-template-columns: 1fr;
     }
-    .about-image-col { max-width: 360px; }
+    /* Text first on mobile — image pushed below */
+    .about-text-col { order: 1; }
+    .about-image-col { order: 2; max-width: 360px; }
     .about-img-offset { display: none; }
+    /* Cap placeholder height so it doesn't eat the whole screen */
+    .about-image-col :global(.img-placeholder) { aspect-ratio: 4/3; max-height: 260px; }
   }
 </style>

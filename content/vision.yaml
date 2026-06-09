@@ -3,7 +3,7 @@
 # ============================================================
 
 headline: "The roadmap is long. That's the point."
-subhead: "I'm not looking for a job. I'm building toward something specific — and every step between now and there has a purpose."
+subhead: "I'm not looking for a job. I'm building toward something specific, and every step between now and there has a purpose."
 
 # Target schools for college
 schools:
@@ -25,13 +25,13 @@ career_arc:
   stages:
     - phase: "Near term"
       label: "College"
-      detail: "Business Economics major with a Data Analytics focus. A Viticulture & Enology or Film/Production minor if the schedule allows — both are part of the larger picture."
+      detail: "Business Economics major with a Data Analytics focus. A Viticulture & Enology or Film/Production minor if the schedule allows. Both are part of the larger picture."
     - phase: "Early career"
       label: "BlackRock internship"
       detail: "I have a family connection that opens the door. What I bring through it is seven years of self-directed market study, a real portfolio, and a framework I've actually tested."
     - phase: "Building"
       label: "Data analyst → senior analyst"
-      detail: "Learn how institutional capital moves at scale. Build the quantitative depth and pattern recognition that fund management actually requires — not just the title."
+      detail: "Learn how institutional capital moves at scale. Build the quantitative depth and pattern recognition that fund management actually requires, not just the title."
     - phase: "The goal"
       label: "Fund manager"
       detail: "Capital allocation at scale, with full conviction behind every position. That's the thing I've been working toward since I was ten years old."
