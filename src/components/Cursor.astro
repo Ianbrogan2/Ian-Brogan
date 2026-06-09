@@ -78,6 +78,7 @@
       ring.classList.add('hidden');
     });
     document.addEventListener('mouseenter', () => {
+      if (!hasMovedOnce) return;
       dot.classList.remove('hidden');
       ring.classList.remove('hidden');
     });
