@@ -3,29 +3,29 @@
 # Displayed in the About section on the home page
 # ============================================================
 
-headline: "Two worlds, one through-line."
-subhead: "I grew up fascinated by the complex spiderwebs that create businesses — and equally drawn to the patience and craft of making things with your hands."
+headline: "Hello, my name is Ian Brogan."
+subhead: "Since I can remember, I've been obsessed with learning new skills — crochet, woodworking, 3D design, CAD. Then a brokerage account changed everything."
 
 # Each paragraph is its own block. Keep them short; they breathe better.
 body:
-  - "I've been teaching myself markets since I was ten — reading financial statements, building a personal investment account, learning how funds work. Not because anyone told me to. Because it felt like finding a language I already spoke."
-  - "A medically necessary year of independent study became the best thing that happened to me. It gave me time to learn 3D design, printing, woodworking, and graphic production. I built a resin table with my hands. I designed and vinyl-wrapped a custom 3D-printed spoiler shelf. I taught myself the full Adobe suite. I found out that I work best when I get to move between the precise and the tactile."
-  - "I was promoted to Lead Studio Director for my school's TV & Film program. I was trusted with real responsibility — overseeing a full program revamp from the ground up. I teach advanced cooking because I find the same satisfaction in a properly reduced sauce that I find in a properly constructed financial model."
-  - "My ADHD is my greatest asset. It's the engine behind the range. The thing that lets me care deeply about options pricing at 9 AM and be elbow-deep in resin work by 2 PM."
+  - "On my 10th birthday, my aunts and grandparents opened a brokerage account for me with an initial $1,000 investment. I became obsessed. I studied everything — financial statements, earnings reports, company news — religiously. My grandfather handed me a book recommendation that changed the way I see the world: Ray Dalio's The Changing World Order. I read it cover to cover. Then I read Principles as well."
+  - "What hooked me was the patterns. Everything in history repeats. Debt cycles, power shifts, market crashes, recoveries — the same forces play out over and over again. Once I understood that, I stopped reacting to headlines and started studying causation. I learned to use macroeconomic patterns and deep financial data together to inform every investment decision I make."
+  - "A concrete example: when the Iran-US conflict began escalating, I didn't panic. I did a deep dive into sectors that would benefit — renewable energy, infrastructure, and most importantly, cybersecurity. I analyzed a number of cybersecurity companies and landed on two: PANW and CRWD. I made the investment. By the time the conflict wound down, I had gained over 30% on the position."
+  - "I also built several mock fund portfolios in my own time, and I currently hold a long-term dividend portfolio with DRIP enabled — it compounds quietly in the background. Over seven years, through patience and pattern recognition, I turned that original $1,000 into over $25,000. The most important thing I've learned: patterns are everything. The ability to identify them is a genuine edge."
 
 # The duality callout — shown as a visual pull-quote
-duality_quote: "Precision in the numbers. Patience in the making."
+duality_quote: "Patterns repeat. The edge is learning to see them first."
 
 # Stats / quick facts — shown as a scannable accent row
 facts:
-  - label: "Self-taught investor"
-    value: "Since age 10"
-  - label: "Adobe suite"
-    value: "Full mastery"
-  - label: "3D design & printing"
-    value: "Self-taught"
-  - label: "Studio Director"
-    value: "Promoted"
+  - label: "Started investing"
+    value: "Age 10"
+  - label: "$1,000 → $25,000+"
+    value: "7 years"
+  - label: "PANW & CRWD"
+    value: "+30% on conflict thesis"
+  - label: "DRIP dividend portfolio"
+    value: "Long-term hold"
 
 # Photo path — swap by uploading to /content/images and updating this
 image: "/content/images/about-placeholder.jpg"
