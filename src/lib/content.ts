@@ -1,10 +1,14 @@
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { parse } from 'yaml';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const contentRoot = join(__dirname, '../../content');
 
 /** Load and parse a YAML file from /content */
 export function loadContent<T>(filename: string): T {
-  const filePath = join(process.cwd(), 'content', filename);
+  const filePath = join(contentRoot, filename);
   const raw = readFileSync(filePath, 'utf-8');
   return parse(raw) as T;
 }
