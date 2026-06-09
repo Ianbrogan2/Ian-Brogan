@@ -264,11 +264,21 @@ const { site } = Astro.props;
     toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Close on nav click (for same-page anchors)
+  // Force hard reload on every nav link click so TradingView ticker always loads
   menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
       menu.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
+      const href = (link as HTMLAnchorElement).href;
+      window.location.href = href;
     });
+  });
+
+  // Also force hard reload on logo click
+  const logo = document.querySelector('.nav-logo') as HTMLAnchorElement | null;
+  logo?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = logo.href;
   });
 </script>
