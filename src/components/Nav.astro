@@ -5,6 +5,43 @@ const { site } = Astro.props;
 ---
 
 <header id="site-nav" role="banner">
+  <div class="ticker-strip" aria-hidden="true" role="presentation">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script is:inline type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "proName": "AMEX:SPY",     "title": "SPY" },
+          { "proName": "AMEX:SCHD",    "title": "SCHD" },
+          { "proName": "AMEX:RSP",     "title": "RSP" },
+          { "proName": "NASDAQ:QQQ",   "title": "QQQ" },
+          { "proName": "NYSE:WMT",     "title": "WMT" },
+          { "proName": "NASDAQ:TTWO",  "title": "TTWO" },
+          { "proName": "NYSE:TDY",     "title": "TDY" },
+          { "proName": "NASDAQ:PKOH",  "title": "PKOH" },
+          { "proName": "NASDAQ:PANW",  "title": "PANW" },
+          { "proName": "NASDAQ:NMTC",  "title": "NMTC" },
+          { "proName": "NYSE:KMI",     "title": "KMI" },
+          { "proName": "NASDAQ:GOOG",  "title": "GOOG" },
+          { "proName": "NASDAQ:GASS",  "title": "GASS" },
+          { "proName": "NYSE:DIS",     "title": "DIS" },
+          { "proName": "NYSE:CVX",     "title": "CVX" },
+          { "proName": "NASDAQ:CRWD",  "title": "CRWD" },
+          { "proName": "NYSE:C",       "title": "C" },
+          { "proName": "NASDAQ:ARM",   "title": "ARM" },
+          { "proName": "NASDAQ:AMZN",  "title": "AMZN" },
+          { "proName": "NYSE:ACHR",    "title": "ACHR" },
+          { "proName": "NASDAQ:AAPL",  "title": "AAPL" }
+        ],
+        "showSymbolLogo": false,
+        "isTransparent": true,
+        "displayMode": "compact",
+        "colorTheme": "dark",
+        "locale": "en"
+      }
+      </script>
+    </div>
+  </div>
   <nav aria-label="Main navigation">
     <a href="/" class="nav-logo" aria-label="Ian Brogan — home">
       <span class="nav-logo-letters">Ian Brogan</span>
@@ -25,6 +62,58 @@ const { site } = Astro.props;
 </header>
 
 <style>
+  /* Ticker strip */
+  .ticker-strip {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(201, 162, 39, 0.05);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.1);
+    padding-block: 0.4rem;
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 45s linear infinite;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-inline: 1.75rem;
+    border-right: 1px solid rgba(201, 162, 39, 0.1);
+    white-space: nowrap;
+  }
+  .ticker-sym {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .ticker-val {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-variation-settings: 'opsz' 12;
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+  .ticker-chg {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .ticker-chg.up   { color: #22c55e; }
+  .ticker-chg.down { color: #ef4444; }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+  }
+
   #site-nav {
     position: fixed;
     top: 0;
