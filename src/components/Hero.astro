@@ -6,6 +6,10 @@ const { contact } = site;
 ---
 
 <section id="hero" aria-label="Introduction">
+
+  <!-- Grain texture overlay -->
+  <div class="hero-grain" aria-hidden="true"></div>
+
   <!-- Background layer -->
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-grid"></div>
@@ -16,13 +20,13 @@ const { contact } = site;
            C1020,95 1090,115 1190,70 C1280,30 1350,40 1410,20" />
     </svg>
     <div class="data-chip chip-a" aria-hidden="true">
-      <span class="chip-dot chip-dot--green"></span>S&amp;P 500
+      <span class="chip-dot chip-dot--green"></span>S&amp;P 500 +0.68%
     </div>
     <div class="data-chip chip-b" aria-hidden="true">
-      <span class="chip-dot chip-dot--gold"></span>ECONOMICS
+      <span class="chip-dot chip-dot--gold"></span>10Y TSY 4.41%
     </div>
     <div class="data-chip chip-c" aria-hidden="true">
-      <span class="chip-dot chip-dot--green"></span>MARKETS ▲
+      <span class="chip-dot chip-dot--green"></span>VIX 13.82 ▼
     </div>
   </div>
 
@@ -40,36 +44,36 @@ const { contact } = site;
       <span class="hl-wrap"><span class="hl-line hl-2">Brogan.</span></span>
     </h1>
 
-    <!-- Short bio essay -->
+    <!-- Short bio — authentic voice -->
     <div class="hero-essay">
       <p>
-        I'm seventeen, self-taught in finance and markets, and already operating
-        at a level most people reach years from now. I've spent seven years
-        studying economics, financial statements, and capital allocation — not
-        for a grade, but because this is the domain I intend to master.
+        Started a brokerage account at ten. Read 10-Ks before textbooks.
+        Seven years tracking markets, earnings seasons, and macro moves —
+        not for a grade, because capital is the most interesting thing I know.
       </p>
       <p>
-        I build things with my hands and model them on a screen. The range
-        isn't noise — it's the edge. This site is how you get to know me.
+        I also direct film programs, build things in resin and CAD, and cook
+        at a serious level. That's not scattered — that's range. This site
+        is the full picture.
       </p>
     </div>
 
-    <!-- CTAs -->
+    <!-- CTAs — magnetic on hover -->
     <div class="hero-cta">
-      <a href="/about" class="btn btn-primary">My Story</a>
-      <a href="/journey" class="btn btn-outline-light">See My Journey</a>
+      <a href="/about" class="btn btn-primary btn-mag">My Story</a>
+      <a href="/journey" class="btn btn-outline-light btn-mag">See My Journey</a>
       <a href={`mailto:${contact.email}`} class="btn btn-ghost">Get in Touch</a>
     </div>
 
-    <!-- Stats bar -->
+    <!-- Stats bar with countup -->
     <div class="hero-stats" aria-label="Key facts">
       <div class="hstat">
-        <span class="hstat-num">7</span>
-        <span class="hstat-label">Years studying markets</span>
+        <span class="hstat-num" data-count="7">0</span>
+        <span class="hstat-label">Years in markets</span>
       </div>
       <div class="hstat-div" aria-hidden="true"></div>
       <div class="hstat">
-        <span class="hstat-num">17</span>
+        <span class="hstat-num" data-count="17">0</span>
         <span class="hstat-label">Years old</span>
       </div>
       <div class="hstat-div" aria-hidden="true"></div>
@@ -98,6 +102,18 @@ const { contact } = site;
     overflow: hidden;
   }
 
+  /* ── Grain overlay ───────────────────────────────────────── */
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    background-repeat: repeat;
+  }
+
   /* ── Background ─────────────────────────────────────────── */
   .hero-bg {
     position: absolute;
@@ -109,7 +125,7 @@ const { contact } = site;
   .hero-grid {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, rgba(201, 162, 39, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(201, 162, 39, 0.08) 1px, transparent 1px);
     background-size: 44px 44px;
     animation: grid-fade 2s var(--ease-expo) 0.2s both;
   }
@@ -126,7 +142,7 @@ const { contact } = site;
     fill: none;
     stroke: var(--color-gold);
     stroke-width: 1.5;
-    opacity: 0.14;
+    opacity: 0.1;
     stroke-dasharray: 3000;
     stroke-dashoffset: 3000;
     animation: chart-draw 3s var(--ease-expo) 0.8s both;
@@ -138,23 +154,24 @@ const { contact } = site;
     align-items: center;
     gap: 0.5rem;
     padding: 0.35rem 0.75rem;
-    background: var(--color-elevated);
+    background: rgba(20,20,22,0.85);
     border: 1px solid var(--color-border-lt);
-    font-size: 0.6rem;
+    backdrop-filter: blur(8px);
+    font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: rgba(237, 232, 223, 0.7);
     opacity: 0;
     animation: chip-in 0.6s var(--ease-expo) both, chip-float 7s ease-in-out infinite;
   }
-  .chip-a { top: 25%; right: 8%;  animation-delay: 1.4s, 2s; }
-  .chip-b { top: 50%; right: 12%; animation-delay: 1.7s, 2.4s; }
-  .chip-c { top: 38%; right: 4%;  animation-delay: 2s, 2.8s; }
+  .chip-a { top: 28%; right: 8%;  animation-delay: 1.4s, 2s; }
+  .chip-b { top: 50%; right: 13%; animation-delay: 1.7s, 2.4s; }
+  .chip-c { top: 40%; right: 4%;  animation-delay: 2s, 2.8s; }
 
   .chip-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-  .chip-dot--green { background: var(--color-green); box-shadow: 0 0 5px var(--color-green); }
-  .chip-dot--gold  { background: var(--color-gold);  box-shadow: 0 0 5px var(--color-gold); }
+  .chip-dot--green { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+  .chip-dot--gold  { background: var(--color-gold); box-shadow: 0 0 6px var(--color-gold); }
 
   /* ── Content ─────────────────────────────────────────────── */
   .hero-inner {
@@ -165,8 +182,8 @@ const { contact } = site;
     padding-top: 8rem;
     padding-bottom: 6rem;
     position: relative;
-    z-index: 1;
-    max-width: 900px;
+    z-index: 2;
+    max-width: 920px;
   }
 
   /* ── Kicker ─────────────────────────────────────────────── */
@@ -174,7 +191,7 @@ const { contact } = site;
     display: flex;
     align-items: center;
     gap: 1rem;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -217,7 +234,7 @@ const { contact } = site;
 
   /* ── Essay ───────────────────────────────────────────────── */
   .hero-essay {
-    max-width: 58ch;
+    max-width: 56ch;
     margin-bottom: 2.5rem;
     opacity: 0;
     animation: fade-up 0.9s var(--ease-expo) 0.9s both;
@@ -225,7 +242,7 @@ const { contact } = site;
   .hero-essay p {
     font-size: clamp(0.95rem, 1.4vw, 1.1rem);
     line-height: 1.75;
-    color: rgba(237, 232, 223, 0.75);
+    color: rgba(237, 232, 223, 0.72);
     font-weight: 300;
     max-width: none;
   }
@@ -239,6 +256,12 @@ const { contact } = site;
     margin-bottom: 3rem;
     opacity: 0;
     animation: fade-up 0.8s var(--ease-expo) 1.1s both;
+  }
+
+  /* Magnetic wrapper — js adds inline transform */
+  .btn-mag {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s, border-color 0.2s;
+    display: inline-block;
   }
 
   /* ── Stats ───────────────────────────────────────────────── */
@@ -290,7 +313,7 @@ const { contact } = site;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-muted);
-    z-index: 1;
+    z-index: 2;
     opacity: 0;
     animation: fade-up 0.8s var(--ease-expo) 1.6s both;
   }
@@ -329,7 +352,7 @@ const { contact } = site;
   }
   @keyframes chip-float {
     0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
+    50%       { transform: translateY(-8px); }
   }
   @keyframes scroll-drop {
     0%   { transform: translateY(-100%); }
@@ -361,27 +384,52 @@ const { contact } = site;
 
 <script>
   (() => {
-    // Skip lock if user prefers reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Chart draws over 3s starting at 0.8s delay → done at ~4s. Lock until 4.2s.
-    const LOCK_UNTIL = Date.now() + 4200;
+    // ── Scroll lock (hero animation duration) ─────────────────
     let locked = true;
-
-    const stopScroll = (e: Event) => {
-      if (locked) e.preventDefault();
-    };
-
-    window.addEventListener('wheel',      stopScroll, { passive: false });
-    window.addEventListener('touchmove',  stopScroll, { passive: false });
+    const stopScroll = (e: Event) => { if (locked) e.preventDefault(); };
+    window.addEventListener('wheel',     stopScroll, { passive: false });
+    window.addEventListener('touchmove', stopScroll, { passive: false });
     window.addEventListener('keydown', (e: KeyboardEvent) => {
       if (locked && ['ArrowDown','ArrowUp','Space','PageDown','PageUp'].includes(e.code)) {
         e.preventDefault();
       }
     });
+    setTimeout(() => { locked = false; }, 4200);
 
-    setTimeout(() => {
-      locked = false;
-    }, LOCK_UNTIL - Date.now());
+    // ── Countup for stats ─────────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.hstat-num[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count || '0');
+      let start: number | null = null;
+      const duration = 1400;
+
+      function easeOut(t: number) { return 1 - Math.pow(1 - t, 3); }
+
+      setTimeout(() => {
+        function step(ts: number) {
+          if (!start) start = ts;
+          const progress = Math.min((ts - start) / duration, 1);
+          el.textContent = String(Math.round(easeOut(progress) * target));
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = String(target);
+        }
+        requestAnimationFrame(step);
+      }, 1600); // start after hero animates in
+    });
+
+    // ── Magnetic buttons ─────────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.btn-mag').forEach(btn => {
+      const strength = 0.35;
+      btn.addEventListener('mousemove', (e: MouseEvent) => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width  / 2) * strength;
+        const y = (e.clientY - r.top  - r.height / 2) * strength;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
   })();
 </script>

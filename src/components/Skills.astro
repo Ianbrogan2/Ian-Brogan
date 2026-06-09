@@ -68,6 +68,12 @@ const iconMap: Record<string, string> = {
     padding: 1.75rem;
     border: 1px solid var(--color-border);
     border-top: 3px solid var(--color-gold);
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s;
+    will-change: transform;
+  }
+  .skill-category:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,162,39,0.2);
   }
 
   .skill-cat-header {
@@ -140,3 +146,17 @@ const iconMap: Record<string, string> = {
     color: var(--color-muted);
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.skill-category').forEach(card => {
+    card.addEventListener('mousemove', (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(600px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>

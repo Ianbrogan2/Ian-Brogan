@@ -1,65 +1,82 @@
 ---
-interface Props {
-  items?: string[];
-  speed?: number;
-}
-const {
-  items = ['MARKETS', 'DESIGN', 'CRAFT', 'VINEYARDS', 'DATA', 'MAKER', 'FILM', 'FINANCE', 'GROWTH', 'TERROIR'],
-  speed = 40,
-} = Astro.props;
-const doubled = [...items, ...items];
+// Market data ticker strip — finance-forward feel
+const tickers = [
+  { symbol: "S&P 500",  value: "5,248.32",  change: "+0.68%", up: true },
+  { symbol: "NASDAQ",   value: "16,441.10", change: "+1.12%", up: true },
+  { symbol: "DOW",      value: "38,972.14", change: "+0.34%", up: true },
+  { symbol: "10Y TSY",  value: "4.412%",    change: "-0.02",  up: false },
+  { symbol: "BTC",      value: "$67,142",   change: "+2.84%", up: true },
+  { symbol: "WTI OIL",  value: "$82.14",    change: "-0.41%", up: false },
+  { symbol: "GOLD",     value: "$2,318",    change: "+0.22%", up: true },
+  { symbol: "VIX",      value: "13.82",     change: "-1.14%", up: false },
+];
 ---
 
-<div class="ticker-wrap" aria-hidden="true">
-  <div class="ticker-track" style={`--speed: ${speed}s`}>
-    {doubled.map((item, i) => (
+<div class="ticker-strip" aria-hidden="true" role="presentation">
+  <div class="ticker-track">
+    {[...tickers, ...tickers].map(t => (
       <span class="ticker-item">
-        {item}
-        <span class="ticker-dot">·</span>
+        <span class="ticker-sym">{t.symbol}</span>
+        <span class="ticker-val">{t.value}</span>
+        <span class={`ticker-chg ${t.up ? 'up' : 'down'}`}>{t.up ? '▲' : '▼'} {t.change}</span>
       </span>
     ))}
   </div>
 </div>
 
 <style>
-  .ticker-wrap {
+  .ticker-strip {
+    width: 100%;
     overflow: hidden;
-    border-top: 1px solid var(--color-bone-dk);
-    border-bottom: 1px solid var(--color-bone-dk);
-    background: var(--color-bone);
-    padding: 0.6rem 0;
-    position: relative;
-    z-index: 2;
+    background: rgba(201, 162, 39, 0.05);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.12);
+    padding-block: 0.5rem;
   }
 
   .ticker-track {
     display: flex;
     width: max-content;
-    animation: ticker-scroll var(--speed, 40s) linear infinite;
+    animation: ticker-scroll 45s linear infinite;
   }
+  .ticker-track:hover { animation-play-state: paused; }
 
   .ticker-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 1rem;
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-mist);
+    gap: 0.5rem;
+    padding-inline: 2rem;
+    border-right: 1px solid rgba(201, 162, 39, 0.1);
     white-space: nowrap;
-    padding-right: 1rem;
   }
 
-  .ticker-dot {
-    color: var(--color-gold);
-    font-size: 0.8rem;
+  .ticker-sym {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
+
+  .ticker-val {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-variation-settings: 'opsz' 12;
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .ticker-chg {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .ticker-chg.up   { color: #22c55e; }
+  .ticker-chg.down { color: #ef4444; }
 
   @keyframes ticker-scroll {
     from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    to   { transform: translateX(-50%); }
   }
 
   @media (prefers-reduced-motion: reduce) {

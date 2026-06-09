@@ -1,0 +1,116 @@
+<!-- Custom cursor — only renders on non-touch pointer devices -->
+<div id="c-dot" aria-hidden="true"></div>
+<div id="c-ring" aria-hidden="true"></div>
+
+<style>
+  /* Hide native cursor sitewide when our cursor is active */
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  #c-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 7px; height: 7px;
+    background: var(--color-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    will-change: transform, left, top;
+    transition: width 0.25s, height 0.25s, background 0.25s, opacity 0.3s;
+    mix-blend-mode: normal;
+  }
+
+  #c-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 32px; height: 32px;
+    border: 1.5px solid rgba(201,162,39,0.45);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
+    transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                height 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s, opacity 0.3s;
+  }
+
+  #c-dot.hidden, #c-ring.hidden { opacity: 0; }
+  #c-dot.hovering { width: 0; height: 0; opacity: 0; }
+  #c-ring.hovering { width: 56px; height: 56px; border-color: var(--color-gold); }
+  #c-ring.clicking { width: 20px; height: 20px; }
+</style>
+
+<script>
+  (() => {
+    // Only on pointer devices (not touch-only)
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    const dot  = document.getElementById('c-dot')!;
+    const ring = document.getElementById('c-ring')!;
+    if (!dot || !ring) return;
+
+    document.documentElement.classList.add('has-custom-cursor');
+
+    let mx = -200, my = -200;
+    let rx = -200, ry = -200;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX;
+      my = e.clientY;
+    }, { passive: true });
+
+    document.addEventListener('mousedown', () => ring.classList.add('clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('clicking'));
+
+    document.addEventListener('mouseleave', () => {
+      dot.classList.add('hidden');
+      ring.classList.add('hidden');
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.classList.remove('hidden');
+      ring.classList.remove('hidden');
+    });
+
+    // Scale ring on interactive elements
+    const SELECTORS = 'a, button, [role="button"], input, textarea, select, label, .milestone-marker';
+    function bindHover() {
+      document.querySelectorAll(SELECTORS).forEach(el => {
+        if ((el as HTMLElement).dataset.cursorBound) return;
+        (el as HTMLElement).dataset.cursorBound = '1';
+        el.addEventListener('mouseenter', () => {
+          dot.classList.add('hovering');
+          ring.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+          dot.classList.remove('hovering');
+          ring.classList.remove('hovering');
+        });
+      });
+    }
+    bindHover();
+
+    // Re-bind after any dynamic content
+    const mo = new MutationObserver(bindHover);
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    let raf: number;
+    function tick() {
+      // Dot: instant
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+
+      // Ring: lerp for lag
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+
+      raf = requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+</script>
