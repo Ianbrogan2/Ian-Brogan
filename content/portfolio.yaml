@@ -50,11 +50,6 @@ sections:
         image_alt: "TODO: photo of kinetic piece in motion or assembled"
         tags: ["3D Printing", "Kinetics", "Art"]
 
-      - title: "Crochet"
-        description: "An unexpected craft — patience, repetition, and rhythm. Meditative in the same way markets are."
-        image: "/content/images/maker-crochet-placeholder.jpg"
-        image_alt: "TODO: photo of finished crochet work — natural light"
-        tags: ["Crochet", "Craft"]
 
   - id: "culinary"
     title: "Culinary"

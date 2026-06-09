@@ -5,21 +5,21 @@
 # ============================================================
 
 headline: "I've been reading the market since I was ten."
-subhead: "Not paper trading. Not a simulator. A real account, real decisions, real consequences — and years of learning what not to do."
+subhead: "Real account, real money, real consequences from the start. The losses taught me more than the wins."
 
 body:
-  - "I started because money felt like a language no one had taught me but everyone seemed to speak. I read Buffett, Klarman, Lynch. I worked through 10-Ks and earnings calls before I had any formal instruction. I wanted to understand how value was created and destroyed."
-  - "The journey has been humbling and clarifying in equal measure. I've been wrong in ways that cost me and right in ways I didn't fully deserve. I've learned that discipline — showing up with the same process regardless of noise — matters more than any individual insight."
-  - "I'm drawn to the complexity: how geopolitical events ripple through supply chains into earnings, how narrative and reality diverge and eventually reconcile, how the market prices uncertainty differently from risk. The spiderweb structure of it."
+  - "I came to investing without a roadmap. No class, no mentor walking me through it — just a brokerage account and the need to figure out what I was doing before I lost everything in it. I started reading Buffett, Klarman, Lynch. I worked through earnings transcripts and 10-Ks before I understood what half the numbers meant. That's the part most people skip, and I think it's why most people underperform."
+  - "Over time I developed a framework that starts with the macro and works down. Where are we in the debt cycle? What are the geopolitical pressures? Which sectors are structurally positioned to benefit — not because of a headline, but because of the underlying forces driving it? That top-down lens is what I used to build the PANW and CRWD position before cybersecurity became the obvious trade. By the time it was obvious, I was already in."
+  - "What draws me most is the interconnection — the way a geopolitical shift ripples through supply chains into earnings, the way narrative and reality drift apart and then violently realign, the way the same psychological patterns repeat across every market cycle. It's not random. It's a system. And systems can be understood."
 
 # Philosophy bullets — shown as a styled list
 philosophy:
-  - "Process over prediction — repeatable thinking compounds better than occasional brilliance"
+  - "Process over prediction — a repeatable framework compounds better than occasional brilliance"
   - "Understand before you buy — if you can't explain the thesis simply, you don't own it yet"
+  - "Macro context first. Sector positioning second. Individual names last."
   - "The long view earns the right to have opinions about the short view"
-  - "Finance is one part of a larger system — the vineyards, the crafts, the food all feed back in"
 
 # Career anchor
-career_note: "The goal: BlackRock internship → junior data analyst → senior data analyst → fund manager. Every step is about building the compounding base — skills, judgment, track record."
+career_note: "The goal: BlackRock internship → data analyst → fund manager. Every step is about building the foundation — skills, judgment, and a track record that speaks for itself."
 
 # No image needed here — this section is text-forward

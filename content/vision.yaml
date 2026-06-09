@@ -3,7 +3,7 @@
 # ============================================================
 
 headline: "The roadmap is long. That's the point."
-subhead: "I don't want a career. I want a compounding arc — one where every stage builds the foundation for the next."
+subhead: "I'm not looking for a job. I'm building toward something specific — and every step between now and there has a purpose."
 
 # Target schools for college
 schools:
@@ -11,13 +11,13 @@ schools:
   items:
     - name: "Cal Poly SLO"
       program: "Business Economics + Data Analytics"
-      note: "Strong applied-learning culture. Practical foundation."
+      note: "Strong applied-learning culture. You build things here, you don't just study them."
     - name: "UC Davis"
-      program: "Business Economics + potential Viticulture & Enology minor"
-      note: "The vineyard thread runs directly through UC Davis."
+      program: "Business Economics + Viticulture & Enology minor"
+      note: "The only school where the finance track and the vineyard track live in the same building."
     - name: "UC Berkeley"
-      program: "Business / Haas (if eligible) + Data Analytics"
-      note: "The academic ceiling. Haas feeds directly into finance."
+      program: "Business / Haas + Data Analytics"
+      note: "Haas is one of the best direct pipelines into finance in the country. The ceiling is worth shooting for."
 
 # Career arc — shown as a styled timeline
 career_arc:
@@ -25,19 +25,19 @@ career_arc:
   stages:
     - phase: "Near term"
       label: "College"
-      detail: "Business Economics major. Data Analytics minor. Possibly Viticulture & Enology or Film/Production as a second minor."
+      detail: "Business Economics major with a Data Analytics focus. A Viticulture & Enology or Film/Production minor if the schedule allows — both are part of the larger picture."
     - phase: "Early career"
       label: "BlackRock internship"
-      detail: "Family connection provides the foot in the door. I bring the prep work — years of self-directed market study."
+      detail: "I have a family connection that opens the door. What I bring through it is seven years of self-directed market study, a real portfolio, and a framework I've actually tested."
     - phase: "Building"
-      label: "Junior → Senior data analyst"
-      detail: "Learn how institutional capital actually moves. Build the quantitative depth the fund management role demands."
+      label: "Data analyst → senior analyst"
+      detail: "Learn how institutional capital moves at scale. Build the quantitative depth and pattern recognition that fund management actually requires — not just the title."
     - phase: "The goal"
       label: "Fund manager"
-      detail: "Not just managing returns — mastering the discipline of capital allocation at scale."
+      detail: "Capital allocation at scale, with full conviction behind every position. That's the thing I've been working toward since I was ten years old."
     - phase: "The endgame"
-      label: "Retire to the vineyard"
-      detail: "Where the two worlds finally merge. Precision in the growing season. Patience in the aging barrel. Craft at the end of a long, compounding arc."
+      label: "The vineyard"
+      detail: "Where the two worlds finally meet. The same patience it takes to hold a position through volatility is the patience it takes to wait for a vintage. I want to build something that outlasts a career."
 
 # Closing line
-closing: "The vineyard isn't a retirement. It's the proof that you built something worth resting in."
+closing: "The vineyard isn't a retirement plan. It's the proof that you built something worth slowing down for."

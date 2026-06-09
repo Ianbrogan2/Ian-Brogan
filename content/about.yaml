@@ -4,17 +4,17 @@
 # ============================================================
 
 headline: "Hello, my name is Ian Brogan."
-subhead: "Since I can remember, I've been obsessed with learning new skills — crochet, woodworking, 3D design, CAD. Then a brokerage account changed everything."
+subhead: "I grew up making things — woodworking, 3D design, CAD. Then my grandparents handed me a brokerage account on my 10th birthday, and everything shifted."
 
 # Each paragraph is its own block. Keep them short; they breathe better.
 body:
-  - "On my 10th birthday, my aunts and grandparents opened a brokerage account for me with an initial $1,000 investment. I became obsessed. I studied everything — financial statements, earnings reports, company news — religiously. My grandfather handed me a book recommendation that changed the way I see the world: Ray Dalio's The Changing World Order. I read it cover to cover. Then I read Principles as well."
-  - "What hooked me was the patterns. Everything in history repeats. Debt cycles, power shifts, market crashes, recoveries — the same forces play out over and over again. Once I understood that, I stopped reacting to headlines and started studying causation. I learned to use macroeconomic patterns and deep financial data together to inform every investment decision I make."
-  - "A concrete example: when the Iran-US conflict began escalating, I didn't panic. I did a deep dive into sectors that would benefit — renewable energy, infrastructure, and most importantly, cybersecurity. I analyzed a number of cybersecurity companies and landed on two: PANW and CRWD. I made the investment. By the time the conflict wound down, I had gained over 30% on the position."
-  - "I also built several mock fund portfolios in my own time, and I currently hold a long-term dividend portfolio with DRIP enabled — it compounds quietly in the background. Over seven years, through patience and pattern recognition, I turned that original $1,000 into over $25,000. The most important thing I've learned: patterns are everything. The ability to identify them is a genuine edge."
+  - "That account came with $1,000 and no instructions. I didn't treat it like a gift — I treated it like a puzzle. I started reading everything I could find: earnings reports, 10-Ks, financial statements, company filings. Then my grandfather handed me Ray Dalio's The Changing World Order, and I read it cover to cover. Then Principles. Something clicked."
+  - "What got me wasn't the stock tips or the strategies. It was the patterns. History repeats — debt cycles, power transitions, market crashes and recoveries — the same forces playing out across centuries with different names on the actors. Once I saw that, I stopped reacting to news and started studying cause. Macro context, financial data, sector dynamics — I learned to read them together."
+  - "That approach has been tested in real situations. When U.S.-Iran tensions started escalating, I worked through which sectors stood to benefit and landed on cybersecurity — specifically PANW and CRWD. I held the position through the volatility. It returned over 30% before I exited. Not luck. A thesis, executed."
+  - "I also run a long-term dividend portfolio with DRIP enabled — it compounds in the background while I focus on everything else. Seven years in from that first account, the work has paid off. The most important thing I've learned isn't a strategy or a formula. It's that patterns are everywhere, and training yourself to see them before anyone else does is the only real edge."
 
 # The duality callout — shown as a visual pull-quote
-duality_quote: "Patterns repeat. The edge is learning to see them first."
+duality_quote: "Patterns are everywhere. The edge is seeing them before anyone else does."
 
 # Stats / quick facts — shown as a scannable accent row
 facts:
