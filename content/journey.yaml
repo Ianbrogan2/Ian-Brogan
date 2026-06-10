@@ -1,16 +1,20 @@
-# ============================================================
-# JOURNEY — stock-market life graph data
-# This file drives the SVG life-timeline graph on the home page.
-#
-# HOW TO EDIT:
-#   - "milestones" are labeled points shown on the chart with detail cards
-#   - "noise_points" are unlabeled volatility points that make the line feel real
-#   - "age" is a decimal number (e.g. 13.5 = age thirteen and a half)
-#   - "value" is a growth index (starts ~100, rises over time — adjust freely)
-#   - "present_age" marks where the solid past line ends and the dashed future begins
-#
-# DO NOT EDIT BELOW the "# --- chart rendering ---" comment
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  08  —  JOURNEY (life graph)                          ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The stock-market style life-timeline graph                  ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    - "milestones": labeled points on the chart with detail cards  ║
+# ║    - "noise_points": unlabeled wiggle points, just for realism    ║
+# ║    - "age": a decimal number (13.5 = thirteen and a half)         ║
+# ║    - "value": a growth index (starts ~100, rises over time,       ║
+# ║       adjust freely)                                               ║
+# ║    - "present_age": where the solid past line ends and the        ║
+# ║       dashed future begins                                        ║
+# ║                                                                    ║
+# ║  DO NOT EDIT BELOW the "chart rendering" comment                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 present_age: 17.5
 

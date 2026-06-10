@@ -1,7 +1,21 @@
-# ============================================================
-# ABOUT / MY STORY — edit copy below freely
-# Displayed in the About section on the home page
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  02  —  ABOUT / MY STORY                              ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The About page story text (headline, subhead, paragraphs)   ║
+# ║    - The pull-quote, the quick-facts row, and the photo          ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    1. Edit the text inside the quotes below                       ║
+# ║    2. Each line under "body:" is its own paragraph - keep them   ║
+# ║       short, they read better                                     ║
+# ║    3. To swap the photo: upload to /content/images and update    ║
+# ║       the "image:" path below                                     ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - Family-mentored framing only (never "self-taught")          ║
+# ║    - No em dashes, no dollar amounts                              ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 headline: "My name is Ian Brogan."
 subhead: "My family put me onto markets at ten. That was the spark. Everything since has been me running with it."

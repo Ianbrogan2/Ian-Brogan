@@ -1,7 +1,23 @@
-# ============================================================
-# SITE-WIDE DATA — edit anything in this file freely
-# Changes here affect: page titles, SEO, nav, footer, contact
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  01  —  SITE-WIDE: HERO, NAV, CONTACT, FOOTER         ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - Page title, description (SEO)                               ║
+# ║    - Email, Instagram handles shown in Contact                   ║
+# ║    - Homepage hero headline, subhead, buttons                    ║
+# ║    - Nav bar links and order                                      ║
+# ║    - Footer tagline                                               ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    1. Find the field you want to change below                    ║
+# ║    2. Replace the text inside the quotes                          ║
+# ║    3. Keep the quotes, colons, and indentation as-is             ║
+# ║    4. Save - the site updates automatically                       ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - Never add a phone number anywhere                            ║
+# ║    - Never publish specific dollar amounts or returns             ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 meta:
   title: "Ian Brogan"

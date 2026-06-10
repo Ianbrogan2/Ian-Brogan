@@ -1,8 +1,23 @@
-# ============================================================
-# PORTFOLIO — design/media, maker, culinary sections
-# Edit labels, descriptions, and image paths below.
-# To add an item: copy an existing block, change the values.
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  04  —  PORTFOLIO                                     ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The /portfolio page: Design & Media, Maker, Culinary         ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    1. Edit "title", "description", and "tags" for any item        ║
+# ║    2. To add an item: copy an existing "- title:" block and       ║
+# ║       change the values                                           ║
+# ║    3. To swap a photo: upload to /content/images and update the  ║
+# ║       "image:" path, then update "image_alt" with a real          ║
+# ║       description (not "TODO")                                    ║
+# ║    4. "video_url:" - paste a YouTube/Vimeo link when the demo     ║
+# ║       reel is ready                                               ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - No specific dollar amounts (use "six-figure budget" etc.)    ║
+# ║    - No em dashes                                                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 sections:
   - id: "design-media"

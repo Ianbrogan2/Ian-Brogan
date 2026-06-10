@@ -1,8 +1,20 @@
-# ============================================================
-# RÉSUMÉ DATA — sources both /resume (print view) and /admissions
-# Edit here; it automatically updates both pages.
-# HARD RULE: no phone number, no specific dollar balances.
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  07  —  RESUME / ADMISSIONS                           ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The /resume (print view) and /admissions pages              ║
+# ║    - Editing here updates BOTH pages automatically                ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    Edit the text inside the quotes for each entry. Keep dates    ║
+# ║    and section structure as-is.                                   ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - No phone number anywhere                                     ║
+# ║    - No specific dollar balances or returns                       ║
+# ║    - Family-mentored framing only (never "self-taught")           ║
+# ║    - No em dashes                                                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 name: "Ian Brogan"
 tagline: "Business Economics student-to-be | Investor | Studio Director | Maker"

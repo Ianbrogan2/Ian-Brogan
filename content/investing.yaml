@@ -1,8 +1,17 @@
-# ============================================================
-# INVESTING — philosophy and self-taught journey copy
-# HARD RULE: never publish specific dollar balances or returns.
-# Focus on skill, discipline, and the journey.
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  05  —  INVESTING                                     ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The /investing page: philosophy and how-I-think copy        ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    Edit the text inside the quotes. Keep paragraphs short.        ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - Never publish specific dollar balances or returns            ║
+# ║    - Family-mentored framing only (never "self-taught")           ║
+# ║    - No em dashes                                                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 headline: "I've been reading the market since I was ten."
 subhead: "Real account, real money, real consequences from the start. The losses taught me more than the wins."

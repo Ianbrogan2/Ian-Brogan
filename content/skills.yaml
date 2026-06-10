@@ -1,8 +1,16 @@
-# ============================================================
-# SKILLS MATRIX — scannable grid of skill areas
-# Edit labels, items, and levels freely.
-# Level: "core" | "advanced" | "learning"
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  03  —  SKILLS MATRIX                                 ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The skill grid on the /skills page (categories + items)     ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    1. Add/remove items under "items:" for any category           ║
+# ║    2. "level" must be one of: core | advanced | learning          ║
+# ║       core = strongest, advanced = solid, learning = in progress  ║
+# ║    3. To add a whole new category, copy a "- id:" block and       ║
+# ║       change id, title, icon, and items                           ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 categories:
   - id: "finance-data"

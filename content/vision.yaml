@@ -1,6 +1,20 @@
-# ============================================================
-# VISION / GOALS — target schools, career roadmap, endgame
-# ============================================================
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  06  —  VISION / GOALS                                ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The /vision page: target schools and the career roadmap     ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    - "schools:" - one block per school, edit name/program/note    ║
+# ║    - "career_arc:" - one block per stage of the roadmap, in       ║
+# ║      order from "Near term" to "The endgame"                      ║
+# ║    - "closing:" - the last line on the page                       ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - BlackRock framing must stay soft (a connection "opens the    ║
+# ║      door", never "is securing a job")                            ║
+# ║    - No em dashes                                                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
 
 headline: "The roadmap is long. That's the point."
 subhead: "I'm not looking for a job. I'm building toward something specific, and every step between now and there has a purpose."
