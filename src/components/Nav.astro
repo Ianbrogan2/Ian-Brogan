@@ -74,9 +74,11 @@ const { site } = Astro.props;
   .ticker-strip {
     width: 100%;
     overflow: hidden;
-    background: rgba(201, 162, 39, 0.05);
+    background: #08080a;
     border-bottom: 1px solid rgba(201, 162, 39, 0.1);
     padding-block: 0.25rem;
+    position: relative;
+    z-index: 1;
   }
   .ticker-track {
     display: flex;
@@ -141,9 +143,9 @@ const { site } = Astro.props;
   }
 
   #site-nav.scrolled {
-    background: rgba(8, 8, 9, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(8, 8, 9, 1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 

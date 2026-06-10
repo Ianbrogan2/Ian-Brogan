@@ -29,4 +29,4 @@ facts:
 
 # Photo path — swap by uploading to /content/images and updating this
 image: "/content/images/about-placeholder.jpg"
-image_alt: "Ian Brogan — photo coming soon"
+image_alt: "Ian Brogan, photo coming soon"

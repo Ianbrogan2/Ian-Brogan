@@ -47,13 +47,13 @@ milestones:
 
   - age: 17
     value: 430
-    label: "$100K CTE program revamp"
-    description: "Entrusted with roughly $100,000 to overhaul a CTE program launching summer 2026."
+    label: "CTE program revamp"
+    description: "Entrusted with a six-figure budget to overhaul a CTE program launching summer 2026."
     type: "past"
 
   - age: 17.5
     value: 465
-    label: "Present — Summer 2026"
+    label: "Present, Summer 2026"
     description: "Building toward college, compounding every skill."
     type: "current"
 

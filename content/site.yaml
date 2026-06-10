@@ -34,7 +34,7 @@ hero:
   cta_secondary_href: "#portfolio"
   # Path to hero image — swap by uploading to /content/images and changing this path
   image: "/content/images/hero-placeholder.jpg"
-  image_alt: "Ian Brogan — photo coming soon"
+  image_alt: "Ian Brogan, photo coming soon"
 
 # ── Navigation ──────────────────────────────────────────────
 # Order determines the order items appear in the nav
