@@ -54,9 +54,10 @@ export interface SkillItem { name: string; level: 'core' | 'advanced' | 'learnin
 export interface SkillCategory { id: string; title: string; icon: string; items: SkillItem[]; }
 export interface SkillsData { categories: SkillCategory[]; }
 
+export interface HoldingItem { symbol: string; exchange: string; blurb: string; }
 export interface InvestingData {
   headline: string; subhead: string; body: string[];
-  philosophy: string[];
+  holdings: HoldingItem[];
   career_note: string;
 }
 
