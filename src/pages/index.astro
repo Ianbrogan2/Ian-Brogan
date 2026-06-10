@@ -9,121 +9,98 @@ const site = getSite();
 <Page>
   <Hero site={site} />
 
-  <!-- Journey teaser — just enough to intrigue, links to full page -->
-  <section class="journey-teaser" aria-label="Journey highlights">
-    <div class="container jt-inner">
-      <div class="jt-header">
-        <span class="eyebrow">The Journey</span>
-        <span class="rule-gold"></span>
-        <h2>From age ten to here.</h2>
-        <p class="lead">Seven years of real investing, a Lead Studio Director role, and a path that's been deliberate from the start. The full timeline is on the Journey page.</p>
+  <!-- The Goal — aspirations + proof, the engine of the homepage -->
+  <section class="goal" aria-label="The goal">
+    <div class="container goal-inner">
+      <span class="eyebrow">The Goal</span>
+      <span class="rule-gold"></span>
+      <h2 class="goal-headline">I'm not looking for a job. I'm building toward something specific.</h2>
+      <p class="goal-arc">
+        Business Economics, then a way into BlackRock through a family connection.
+        From there, data analyst to senior analyst, learning how institutional
+        capital actually moves. The goal is fund manager: real capital, real
+        conviction. The endgame is a vineyard, the same patience that holds a
+        position through volatility is the patience that waits for a vintage.
+      </p>
+      <p class="goal-proof">
+        <span class="proof-label">Proof it's not just talk:</span>
+        when U.S.-Iran tensions escalated, I worked through which sectors stood to
+        benefit, landed on cybersecurity, and held PANW and CRWD through the
+        volatility. The thesis paid off. Seven years of studying markets, tested
+        in real time.
+      </p>
+      <div class="goal-links">
+        <a href="/about" class="btn btn-primary">Read the full story</a>
+        <span class="goal-hint">See everything I've done to get here</span>
       </div>
-
-      <div class="jt-milestones">
-        <div class="jt-item">
-          <span class="jt-age">Age 10</span>
-          <span class="jt-label">First investment account</span>
-        </div>
-        <div class="jt-item">
-          <span class="jt-age">Age 15</span>
-          <span class="jt-label">Design, 3D printing & making</span>
-        </div>
-        <div class="jt-item">
-          <span class="jt-age">Age 16</span>
-          <span class="jt-label">Lead Studio Director</span>
-        </div>
-        <div class="jt-item jt-item--current">
-          <span class="jt-age">Now</span>
-          <span class="jt-label">Present, Summer 2026</span>
-        </div>
-      </div>
-
-      <a href="/journey" class="btn btn-outline jt-cta">See the full journey →</a>
     </div>
   </section>
 </Page>
 
 <style>
-  .journey-teaser {
+  .goal {
     background: var(--color-surface);
-    padding-block: clamp(4rem, 7vw, 7rem);
+    padding-block: clamp(4rem, 8vw, 8rem);
     border-top: 1px solid var(--color-border);
   }
 
-  .jt-inner {
+  .goal-inner {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    align-items: flex-start;
+    max-width: 760px;
   }
 
-  .jt-header {
-    max-width: 600px;
-  }
-  .jt-header h2 {
-    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-    margin: 0.75rem 0 1rem;
-  }
-  .jt-header .lead { color: var(--color-text-dim); }
-
-  .jt-milestones {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 1px solid var(--color-border);
-  }
-
-  .jt-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.5rem;
-    border-right: 1px solid var(--color-border);
-    position: relative;
-  }
-  .jt-item:last-child { border-right: none; }
-  .jt-item::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--color-border);
-  }
-  .jt-item--current::before {
-    background: var(--color-gold);
-  }
-
-  .jt-age {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-  }
-  .jt-label {
+  .goal-headline {
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-variation-settings: 'opsz' 24;
-    color: var(--color-text);
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    font-variation-settings: 'opsz' 48;
+    font-weight: 600;
     line-height: 1.3;
-  }
-  .jt-item--current .jt-label { color: var(--color-text); }
-
-  .jt-cta {
-    align-self: flex-start;
+    color: var(--color-text);
+    margin: 1.5rem 0 1.5rem;
   }
 
-  @media (max-width: 768px) {
-    .jt-milestones {
-      grid-template-columns: 1fr 1fr;
+  .goal-arc, .goal-proof {
+    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    line-height: 1.75;
+    color: var(--color-text-dim);
+    max-width: none;
+  }
+
+  .goal-proof {
+    margin-top: 1.25rem;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--color-gold);
+  }
+
+  .proof-label {
+    color: var(--color-gold);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .goal-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+
+  .goal-hint {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .goal-links {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
     }
-    .jt-item:nth-child(2) { border-right: none; }
-    .jt-item:nth-child(3) { border-top: 1px solid var(--color-border); }
-    .jt-item:nth-child(4) { border-right: none; border-top: 1px solid var(--color-border); }
-  }
-
-  @media (max-width: 480px) {
-    .jt-milestones { grid-template-columns: 1fr; }
-    .jt-item { border-right: none; border-top: 1px solid var(--color-border); }
-    .jt-item:first-child { border-top: none; }
+    .goal-links .btn { text-align: center; }
+    .goal-hint { text-align: center; }
   }
 </style>

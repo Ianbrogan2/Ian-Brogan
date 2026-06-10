@@ -173,6 +173,26 @@ const about = getAbout();
 
     </div>
   </section>
+
+  <section class="next-steps container" aria-label="Where to next">
+    <div class="next-inner">
+      <span class="eyebrow">Want Specifics?</span>
+      <span class="rule-gold"></span>
+      <h2>Now you know the why. Here's the how.</h2>
+      <div class="next-cards">
+        <a href="/skills" class="next-card">
+          <span class="next-card-label">Skills</span>
+          <span class="next-card-desc">The full range, finance and data, design and media, making, culinary.</span>
+          <span class="next-card-arrow">→</span>
+        </a>
+        <a href="/portfolio" class="next-card">
+          <span class="next-card-label">Portfolio</span>
+          <span class="next-card-desc">The actual work: brand identity, builds, and what's on the bench right now.</span>
+          <span class="next-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </Page>
 
 <style>
@@ -285,5 +305,60 @@ const about = getAbout();
     .book-card { flex-direction: column; }
     .book-cover-wrap { width: 70px; }
     .book-cover { width: 70px; }
+  }
+
+  .next-steps {
+    padding-block: clamp(4rem, 8vw, 8rem);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .next-inner h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    margin: 1.5rem 0 2.5rem;
+    max-width: 24ch;
+  }
+
+  .next-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .next-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--color-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-gold);
+    padding: 2rem;
+    text-decoration: none;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .next-card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,162,39,0.2);
+    transform: translateY(-2px);
+  }
+
+  .next-card-label {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-variation-settings: 'opsz' 36;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .next-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-dim);
+  }
+  .next-card-arrow {
+    color: var(--color-gold);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .next-cards { grid-template-columns: 1fr; }
   }
 </style>
