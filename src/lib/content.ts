@@ -50,7 +50,7 @@ export interface PortfolioSection {
 }
 export interface PortfolioData { sections: PortfolioSection[]; }
 
-export interface SkillItem { name: string; level: 'core' | 'advanced' | 'learning'; }
+export interface SkillItem { name: string; level: 'core' | 'advanced' | 'learning'; detail?: string; }
 export interface SkillCategory { id: string; title: string; icon: string; items: SkillItem[]; }
 export interface SkillsData { categories: SkillCategory[]; }
 

@@ -10,6 +10,8 @@
 # ║       core = strongest, advanced = solid, learning = in progress  ║
 # ║    3. To add a whole new category, copy a "- id:" block and       ║
 # ║       change id, title, icon, and items                           ║
+# ║    4. "detail" is the text shown in the popup when someone clicks ║
+# ║       the skill, edit freely                                      ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 categories:
@@ -19,16 +21,22 @@ categories:
     items:
       - name: "Investment analysis"
         level: "core"
+        detail: "Built and tested a real framework over seven years: macro context first, then sector positioning, then individual names. I used it to build the PANW and CRWD position before cybersecurity became the obvious trade."
       - name: "Financial statements"
         level: "core"
+        detail: "I started reading 10-Ks and earnings transcripts before I fully understood the numbers, because that's where the real signal is, not in headlines. It's the foundation everything else is built on."
       - name: "Excel & spreadsheet modeling"
         level: "core"
+        detail: "Learned Excel and basic formulas doing data analysis for my aunt's business. Now it's how I track positions, compare companies, and stress-test a thesis before I act on it."
       - name: "Markets & funds"
         level: "core"
+        detail: "Seven years of following markets, fund structures, and how capital actually moves. This is the thread that ties my whole future plan together, from the BlackRock internship goal to managing funds someday."
       - name: "Data analytics"
         level: "advanced"
+        detail: "Picking this up because the data analyst pathway is the next step toward fund management. Learning how institutional capital moves at scale starts with being able to actually work with the data."
       - name: "Python (learning)"
         level: "learning"
+        detail: "Picked it up a while ago because I was bored. Used it for basic simulations and to code motor and control logic for kinetic art pieces."
 
   - id: "design-media"
     title: "Design & Media"
@@ -36,22 +44,31 @@ categories:
     items:
       - name: "Adobe Premiere Pro"
         level: "core"
+        detail: "Learned it for my role as Studio Director at ENN, where I edit our daily broadcast. Doing that every day made me insanely proficient."
       - name: "After Effects"
         level: "core"
+        detail: "Started designing logos on paper, then Procreate, then vectorized and colored them in Illustrator. After Effects is where they came to life, I've made dozens of animations for ENN."
       - name: "Photoshop"
         level: "core"
+        detail: "More of a hobby for me, a tool I use for general photo editing and design work alongside everything else."
       - name: "Lightroom"
         level: "core"
+        detail: "Also more of a hobby, I use it for editing and color work on my photography."
       - name: "Illustrator"
         level: "core"
+        detail: "The middle step in my logo process: sketch on paper, draw in Procreate, then vectorize and color in Illustrator before animating in After Effects."
       - name: "Color grading"
         level: "core"
+        detail: "Learned to color grade raw footage in Premiere Pro to bring production quality up on ENN broadcasts and other video work."
       - name: "Logo & brand identity"
         level: "advanced"
+        detail: "Built the full brand identity and motion graphics suite for the CTE program revamp, a real project with a real budget. That's where this skill got tested."
       - name: "Web / site design"
         level: "advanced"
+        detail: "This site is the proof: built and designed from scratch, content, layout, and all."
       - name: "Audio editing"
         level: "advanced"
+        detail: "PLACEHOLDER: ask Ian what audio editing work he's done (podcast, video sound, etc.)."
 
   - id: "making-craft"
     title: "Making & Craft"
@@ -59,14 +76,19 @@ categories:
     items:
       - name: "3D design & printing"
         level: "core"
+        detail: "Used to design and print original pieces, including the kinetic 3D art and the spoiler shelf. I like that you can go from an idea to a physical object in one process."
       - name: "Fusion 360 / CAD"
         level: "advanced"
+        detail: "This is where the design work happens before anything gets printed, cut, or built. Every maker project starts here."
       - name: "Woodworking"
         level: "advanced"
+        detail: "Started as a kid visiting my grandparents in Allentown, PA, grabbing a stick on a walk and turning it into a spear with knives and sanders. My grandpa eventually taught me to actually build things, which led to the live-edge resin table, treatment and all."
       - name: "Resin casting"
         level: "advanced"
+        detail: "Used to make the resin table, designed, poured, and finished entirely by hand. Same patience as everything else I do, just applied to a different material."
       - name: "Vinyl wrapping"
         level: "advanced"
+        detail: "My grandmother taught me how to use vinyl for crafts, and I realized I could apply it to a lot more than that, which is how the spoiler shelf wrap happened."
 
   - id: "culinary"
     title: "Culinary"
@@ -74,9 +96,13 @@ categories:
     items:
       - name: "Advanced pastry & baking"
         level: "core"
+        detail: "Grew out of my love for food. I started researching famous chefs and bakers, found Hanbit Cho, learned what a tart actually was, and got obsessed. From there I built up a much more advanced skill set: airbrushing, plating, and writing my own recipes."
       - name: "French technique"
         level: "advanced"
+        detail: "My grandpa on my mom's side loves to request food, especially French, and I found it fascinating because of how much skill it demands. That request turned into a real focus."
       - name: "Food styling & photography"
         level: "advanced"
-      - name: "Menu development"
+        detail: "Documented at @brogan.bites, this is where the design eye and the cooking meet: making food look as good as it tastes."
+      - name: "Recipe writing"
         level: "advanced"
+        detail: "I fell in love with creating things that haven't been done before. Recipe writing is where that shows up most, constantly experimenting and building dishes from scratch."

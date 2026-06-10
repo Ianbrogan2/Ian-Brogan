@@ -18,28 +18,28 @@
 # ╚══════════════════════════════════════════════════════════════════╝
 
 headline: "My name is Ian Brogan."
-subhead: "My family put me onto markets at ten. That was the spark. Everything since has been me running with it."
+subhead: "Seventeen years old, curious about almost everything, and happiest when I'm in the middle of building something."
 
 # Each paragraph is its own block. Keep them short; they breathe better.
 body:
-  - "When I was ten, my family opened a brokerage account for me and pointed me toward the right books, starting with Ray Dalio's The Changing World Order. I read it straight through, then Principles, then everything I could get my hands on: 10-Ks, earnings calls, financial statements. Markets became the thing I kept coming back to."
-  - "What grabbed me wasn't the money. It was the patterns. The same debt cycles, power shifts, and market crashes keep playing out across centuries with different names. Once I saw that, I stopped reacting to headlines and started studying cause. Macro context first, then sector dynamics, then individual names."
-  - "That framework has held up in real markets. When U.S.-Iran tensions escalated, I worked through which sectors stood to benefit and landed on cybersecurity: PANW and CRWD specifically. I held through the volatility, and the thesis paid off. Not luck. A process, executed."
-  - "I also run a long-term dividend portfolio with DRIP, it compounds quietly while I stay focused on everything else. Seven years in, the most valuable thing I've built isn't the portfolio. It's the ability to see what's coming before it's obvious to everyone else."
+  - "I have ADHD, and for most of my life that's been the engine behind everything I do. My free time isn't spent being lazy, it's spent learning. If something interests me, I go all in on it until I understand how it actually works."
+  - "That's led me down a lot of different paths: markets and finance, film and production, graphics, building things in resin, woodworking, CAD, and cooking at a professional level. People sometimes assume that's scattered. It's not. It's just how my brain works, and I've learned to use it instead of fighting it."
+  - "My family has been a huge part of all of it. They're the reason I got my start in markets at ten, and they've supported every random rabbit hole since, whether that was a new hobby, a business idea, or a skill I decided I needed to learn that week."
+  - "This site is a journal of all of it: who I am, what I've built, and where I'm headed. If you want the deep dive on how I think about markets specifically, that's the investing page. This page is everything else, the full picture of me."
 
 # The duality callout — shown as a visual pull-quote
-duality_quote: "The edge is seeing the pattern before it's obvious to everyone else."
+duality_quote: "If something interests me, I go all in until I understand how it actually works."
 
 # Stats / quick facts — shown as a scannable accent row
 facts:
+  - label: "Age"
+    value: "17"
   - label: "Started investing"
     value: "Age 10"
-  - label: "Active portfolio"
-    value: "7 years in"
-  - label: "PANW & CRWD"
-    value: "Cybersecurity thesis"
-  - label: "DRIP dividend portfolio"
-    value: "Long-term hold"
+  - label: "Film & media"
+    value: "Studio director"
+  - label: "Maker"
+    value: "Resin, CAD, woodworking"
 
 # Photo path — swap by uploading to /content/images and updating this
 image: "/content/images/about-placeholder.jpg"

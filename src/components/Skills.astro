@@ -27,8 +27,16 @@ const iconMap: Record<string, string> = {
           <ul role="list" class="skill-list">
             {cat.items.map(item => (
               <li class={`skill-item skill-item--${item.level}`}>
-                <span class="skill-dot" aria-label={`Level: ${item.level}`}></span>
-                <span>{item.name}</span>
+                <button
+                  type="button"
+                  class="skill-btn"
+                  data-name={item.name}
+                  data-detail={item.detail ?? ''}
+                  aria-label={`${item.name} — view details`}
+                >
+                  <span class="skill-dot" aria-label={`Level: ${item.level}`}></span>
+                  <span>{item.name}</span>
+                </button>
               </li>
             ))}
           </ul>
@@ -49,6 +57,14 @@ const iconMap: Record<string, string> = {
         <span class="skill-dot skill-dot--learning"></span>
         <span>Building</span>
       </span>
+    </div>
+  </div>
+
+  <div class="skill-modal-backdrop" id="skill-modal-backdrop" hidden>
+    <div class="skill-modal" role="dialog" aria-modal="true" aria-labelledby="skill-modal-title">
+      <button type="button" class="skill-modal-close" id="skill-modal-close" aria-label="Close">×</button>
+      <h3 id="skill-modal-title"></h3>
+      <p id="skill-modal-detail"></p>
     </div>
   </div>
 </section>
@@ -110,9 +126,26 @@ const iconMap: Record<string, string> = {
   .skill-item {
     display: flex;
     align-items: center;
+  }
+
+  .skill-btn {
+    display: flex;
+    align-items: center;
     gap: 0.6rem;
     font-size: 0.875rem;
     color: var(--color-text-dim);
+    background: none;
+    border: none;
+    padding: 0.15rem 0;
+    margin: 0;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.15s;
+  }
+  .skill-btn:hover, .skill-btn:focus-visible {
+    color: var(--color-gold);
+    outline: none;
   }
 
   .skill-dot {
@@ -128,8 +161,60 @@ const iconMap: Record<string, string> = {
     border: 1.5px solid var(--color-muted);
   }
 
-  .skill-item--learning { color: var(--color-muted); }
+  .skill-item--learning .skill-btn { color: var(--color-muted); }
   .skill-item--learning span:last-child { font-style: italic; }
+
+  .skill-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,9,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1.5rem;
+  }
+  .skill-modal-backdrop[hidden] { display: none; }
+
+  .skill-modal {
+    position: relative;
+    background: var(--color-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-gold);
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .skill-modal h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--color-text);
+    margin: 0 0 1rem;
+    padding-right: 2rem;
+  }
+
+  .skill-modal p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-dim);
+    margin: 0;
+  }
+
+  .skill-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--color-muted);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+  .skill-modal-close:hover { color: var(--color-gold); }
 
   .skills-legend {
     display: flex;
@@ -158,5 +243,33 @@ const iconMap: Record<string, string> = {
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
     });
+  });
+
+  const backdrop = document.getElementById('skill-modal-backdrop') as HTMLElement;
+  const titleEl = document.getElementById('skill-modal-title') as HTMLElement;
+  const detailEl = document.getElementById('skill-modal-detail') as HTMLElement;
+  const closeBtn = document.getElementById('skill-modal-close') as HTMLElement;
+
+  function openModal(name: string, detail: string) {
+    titleEl.textContent = name;
+    detailEl.textContent = detail || 'Details coming soon.';
+    backdrop.hidden = false;
+  }
+  function closeModal() {
+    backdrop.hidden = true;
+  }
+
+  document.querySelectorAll<HTMLElement>('.skill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openModal(btn.dataset.name ?? '', btn.dataset.detail ?? '');
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
   });
 </script>
