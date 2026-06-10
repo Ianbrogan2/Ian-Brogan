@@ -25,14 +25,13 @@ const { data } = Astro.props;
         <ul role="list" class="holdings-grid">
           {data.holdings.map(h => (
             <li class="holding">
-              <a
-                href={`https://www.tradingview.com/symbols/${h.exchange}-${h.symbol}/`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
                 class="holding-symbol"
+                data-href={`https://finance.yahoo.com/quote/${h.symbol}/`}
               >
                 {h.symbol}
-              </a>
+              </button>
               <div class="holding-tooltip" role="tooltip">{h.blurb}</div>
             </li>
           ))}
@@ -126,6 +125,8 @@ const { data } = Astro.props;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-decoration: none;
+    cursor: pointer;
+    width: 100%;
     transition: border-color 0.15s, color 0.15s;
   }
   .holding-symbol:hover, .holding-symbol:focus-visible {
@@ -133,26 +134,29 @@ const { data } = Astro.props;
     color: var(--color-gold);
   }
 
+  .holdings-grid { overflow: visible; }
+
   .holding-tooltip {
     position: absolute;
     left: 50%;
     bottom: calc(100% + 0.6rem);
     transform: translateX(-50%) translateY(6px);
-    width: max(220px, 100%);
-    max-width: 280px;
+    width: max(240px, 160%);
+    max-width: 320px;
     background: var(--color-bg);
     border: 1px solid var(--color-gold);
     padding: 0.9rem 1rem;
     font-size: 0.78rem;
     line-height: 1.6;
     color: var(--color-text-dim);
-    z-index: 20;
+    z-index: 50;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.15s, transform 0.15s;
     box-shadow: 0 12px 30px rgba(0,0,0,0.5);
   }
+  .holding.active .holding-tooltip,
   .holding:hover .holding-tooltip,
   .holding:focus-within .holding-tooltip {
     opacity: 1;
@@ -163,8 +167,44 @@ const { data } = Astro.props;
   @media (max-width: 900px) {
     .investing-layout { grid-template-columns: 1fr; }
     .investing-holdings { order: -1; position: static; }
-    .holding-tooltip { left: 0; transform: translateY(6px); width: 100%; max-width: none; }
+  }
+
+  @media (max-width: 600px) {
+    .holding-tooltip {
+      position: fixed;
+      left: 1rem;
+      right: 1rem;
+      bottom: auto;
+      top: 50%;
+      width: auto;
+      max-width: none;
+      transform: translateY(-50%) scale(0.97);
+    }
+    .holding.active .holding-tooltip,
     .holding:hover .holding-tooltip,
-    .holding:focus-within .holding-tooltip { transform: translateY(0); }
+    .holding:focus-within .holding-tooltip {
+      transform: translateY(-50%) scale(1);
+    }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.holding-symbol').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const holding = btn.closest('.holding');
+      const wasActive = holding?.classList.contains('active');
+      document.querySelectorAll('.holding.active').forEach(h => h.classList.remove('active'));
+      if (!wasActive) holding?.classList.add('active');
+    });
+    btn.addEventListener('dblclick', () => {
+      const url = btn.dataset.href;
+      if (url) window.open(url, '_blank', 'noopener,noreferrer');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!(e.target as HTMLElement).closest('.holding')) {
+      document.querySelectorAll('.holding.active').forEach(h => h.classList.remove('active'));
+    }
+  });
+</script>
