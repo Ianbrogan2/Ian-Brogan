@@ -53,6 +53,28 @@ const year = new Date().getFullYear();
     </section>
 
     <section class="resume-section">
+      <h2>Honors & Awards</h2>
+      <ul class="entry-bullets">
+        {r.honors.map(h => <li>{h}</li>)}
+      </ul>
+    </section>
+
+    <section class="resume-section">
+      <h2>Activities & Community Service</h2>
+      {r.activities.map(act => (
+        <div class="resume-entry">
+          <div class="entry-header">
+            <strong>{act.title} — {act.org}</strong>
+            <span class="entry-date">{act.years}</span>
+          </div>
+          <ul class="entry-bullets">
+            {act.bullets.map(b => <li>{b}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="resume-section">
       <h2>Experience</h2>
       {r.experience.map(exp => (
         <div class="resume-entry">

@@ -1,0 +1,335 @@
+---
+import type { AchievementsData } from '../lib/content';
+interface Props { data: AchievementsData; }
+const { data } = Astro.props;
+---
+
+<section id="achievements" class="section" aria-labelledby="achievements-heading">
+  <div class="container">
+
+    <!-- Stats strip -->
+    <ul role="list" class="stats-grid">
+      {data.stats.map(s => (
+        <li class="stat">
+          <span class="stat-value">{s.value}</span>
+          <span class="stat-label">{s.label}</span>
+          {s.sublabel && <span class="stat-sublabel">{s.sublabel}</span>}
+        </li>
+      ))}
+    </ul>
+
+    <div class="achievements-layout">
+      <!-- Leadership timeline -->
+      <div class="leadership">
+        <h3 class="section-title">Leadership & activities</h3>
+        <ol role="list" class="timeline">
+          {data.leadership.map((entry, i) => (
+            <li class="timeline-entry">
+              <div class="timeline-connector" aria-hidden="true">
+                <div class="timeline-dot"></div>
+                {i < data.leadership.length - 1 && <div class="timeline-line"></div>}
+              </div>
+              <div class="timeline-content">
+                <span class="timeline-years">{entry.years}</span>
+                <strong class="timeline-role">{entry.role}</strong>
+                <span class="timeline-org">{entry.org}</span>
+                <p class="timeline-desc">{entry.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <!-- Coursework + service -->
+      <div class="side-column">
+        <div class="coursework">
+          <h3 class="section-title">Coursework</h3>
+          <div class="course-group">
+            <span class="course-group-label">AP</span>
+            <ul role="list" class="course-list">
+              {data.coursework.ap.map(c => <li>{c}</li>)}
+            </ul>
+          </div>
+          <div class="course-group">
+            <span class="course-group-label">Honors</span>
+            <ul role="list" class="course-list">
+              {data.coursework.honors.map(c => <li>{c}</li>)}
+            </ul>
+          </div>
+          <div class="course-group">
+            <span class="course-group-label">CTE</span>
+            <ul role="list" class="course-list">
+              {data.coursework.cte.map(c => <li>{c}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div class="service">
+          <h3 class="section-title">{data.service.headline}</h3>
+          <ul role="list" class="service-list">
+            {data.service.items.map(item => (
+              <li class="service-item">
+                <span class="service-hours">{item.hours}</span>
+                <div class="service-detail">
+                  <strong>{item.role}</strong>
+                  <p>{item.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="achievements-closing">
+      <p class="closing-text">"{data.closing}"</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #achievements {
+    background: var(--color-elevated);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #achievements::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(237,232,223,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,232,223,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin: 0 0 1.75rem;
+  }
+
+  /* Stats */
+  .stats-grid {
+    list-style: none;
+    margin: 0 0 clamp(3rem, 6vw, 5rem);
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    position: relative;
+  }
+  .stat {
+    background: var(--color-bg);
+    padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1rem, 2vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-variation-settings: 'opsz' 48;
+    font-weight: 700;
+    color: var(--color-gold);
+    line-height: 1.1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .stat-sublabel {
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  /* Layout */
+  .achievements-layout {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    margin-bottom: clamp(3rem, 5vw, 5rem);
+    position: relative;
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .timeline-entry {
+    display: flex;
+    gap: 1.25rem;
+  }
+  .timeline-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+  }
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .timeline-line {
+    flex: 1;
+    width: 1px;
+    background: var(--color-border-lt, var(--color-border));
+    margin-block: 6px;
+    min-height: 1.5rem;
+  }
+  .timeline-content {
+    padding-bottom: 1.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .timeline-entry:last-child .timeline-content { padding-bottom: 0; }
+  .timeline-years {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .timeline-role {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-variation-settings: 'opsz' 18;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .timeline-org {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    font-style: italic;
+  }
+  .timeline-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-dim);
+    line-height: 1.55;
+    margin: 0.4rem 0 0;
+    max-width: 50ch;
+  }
+
+  /* Side column */
+  .side-column {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .course-group { margin-bottom: 1.25rem; }
+  .course-group:last-child { margin-bottom: 0; }
+  .course-group-label {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .course-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .course-list li {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    line-height: 1.5;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .course-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 1px;
+    background: var(--color-gold);
+  }
+
+  .service-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .service-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .service-hours {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    min-width: 5.5rem;
+  }
+  .service-detail strong {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+  .service-detail p {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 45ch;
+  }
+
+  /* Closing */
+  .achievements-closing {
+    position: relative;
+    padding: 2.5rem 0 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .closing-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-variation-settings: 'opsz' 36;
+    font-style: italic;
+    color: var(--color-text-dim);
+    line-height: 1.45;
+    max-width: 70ch;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .achievements-layout { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+</style>

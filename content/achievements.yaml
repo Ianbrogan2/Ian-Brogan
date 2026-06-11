@@ -1,0 +1,81 @@
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  EDIT FILE  09  —  SCHOOL ACHIEVEMENTS                           ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  WHAT THIS FILE CONTROLS:                                         ║
+# ║    - The /achievements page: academic stats, leadership          ║
+# ║      timeline, coursework, and community service                 ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HOW TO EDIT:                                                     ║
+# ║    Edit the text inside the quotes. Keep section structure as-is. ║
+# ╠══════════════════════════════════════════════════════════════════╣
+# ║  HARD RULES - do not change these:                                ║
+# ║    - No phone number, no dollar amounts/income figures            ║
+# ║    - "six-figure" framing for the CTE budget, never a dollar      ║
+# ║      figure                                                        ║
+# ║    - No em dashes                                                  ║
+# ╚══════════════════════════════════════════════════════════════════╝
+
+headline: "School Achievements."
+subhead: "Academics, leadership, and community service. The part of the story that doesn't show up on the rest of the site."
+
+# Top stat strip
+stats:
+  - value: "4.22"
+    label: "Weighted GPA"
+    sublabel: "3.81 unweighted"
+  - value: "84 / 632"
+    label: "Class Rank"
+  - value: "130+"
+    label: "Community service hours"
+    sublabel: "30 required"
+  - value: "Golden State Seal"
+    label: "Merit Diploma"
+    sublabel: "Awarded for academic excellence and civic engagement"
+
+# Leadership & activities timeline
+leadership:
+  - years: "2022 – 2023"
+    role: "Vice President"
+    org: "Dual Language Immersion Club"
+    description: "As a freshman, helped lead the club's events calendar and fundraising efforts, supporting a program that's been part of my education since elementary school."
+  - years: "2023 – 2024"
+    role: "Independent Study"
+    org: "Self-directed coursework"
+    description: "Worked through most of a school year independently due to a health complication, staying on track academically while managing it on my own terms."
+  - years: "2024 – 2025"
+    role: "Lead Studio Director"
+    org: "ENN Studios (Eastlake News Network)"
+    description: "Promoted to lead director of our broadcast program, overseeing daily production: filming, editing, color grading, audio, and graphics for every episode."
+  - years: "2025 – 2026"
+    role: "President"
+    org: "ENN Studios (Eastlake News Network)"
+    description: "Now leading the program's full rebrand, new graphics, systems, logos, and a new website, while fundraising for sets and production equipment, and entrusted with a six-figure budget to relaunch the program from the ground up."
+
+# Coursework
+coursework:
+  ap:
+    - "AP English Literature & Composition"
+    - "AP Computer Science Principles"
+    - "AP Spanish Language"
+    - "AP Human Geography"
+  honors:
+    - "Physics Honors"
+    - "Precalculus Honors"
+    - "Chemistry Honors"
+    - "U.S. History Honors"
+  cte:
+    - "CTE TV, Film & Digital Media (broadcast/performing arts)"
+    - "CTE Multimedia Production"
+
+# Community service breakdown
+service:
+  headline: "Community service: 130+ hours"
+  items:
+    - hours: "100 hours"
+      role: "ENN Studio Director"
+      description: "Production work and the studio rebrand, building out graphics, systems, and the program's new identity for the next class to inherit."
+    - hours: "30 hours"
+      role: "Elementary school assistant"
+      description: "Helped classroom staff and students at my old elementary school, the same place my Dual Language Immersion track started."
+
+closing: "None of this happened in a straight line, and that's kind of the point. Independent study, a club I helped lead as a freshman, and a studio I now run as a senior are all part of the same thread: showing up, even when the year doesn't go the way you planned."

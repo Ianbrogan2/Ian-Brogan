@@ -1,0 +1,26 @@
+---
+import Page from '../layouts/Page.astro';
+import Achievements from '../components/Achievements.astro';
+import { getAchievements } from '../lib/content';
+
+const achievements = getAchievements();
+---
+
+<Page title="Achievements" description="Ian Brogan's academic record, leadership roles, and community service.">
+  <div class="page-hero container">
+    <span class="eyebrow">Achievements</span>
+    <span class="rule-gold"></span>
+    <h1>{achievements.headline}</h1>
+    <p class="lead">{achievements.subhead}</p>
+  </div>
+  <Achievements data={achievements} />
+</Page>
+
+<style>
+  .page-hero {
+    padding-top: clamp(8rem, 12vw, 12rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--color-border);
+  }
+  h1 { margin-bottom: 1rem; }
+</style>

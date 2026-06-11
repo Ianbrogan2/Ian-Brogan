@@ -33,7 +33,36 @@ education:
   - institution: "High School"
     degree: "College Preparatory"
     years: "2022–2026"
-    note: "Independent study year; promoted to Lead Studio Director"
+    note: "GPA 4.22 weighted / 3.81 unweighted, Class Rank 84/632. Independent study year; promoted to Lead Studio Director"
+
+# ── Honors & Awards ─────────────────────────────────────────
+honors:
+  - "Golden State Seal Merit Diploma"
+  - "4.22 weighted GPA / 3.81 unweighted, Class Rank 84 of 632"
+  - "AP coursework: English Literature & Composition, Computer Science Principles, Spanish Language, Human Geography"
+  - "Honors coursework: Physics, Precalculus, Chemistry, U.S. History"
+
+# ── Activities & Community Service ──────────────────────────
+activities:
+  - title: "President"
+    org: "ENN Studios (Eastlake News Network)"
+    years: "2025–2026"
+    bullets:
+      - "Leading the studio's rebrand: graphics, systems, logos, and the program's website"
+      - "Fundraising for sets and production equipment"
+      - "100+ community service hours through studio leadership and production work"
+
+  - title: "Vice President"
+    org: "Dual Language Immersion Club, Olympian High School"
+    years: "2022–2023"
+    bullets:
+      - "Hosted club events and led fundraising as a freshman"
+
+  - title: "Volunteer"
+    org: "Local elementary school"
+    years: "2022–present"
+    bullets:
+      - "30+ hours assisting classroom staff and students"
 
 # ── Experience ──────────────────────────────────────────────
 experience:

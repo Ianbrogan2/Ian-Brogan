@@ -57,6 +57,8 @@ hero:
 nav_links:
   - label: "About"
     href: "/about"
+  - label: "Achievements"
+    href: "/achievements"
   - label: "Portfolio"
     href: "/portfolio"
   - label: "Investing"

@@ -71,10 +71,21 @@ export interface VisionData {
 export interface ResumeData {
   name: string; tagline: string; email: string; instagram: string; location: string;
   education: { institution: string; degree: string; minors?: string; years: string; note?: string }[];
+  honors: string[];
+  activities: { title: string; org: string; years: string; bullets: string[] }[];
   experience: { title: string; org: string; years: string; bullets: string[] }[];
   skills_summary: { category: string; items: string }[];
   projects: { title: string; description: string; url?: string }[];
   interests: string[];
+}
+
+export interface AchievementsData {
+  headline: string; subhead: string;
+  stats: { value: string; label: string; sublabel?: string }[];
+  leadership: { years: string; role: string; org: string; description: string }[];
+  coursework: { ap: string[]; honors: string[]; cte: string[] };
+  service: { headline: string; items: { hours: string; role: string; description: string }[] };
+  closing: string;
 }
 
 export const getSite = () => loadContent<SiteData>('site.yaml');
@@ -85,3 +96,4 @@ export const getSkills = () => loadContent<SkillsData>('skills.yaml');
 export const getInvesting = () => loadContent<InvestingData>('investing.yaml');
 export const getVision = () => loadContent<VisionData>('vision.yaml');
 export const getResume = () => loadContent<ResumeData>('resume.yaml');
+export const getAchievements = () => loadContent<AchievementsData>('achievements.yaml');
