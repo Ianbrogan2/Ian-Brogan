@@ -57,8 +57,8 @@
     const emaBuf: number[] = [];
     let forming: Candle = { o: price, h: price, l: price, c: price };
     let subTick = 0;
-    // eased visible price bounds
-    let lo = mid - 60, hi = mid + 60, scaled = false;
+    // fixed price range -> the chart never rescales, candles always stay on screen
+    const RANGE = 250;
 
     function tick() {
       // Sustained rallies / selloffs that flip every ~0.7-3s, plus noise and
@@ -68,10 +68,13 @@
         trend = (Math.random() - 0.47) * 1.9;
         regime = 40 + Math.floor(Math.random() * 150);
       }
-      vel = vel * 0.88 + trend + (Math.random() - 0.5) * 9;
-      if (Math.random() < 0.012) vel += (Math.random() - 0.5) * 130; // shock
+      vel = vel * 0.88 + trend + (Math.random() - 0.5) * 8;
+      if (Math.random() < 0.01) vel += (Math.random() - 0.5) * 70; // shock
       price += vel;
-      vel -= (price - mid) * 0.0009; // soft mean reversion keeps it on screen
+      vel -= (price - mid) * 0.0013; // mean reversion keeps it centered
+      // soft bounds so the price never leaves the visible band
+      if (price > mid + RANGE) { price = mid + RANGE; vel *= -0.4; }
+      else if (price < mid - RANGE) { price = mid - RANGE; vel *= -0.4; }
       ema += (price - ema) * emaK;
 
       forming.c = price;
@@ -95,16 +98,9 @@
       const drawn = candles.concat(forming);
       const emaDrawn = emaBuf.concat(ema);
 
-      // eased auto-scale to visible high/low
-      let mn = Infinity, mx = -Infinity;
-      for (const k of drawn) { if (k.l < mn) mn = k.l; if (k.h > mx) mx = k.h; }
-      const pad = (mx - mn) * 0.14 + 1;
-      if (!scaled) { lo = mn - pad; hi = mx + pad; scaled = true; }
-      else { lo += ((mn - pad) - lo) * 0.1; hi += ((mx + pad) - hi) * 0.1; }
-      const range = Math.max(1, hi - lo);
-
-      const top = H * 0.1, bot = H * 0.92;
-      const Y = (v: number) => bot - ((v - lo) / range) * (bot - top);
+      // fixed vertical scale: candles always stay on screen, no rescaling
+      const top = H * 0.12, bot = H * 0.88;
+      const Y = (v: number) => bot - ((v - (mid - RANGE)) / (2 * RANGE)) * (bot - top);
       const spacing = (W + 60) / VISIBLE;
       const bodyW = spacing * 0.6;
       const frac = subTick / TICKS_PER_CANDLE;       // smooth sub-candle scroll
@@ -113,7 +109,7 @@
 
       // faint horizontal price gridlines
       ctx!.lineWidth = 1;
-      ctx!.strokeStyle = `rgba(${GOLD}, 0.05)`;
+      ctx!.strokeStyle = `rgba(${GOLD}, 0.03)`;
       for (let g = 0; g <= 4; g++) {
         const gy = top + (g / 4) * (bot - top);
         ctx!.beginPath(); ctx!.moveTo(0, gy); ctx!.lineTo(W, gy); ctx!.stroke();
@@ -128,7 +124,7 @@
         if (x < -spacing || x > W + spacing) continue;
         const up = k.c >= k.o;
         const col = up ? GREEN : RED;
-        const a = i === last ? 0.85 : 0.5;       // forming candle brightest
+        const a = i === last ? 0.4 : 0.22;       // faded background candles, forming brightest
         // wick
         ctx!.strokeStyle = `rgba(${col}, ${a})`;
         ctx!.lineWidth = 1;
@@ -147,7 +143,7 @@
         const x = X(slot), y = Y(emaDrawn[i]);
         if (i === 0) ctx!.moveTo(x, y); else ctx!.lineTo(x, y);
       }
-      ctx!.strokeStyle = `rgba(${GOLD}, 0.55)`;
+      ctx!.strokeStyle = `rgba(${GOLD}, 0.28)`;
       ctx!.lineWidth = 1.5;
       ctx!.lineJoin = 'round';
       ctx!.stroke();
@@ -159,11 +155,11 @@
       const tint = upNow ? GREEN : RED;
       ctx!.setLineDash([4, 6]);
       ctx!.beginPath(); ctx!.moveTo(0, ly); ctx!.lineTo(lx, ly);
-      ctx!.strokeStyle = `rgba(${tint}, 0.22)`; ctx!.lineWidth = 1; ctx!.stroke();
+      ctx!.strokeStyle = `rgba(${tint}, 0.12)`; ctx!.lineWidth = 1; ctx!.stroke();
       ctx!.setLineDash([]);
-      ctx!.shadowBlur = 14; ctx!.shadowColor = `rgba(${tint}, 0.9)`;
-      ctx!.beginPath(); ctx!.arc(lx, ly, 3, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(${tint}, 1)`; ctx!.fill();
+      ctx!.shadowBlur = 10; ctx!.shadowColor = `rgba(${tint}, 0.7)`;
+      ctx!.beginPath(); ctx!.arc(lx, ly, 2.5, 0, Math.PI * 2);
+      ctx!.fillStyle = `rgba(${tint}, 0.75)`; ctx!.fill();
       ctx!.shadowBlur = 0;
     }
 
