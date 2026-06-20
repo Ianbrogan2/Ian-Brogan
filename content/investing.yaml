@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  05  —  INVESTING                                     ║
+# ║  EDIT FILE  05  -  INVESTING                                     ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - The /investing page: philosophy and how-I-think copy        ║
@@ -23,7 +23,7 @@ body:
   - "People treat index funds like the boring part of a portfolio, the thing you put money into when you don't have a better idea. I think that's backwards. SPY and RSP are the foundation everything else sits on top of, RSP especially, because it equal-weights the S&P 500 instead of letting a handful of mega-caps decide the whole return. QQQ gives me exposure to the companies actually building and funding the AI infrastructure everyone's talking about, the labs and the hardware behind them. SCHD is the slow compounder, dividend-paying, quality companies, sitting on DRIP so it reinvests itself without me touching it. Most of the money that moves through markets every day moves through funds like these, not through people picking individual names, and once you understand that, you start to see the market less as a casino and more as a machine with predictable plumbing."
   - "The individual names are where I take the conviction I've built from following the macro and sector trends. Cybersecurity (PANW, CRWD) came from working through U.S.-Iran tensions and figuring out who benefits when geopolitical risk rises. Energy and infrastructure (CVX, KMI) are there because I think energy security stays relevant no matter what administration is in power. The rest are smaller positions where I'm either learning a new sector, betting on a specific catalyst, or just tracking a company I think is mispriced, some of these are small enough that they're really just tuition, a way to learn what it feels like to be wrong or right with real money on the line."
 
-# Holdings — shown as a linked grid with hover detail (links to live TradingView quote)
+# Holdings - shown as a linked grid with hover detail (links to live TradingView quote)
 holdings:
   - symbol: "SPY"
     exchange: "AMEX"
@@ -92,4 +92,4 @@ holdings:
 # Career anchor
 career_note: "The goal: BlackRock internship → data analyst → fund manager. Every step is about building the foundation, skills, judgment, and a track record that speaks for itself."
 
-# No image needed here — this section is text-forward
+# No image needed here - this section is text-forward

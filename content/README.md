@@ -1,4 +1,4 @@
-# /content — editing map
+# /content - editing map
 
 Every piece of user-facing text and every image path on the site lives in
 this directory. Edit here; commit; the site updates in ~1 minute.
@@ -19,7 +19,7 @@ For step-by-step editing instructions, see `/EDITING.md` at the project root.
 | `investing.yaml` | Investing section: headline, body copy, philosophy bullets, career note |
 | `vision.yaml` | Vision section: schools list, career arc stages, closing line |
 | `resume.yaml` | /resume and /admissions pages: education, experience, skills summary, projects, interests |
-| `journal/` | Blog posts — one .mdx file per post |
+| `journal/` | Blog posts - one .mdx file per post |
 | `images/` | All photos used on the site |
 
 ---
@@ -44,4 +44,4 @@ See `MEDIA-TODO.md` at the project root for the full list of needed photos.
 
 - **No phone numbers** anywhere on the site (in any file)
 - **No specific dollar amounts or investment returns** in any copy
-- The `chart:` block at the bottom of `journey.yaml` — do not edit (rendering config)
+- The `chart:` block at the bottom of `journey.yaml` - do not edit (rendering config)

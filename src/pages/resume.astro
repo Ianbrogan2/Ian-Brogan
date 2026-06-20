@@ -9,9 +9,9 @@ const year = new Date().getFullYear();
 
 <Base
   title="Résumé"
-  description={`One-page résumé for ${r.name} — ${r.tagline}`}
+  description={`One-page résumé for ${r.name} · ${r.tagline}`}
 >
-  <!-- Print button — hidden in print -->
+  <!-- Print button · hidden in print -->
   <div class="print-controls no-print">
     <a href="/" class="back-link">← Back to site</a>
     <button onclick="window.print()" class="btn btn-primary print-btn">
@@ -64,7 +64,7 @@ const year = new Date().getFullYear();
       {r.activities.map(act => (
         <div class="resume-entry">
           <div class="entry-header">
-            <strong>{act.title} — {act.org}</strong>
+            <strong>{act.title} · {act.org}</strong>
             <span class="entry-date">{act.years}</span>
           </div>
           <ul class="entry-bullets">
@@ -79,7 +79,7 @@ const year = new Date().getFullYear();
       {r.experience.map(exp => (
         <div class="resume-entry">
           <div class="entry-header">
-            <strong>{exp.title} — {exp.org}</strong>
+            <strong>{exp.title} · {exp.org}</strong>
             <span class="entry-date">{exp.years}</span>
           </div>
           <ul class="entry-bullets">

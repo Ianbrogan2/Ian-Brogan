@@ -51,7 +51,7 @@ const { site } = Astro.props;
     })();
   </script>
   <nav aria-label="Main navigation">
-    <a href="/" class="nav-logo" aria-label="Ian Brogan — home">
+    <a href="/" class="nav-logo" aria-label="Ian Brogan, home">
       <span class="nav-logo-letters">Ian Brogan</span>
     </a>
 
@@ -135,7 +135,7 @@ const { site } = Astro.props;
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* backdrop-filter creates a containing block for fixed children — disable
+  /* backdrop-filter creates a containing block for fixed children · disable
      it while the mobile menu is open so #nav-menu's inset:0 stays viewport-relative */
   #site-nav:has(#nav-menu.open) {
     backdrop-filter: none !important;
@@ -255,7 +255,7 @@ const { site } = Astro.props;
 
     .nav-link {
       font-size: 1.25rem;
-      /* 56px min tap target — eliminates missed taps */
+      /* 56px min tap target · eliminates missed taps */
       padding: 0.9em 2em;
       min-height: 56px;
       display: flex;

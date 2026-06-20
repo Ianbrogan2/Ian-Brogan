@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  08  —  JOURNEY (life graph)                          ║
+# ║  EDIT FILE  08  -  JOURNEY (life graph)                          ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - The stock-market style life-timeline graph                  ║
@@ -28,7 +28,7 @@ milestones:
   - age: 13.5
     value: 115
     label: "Independent study year"
-    description: "A medical pivot, not a setback. It became a launchpad for self-teaching design, 3D printing, and craft."
+    description: "A medical pivot, not a setback. I stayed on track and went deep on design, 3D printing, and craft."
     type: "past"
 
   - age: 14.5
@@ -40,7 +40,7 @@ milestones:
   - age: 15.5
     value: 265
     label: "Design, 3D printing & making"
-    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Mastered the full Adobe suite, all self-directed."
+    description: "Built a resin table. Designed and vinyl-wrapped a custom 3D-printed spoiler shelf. Built real fluency across the full Adobe suite."
     type: "past"
 
   - age: 16.5
@@ -52,13 +52,13 @@ milestones:
   - age: 17
     value: 430
     label: "CTE program revamp"
-    description: "Entrusted with a six-figure budget to overhaul a CTE program launching summer 2026."
+    description: "Entrusted with a six-figure budget to lead my school's CTE broadcast program through a full relaunch, the work I'm leading right now."
     type: "past"
 
   - age: 17.5
     value: 465
     label: "Present, Summer 2026"
-    description: "Building toward college, compounding every skill."
+    description: "Leading the ENN Studios relaunch and building toward college."
     type: "current"
 
   - age: 18.5
@@ -103,7 +103,7 @@ milestones:
     description: "Where the two worlds finally merge. Precision in the growing season. Patience in the aging barrel."
     type: "future"
 
-# Unlabeled volatility points — these make the line look like a real equity curve.
+# Unlabeled volatility points - these make the line look like a real equity curve.
 # Add more if you want more texture; remove some for a cleaner look.
 noise_points:
   - age: 10.6

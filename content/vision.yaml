@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  06  —  VISION / GOALS                                ║
+# ║  EDIT FILE  06  -  VISION / GOALS                                ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - The /vision page: target schools and the career roadmap     ║
@@ -21,7 +21,7 @@ subhead: "I'm not looking for a job. I'm building toward something specific, and
 
 # Target schools for college
 schools:
-  headline: "Where I'm applying"
+  headline: "Where I'm applying, fall 2026"
   items:
     - name: "Cal Poly SLO"
       program: "Business Economics + Data Analytics"
@@ -33,7 +33,7 @@ schools:
       program: "Business / Haas + Data Analytics"
       note: "Haas is one of the best direct pipelines into finance in the country. The ceiling is worth shooting for."
 
-# Career arc — shown as a styled timeline
+# Career arc - shown as a styled timeline
 career_arc:
   headline: "The arc"
   stages:
@@ -42,7 +42,7 @@ career_arc:
       detail: "Business Economics major with a Data Analytics focus. A Viticulture & Enology or Film/Production minor if the schedule allows. Both are part of the larger picture."
     - phase: "Early career"
       label: "BlackRock internship"
-      detail: "I have a family connection that opens the door. What I bring through it is seven years of self-directed market study, a real portfolio, and a framework I've actually tested."
+      detail: "I have a family connection that opens the door. What I bring through it is seven years of real market study, an active portfolio, and a framework I've actually tested."
     - phase: "Building"
       label: "Data analyst → senior analyst"
       detail: "Learn how institutional capital moves at scale. Build the quantitative depth and pattern recognition that fund management actually requires, not just the title."

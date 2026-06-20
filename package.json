@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "guard": "if grep -rIn '—' content src; then echo 'FAIL: em dash found'; exit 1; fi; if grep -rInE 'self-taught|self-teaching|self-directed' content/journal content/journey.yaml src; then echo 'FAIL: self-* framing found'; exit 1; fi; echo 'guard passed'"
   },
   "dependencies": {
     "astro": "^5.1.0",

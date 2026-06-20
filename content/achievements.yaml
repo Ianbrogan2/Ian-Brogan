@@ -1,57 +1,88 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  09  —  SCHOOL ACHIEVEMENTS                           ║
+# ║  EDIT FILE  09  -  SCHOOL ACHIEVEMENTS                           ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
-# ║    - The /achievements page: academic stats, leadership          ║
-# ║      timeline, coursework, and community service                 ║
+# ║    - The /achievements page: stats, leadership case studies,     ║
+# ║      coursework, biliteracy, and community service               ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  HOW TO EDIT:                                                     ║
-# ║    Edit the text inside the quotes. Keep section structure as-is. ║
+# ║    Edit the text inside the quotes. Each leadership entry has a   ║
+# ║    responsibility / decision / result trio shown when clicked.    ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  HARD RULES - do not change these:                                ║
 # ║    - No phone number, no dollar amounts/income figures            ║
-# ║    - "six-figure" framing for the CTE budget, never a dollar      ║
-# ║      figure                                                        ║
+# ║    - "six-figure" only, never a dollar figure                     ║
 # ║    - No em dashes                                                  ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 headline: "School Achievements."
-subhead: "Academics, leadership, and community service. The part of the story that doesn't show up on the rest of the site."
+subhead: "Academics, leadership, and community service. The record behind the rest of the site."
 
-# Top stat strip
+# Top stat strip (static, no count-up animation)
 stats:
   - value: "4.22"
     label: "Weighted GPA"
     sublabel: "3.81 unweighted"
-  - value: "84 / 632"
+  - value: "Top 14%"
     label: "Class Rank"
+    sublabel: "84 of 632"
   - value: "130+"
     label: "Community service hours"
     sublabel: "30 required"
   - value: "Golden State Seal"
     label: "Merit Diploma"
-    sublabel: "Awarded for academic excellence and civic engagement"
+    sublabel: "Tap to see what it means"
 
-# Leadership & activities timeline
+# What the Golden State Seal actually certifies (shown in a click-to-open modal)
+sealCriteria: "A California State Board of Education honor for demonstrating B+ or higher mastery across six core subject areas. It is awarded on the diploma to recognize sustained academic excellence."
+
+# Bilingual / biliteracy credential
+biliteracy: "Bilingual through my school's Dual Language Immersion pathway since elementary school, reinforced with AP Spanish Language. I served as Vice President of the DLI Club my freshman year and later volunteered back at the elementary school where it started."
+
+# Leadership and activities, chronological. Each entry expands into a
+# responsibility / decision / result case study.
 leadership:
-  - years: "2022 – 2023"
+  - years: "2022 to 2023"
+    grade: "Freshman"
     role: "Vice President"
     org: "Dual Language Immersion Club"
-    description: "As a freshman, helped lead the club's events calendar and fundraising efforts, supporting a program that's been part of my education since elementary school."
-  - years: "2023 – 2024"
+    description: "Helped lead the club's events and fundraising as a freshman."
+    responsibility: "Stepped into a leadership seat as a freshman in the immersion program I had been part of since elementary school."
+    decision: "Organized club events and ran fundraising so the program had the resources to keep growing."
+    result: "Built early experience leading peers and raising money, the same skills I would later use running a studio."
+
+  - years: "2023 to 2024"
+    grade: "Sophomore"
     role: "Independent Study"
-    org: "Self-directed coursework"
-    description: "Worked through most of a school year independently due to a health complication, staying on track academically while managing it on my own terms."
-  - years: "2024 – 2025"
+    org: "A medical year, on my own schedule"
+    description: "Completed most of the year via independent study due to a health complication, and stayed on track."
+    responsibility: "Kept my academics moving through a health complication with no normal class schedule."
+    decision: "Held a full course load on independent study and went deep on design, CAD, and making in the time I had."
+    result: "Held a 4.22 weighted GPA and stayed on the path to the Golden State Seal Merit Diploma without missing a step."
+
+  - years: "2024 to 2025"
+    grade: "Junior"
     role: "Lead Studio Director"
     org: "ENN Studios (Eastlake News Network)"
-    description: "Promoted to lead director of our broadcast program, overseeing daily production: filming, editing, color grading, audio, and graphics for every episode."
-  - years: "2025 – 2026"
+    description: "Promoted to lead director of the daily broadcast."
+    responsibility: "Took over daily production for the school's broadcast program."
+    decision: "Directed, edited, color graded, and ran audio and graphics for every episode, and set the production standard."
+    result: "Raised the quality bar of the daily broadcast and earned the trust that led to the presidency."
+
+  - years: "2025 to 2026"
+    grade: "Senior"
     role: "President"
     org: "ENN Studios (Eastlake News Network)"
-    description: "Now leading the program's full rebrand, new graphics, systems, logos, and a new website, while fundraising for sets and production equipment, and entrusted with a six-figure budget to relaunch the program from the ground up."
+    description: "Leading a six-figure relaunch of the program."
+    responsibility: "Entrusted as president with a six-figure budget to relaunch the entire CTE broadcast program."
+    decision: "Rebuilding the program's identity and systems: a new logo set, an on-air graphics system, a standardized production workflow, and a new program website."
+    result: "Shipping a relaunched program this year, with repeatable systems the next class can operate. Owning a rebuild this size taught me to think in systems, the same way I think about markets."
+    whyItMattered: "This is where my two worlds met: the design eye and the systems thinking I use on a portfolio, applied to building something real that outlasts me."
+    beforeAfter:
+      before: "Inherited an aging identity, ad hoc graphics, and no standard workflow."
+      after: "Relaunched with a unified logo set, a reusable on-air graphics system, a documented production pipeline, and a live program website."
 
-# Coursework
+# Coursework (count badges are generated from these lists)
 coursework:
   ap:
     - "AP English Literature & Composition"
@@ -64,18 +95,18 @@ coursework:
     - "Chemistry Honors"
     - "U.S. History Honors"
   cte:
-    - "CTE TV, Film & Digital Media (broadcast/performing arts)"
+    - "CTE TV, Film & Digital Media"
     - "CTE Multimedia Production"
 
-# Community service breakdown
+# Community service, framed by impact and concentration
 service:
-  headline: "Community service: 130+ hours"
+  headline: "130+ service hours, 100 of them on one program"
   items:
     - hours: "100 hours"
-      role: "ENN Studio Director"
-      description: "Production work and the studio rebrand, building out graphics, systems, and the program's new identity for the next class to inherit."
+      role: "ENN Studios rebuild"
+      description: "Most of my service went into rebuilding the broadcast program: graphics, systems, and an identity the next class inherits."
     - hours: "30 hours"
-      role: "Elementary school assistant"
-      description: "Helped classroom staff and students at my old elementary school, the same place my Dual Language Immersion track started."
+      role: "Elementary school, a return to roots"
+      description: "Volunteered back at my old elementary school, the same place my Dual Language Immersion path began. The 30 hours cleared the requirement; the program work is where I went well past it."
 
-closing: "None of this happened in a straight line, and that's kind of the point. Independent study, a club I helped lead as a freshman, and a studio I now run as a senior are all part of the same thread: showing up, even when the year doesn't go the way you planned."
+closing: "None of this happened in a straight line, and that is the point. A club I helped lead as a freshman, a medical year I refused to lose, and a studio I now run as a senior are all the same thread: showing up, even when the year does not go the way you planned."

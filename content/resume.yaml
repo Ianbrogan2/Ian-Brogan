@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  07  —  RESUME / ADMISSIONS                           ║
+# ║  EDIT FILE  07  -  RESUME / ADMISSIONS                           ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - The /resume (print view) and /admissions pages              ║
@@ -26,7 +26,7 @@ location: "California"
 education:
   - institution: "Target: Cal Poly SLO / UC Davis / UC Berkeley"
     degree: "B.S. Business Economics"
-    minors: "Data Analytics & Excel Modeling; weighing Viticulture & Enology or Film/Production"
+    minors: "Data Analytics and Viticulture & Enology"
     years: "2026–2030 (projected)"
     note: "Rising senior, applying fall 2026"
 
@@ -74,12 +74,12 @@ experience:
       - "Directed, edited, and color-graded content using Premiere Pro, After Effects, and the full Adobe suite"
       - "Mentored peers in production workflow, audio, and post-production"
 
-  - title: "CTE Program Revamp, Lead"
+  - title: "CTE Program Relaunch, Lead"
     org: "Career Technical Education"
-    years: "Summer 2026"
+    years: "2026 (in progress)"
     bullets:
-      - "Entrusted with a six-figure budget to overhaul and relaunch a CTE program from the ground up"
-      - "Responsible for curriculum design, equipment procurement, and brand identity"
+      - "Leading a six-figure relaunch of the school's CTE broadcast program: curriculum, equipment, and brand identity"
+      - "Building repeatable production systems and a new program identity the next class can operate"
 
   - title: "Investor"
     org: "Personal"

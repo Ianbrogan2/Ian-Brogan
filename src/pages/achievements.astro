@@ -1,19 +1,35 @@
 ---
 import Page from '../layouts/Page.astro';
 import Achievements from '../components/Achievements.astro';
-import { getAchievements } from '../lib/content';
+import Journey from '../components/Journey.astro';
+import { getAchievements, getJourney } from '../lib/content';
 
 const achievements = getAchievements();
+const journey = getJourney();
 ---
 
 <Page title="Achievements" description="Ian Brogan's academic record, leadership roles, and community service.">
+  <!-- Scroll progress bar -->
+  <div id="am-progress" aria-hidden="true"></div>
+
   <div class="page-hero container">
     <span class="eyebrow">Achievements</span>
     <span class="rule-gold"></span>
     <h1>{achievements.headline}</h1>
     <p class="lead">{achievements.subhead}</p>
   </div>
+
   <Achievements data={achievements} />
+
+  <!-- Trajectory: life plotted as a market -->
+  <section class="trajectory" id="trajectory" data-am-section aria-labelledby="trajectory-h">
+    <div class="container trajectory-head">
+      <span class="eyebrow">My trajectory</span>
+      <h2 id="trajectory-h">The whole arc, plotted as a market.</h2>
+      <p class="lead">Every milestone as a data point. The past is solid, the future is the plan. Tap any point to read it.</p>
+    </div>
+    <Journey data={journey} />
+  </section>
 </Page>
 
 <style>
@@ -23,4 +39,42 @@ const achievements = getAchievements();
     border-bottom: 1px solid var(--color-border);
   }
   h1 { margin-bottom: 1rem; }
+
+  #am-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--color-gold);
+    z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  .trajectory {
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    padding-top: clamp(3rem, 6vw, 5rem);
+  }
+  .trajectory-head { margin-bottom: 1rem; }
+  .trajectory-head h2 {
+    font-family: var(--font-display);
+    color: var(--color-text);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    margin: 0.75rem 0 1rem;
+  }
 </style>
+
+<script>
+  const bar = document.getElementById('am-progress');
+  if (bar) {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      bar.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

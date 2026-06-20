@@ -1,6 +1,8 @@
 ---
 import Page from '../layouts/Page.astro';
 import Hero from '../components/Hero.astro';
+import CredentialsStrip from '../components/CredentialsStrip.astro';
+import EnnProofBlock from '../components/EnnProofBlock.astro';
 import { getSite } from '../lib/content';
 
 const site = getSite();
@@ -9,7 +11,13 @@ const site = getSite();
 <Page>
   <Hero site={site} />
 
-  <!-- The Goal — aspirations + proof, the engine of the homepage -->
+  <!-- Credentials at a glance, immediately after the hero -->
+  <CredentialsStrip />
+
+  <!-- Leadership proof, before the finance career arc -->
+  <EnnProofBlock />
+
+  <!-- The Goal · aspirations + proof, the engine of the homepage -->
   <section class="goal" aria-label="The goal">
     <div class="container goal-inner">
       <span class="eyebrow">The Goal</span>

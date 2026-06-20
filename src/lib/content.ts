@@ -82,7 +82,15 @@ export interface ResumeData {
 export interface AchievementsData {
   headline: string; subhead: string;
   stats: { value: string; label: string; sublabel?: string }[];
-  leadership: { years: string; role: string; org: string; description: string }[];
+  sealCriteria: string;
+  biliteracy: string;
+  leadership: {
+    years: string; grade: string; role: string; org: string;
+    description: string;
+    responsibility: string; decision: string; result: string;
+    whyItMattered?: string;
+    beforeAfter?: { before: string; after: string };
+  }[];
   coursework: { ap: string[]; honors: string[]; cte: string[] };
   service: { headline: string; items: { hours: string; role: string; description: string }[] };
   closing: string;

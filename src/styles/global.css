@@ -15,7 +15,7 @@
   --color-border:   #1F1F24;
   --color-border-lt: #2A2A31;
 
-  /* Primary accent — gold */
+  /* Primary accent · gold */
   --color-gold:     #C9A227;
   --color-gold-lt:  #DDB83A;
   --color-gold-dim: rgba(201, 162, 39, 0.15);
@@ -29,7 +29,7 @@
   --color-green:    #22C55E;
   --color-red:      #EF4444;
 
-  /* Legacy aliases (used by existing components — kept for compatibility) */
+  /* Legacy aliases (used by existing components · kept for compatibility) */
   --color-oxblood:    #C9A227;
   --color-oxblood-dk: #B8901F;
   --color-bone:       #080809;
@@ -77,6 +77,13 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Focus visibility (keyboard) ─────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 body {

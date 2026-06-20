@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  01  —  SITE-WIDE: HERO, NAV, CONTACT, FOOTER         ║
+# ║  EDIT FILE  01  -  SITE-WIDE: HERO, NAV, CONTACT, FOOTER         ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - Page title, description (SEO)                               ║
@@ -35,9 +35,9 @@ contact:
   instagram_main_url: "https://instagram.com/ianbrogan1227"
   instagram_food_handle: "@brogan.bites"
   instagram_food_url: "https://instagram.com/brogan.bites"
-  # linkedin_url: ""       # TODO: add when ready — remove the # to enable
-  # github_url: ""         # TODO: add when ready — remove the # to enable
-  # phone: ""              # PERMANENTLY DISABLED — do not display
+  # linkedin_url: ""       # TODO: add when ready - remove the # to enable
+  # github_url: ""         # TODO: add when ready - remove the # to enable
+  # phone: ""              # PERMANENTLY DISABLED - do not display
 
 # ── Hero ────────────────────────────────────────────────────
 hero:
@@ -48,7 +48,7 @@ hero:
   cta_primary_href: "#about"
   cta_secondary_label: "See the work"
   cta_secondary_href: "#portfolio"
-  # Path to hero image — swap by uploading to /content/images and changing this path
+  # Path to hero image - swap by uploading to /content/images and changing this path
   image: "/content/images/hero-placeholder.jpg"
   image_alt: "Ian Brogan, photo coming soon"
 

@@ -1,5 +1,5 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  EDIT FILE  02  —  ABOUT / MY STORY                              ║
+# ║  EDIT FILE  02  -  ABOUT / MY STORY                              ║
 # ╠══════════════════════════════════════════════════════════════════╣
 # ║  WHAT THIS FILE CONTROLS:                                         ║
 # ║    - The About page story text (headline, subhead, paragraphs)   ║
@@ -26,13 +26,14 @@ body:
   - "That's led me down a lot of different paths: markets and finance, film and production, graphics, building things in resin, woodworking, crochet, CAD, and cooking at a professional level. People sometimes assume that's scattered. It's not. It's just how my brain works, and I've learned to use it instead of fighting it."
   - "My family has been a huge part of all of it. They're the reason I got my start in markets at ten, and they've supported every random rabbit hole since, whether that was a new hobby, a business idea, or a skill I decided I needed to learn that week."
   - "That drive carries over into school too. I'm President of ENN Studios, our school's broadcast program, after starting as Vice President of the Dual Language Immersion Club my freshman year. Between leading ENN's rebrand and helping out at my old elementary school, I've put in well over a hundred hours of community service, and I've kept a 4.22 weighted GPA along the way, which earned me the Golden State Seal Merit Diploma."
-  - "Outside of school I've got a smaller circle that matters just as much: golf and skiing when I get the chance, fishing with my cousin, family trips through wine country, and Friday nights at Ohr Shalom Synagogue."
+  - "Outside of school I've got a smaller circle that matters just as much: golf and skiing when I get the chance, fishing with my cousin, and family trips through wine country."
+  - "My roots run through a few communities at once. I'm Spanish, Mexican, Irish, and German. I grew up in a Dual Language Immersion program I later helped lead, I'm bilingual because of it, and I spend Friday nights with my community at Ohr Shalom Synagogue. My grandfather served in the U.S. Air Force, and my dad is a civilian mechanical engineer who works on Navy programs. All of it is part of how I see the world."
   - "This site is a journal of all of it: who I am, what I've built, and where I'm headed. If you want the deep dive on how I think about markets specifically, that's the investing page. This page is everything else, the full picture of me."
 
-# The duality callout — shown as a visual pull-quote
+# The duality callout - shown as a visual pull-quote
 duality_quote: "If something interests me, I go all in until I understand how it actually works."
 
-# Stats / quick facts — shown as a scannable accent row
+# Stats / quick facts - shown as a scannable accent row
 facts:
   - label: "Age"
     value: "17"
@@ -49,6 +50,6 @@ facts:
   - label: "Honors"
     value: "Golden State Seal Merit Diploma"
 
-# Photo path — swap by uploading to /content/images and updating this
+# Photo path - swap by uploading to /content/images and updating this
 image: "/content/images/about-placeholder.jpg"
 image_alt: "Ian Brogan, photo coming soon"
