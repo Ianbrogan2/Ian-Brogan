@@ -59,6 +59,19 @@
   --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Motion system ──────────────────────────────────────────
+     Personality: SMOOTH & WEIGHTY. Things arrive on a confident
+     expo-decelerate, settle with intent; only gold accents spring.
+     Transform/opacity only. Reduced-motion collapses to end-state. */
+  --dur-fast:  0.16s;   /* taps, presses, small state flips */
+  --dur-base:  0.32s;   /* hovers, lifts, most transitions   */
+  --dur-slow:  0.6s;    /* section reveals, larger moves      */
+  --dur-draw:  1.2s;    /* line draws, big choreography        */
+  --reveal-dist: 1.75rem;
+  --stagger:   0.08s;
+  --hover-lift: -4px;
+  --press-scale: 0.97;
 }
 
 /* ── Base ────────────────────────────────────────────────── */
@@ -228,6 +241,24 @@ a:hover { color: var(--color-gold-lt); }
   border-color: var(--color-border-lt);
 }
 
+/* Press feedback - every button responds physically. A gold sheen
+   sweeps across on hover via the ::before, the whole control dips on press. */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(237,232,223,0.14) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-slow) var(--ease-expo);
+  pointer-events: none;
+}
+.btn:hover::before { transform: translateX(120%); }
+.btn:active {
+  transform: scale(var(--press-scale)) translateY(0);
+  transition-duration: var(--dur-fast);
+}
+.btn-primary:active { box-shadow: 0 2px 12px rgba(201, 162, 39, 0.25); }
+
 /* ── Section label / eyebrow ─────────────────────────────── */
 .eyebrow {
   display: inline-block;
@@ -258,17 +289,46 @@ a:hover { color: var(--color-gold-lt); }
 /* ── Reveal animations ───────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(2.5rem);
-  transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+  transform: translateY(var(--reveal-dist));
+  transition: opacity var(--dur-slow) var(--ease-expo), transform var(--dur-slow) var(--ease-expo);
 }
 .reveal.visible {
   opacity: 1;
   transform: none;
 }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-1 { transition-delay: calc(1 * var(--stagger)); }
+.reveal-delay-2 { transition-delay: calc(2 * var(--stagger)); }
+.reveal-delay-3 { transition-delay: calc(3 * var(--stagger)); }
+.reveal-delay-4 { transition-delay: calc(4 * var(--stagger)); }
+
+/* Varied reveals - different elements move differently, for rhythm.
+   Auto-staggered when grouped under [data-reveal-group] (see motion.ts). */
+.reveal--up    { transform: translateY(var(--reveal-dist)); }
+.reveal--left  { opacity: 0; transform: translateX(calc(-1 * var(--reveal-dist))); transition: opacity var(--dur-slow) var(--ease-expo), transform var(--dur-slow) var(--ease-expo); }
+.reveal--right { opacity: 0; transform: translateX(var(--reveal-dist)); transition: opacity var(--dur-slow) var(--ease-expo), transform var(--dur-slow) var(--ease-expo); }
+.reveal--scale { opacity: 0; transform: scale(0.94); transition: opacity var(--dur-slow) var(--ease-expo), transform var(--dur-slow) var(--ease-spring); }
+.reveal--left.visible, .reveal--right.visible, .reveal--scale.visible { opacity: 1; transform: none; }
+
+/* Link underline-draw - inline text links wipe a gold underline in */
+.link-draw {
+  position: relative;
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur-base) var(--ease-expo), color var(--dur-base) var(--ease-expo);
+}
+.link-draw:hover, .link-draw:focus-visible { background-size: 100% 1.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal--up, .reveal--left, .reveal--right, .reveal--scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .btn::before { display: none; }
+}
 
 /* ── Gold accent line ─────────────────────────────────────── */
 .rule-gold {

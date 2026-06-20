@@ -1,0 +1,217 @@
+---
+// Showpiece 1: a LIVE candlestick chart behind the hero name.
+// Real-time OHLC candles (green up / red down with wicks) that form tick by
+// tick and scroll left, a gold moving-average overlay, faint price gridlines,
+// and a glowing last-price tag. Trend regimes + volatility shocks make it
+// rally and crash cinematically. Dark palette with gold accents preserved.
+// Lazy, 60fps, canvas-only, reduced-motion renders a single static frame.
+---
+<canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
+
+<style>
+  .hero-field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-expo);
+  }
+  .hero-field.ready { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-field { transition: none; opacity: 1; }
+  }
+</style>
+
+<script>
+  function initHeroField() {
+    const canvas = document.getElementById('hero-field') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    if (canvas.dataset.bound === '1') return; // guard against double-init
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    canvas.dataset.bound = '1';
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0;
+
+    const GOLD = '201, 162, 39';
+    const GREEN = '34, 197, 94';
+    const RED = '239, 68, 68';
+
+    // Pointer parallax (subtle)
+    const ptr = { x: 0.5, tx: 0.5 };
+
+    // ── Price model ─────────────────────────────────────────
+    type Candle = { o: number; h: number; l: number; c: number };
+    const VISIBLE = 60;                  // candles across the width
+    const TICKS_PER_CANDLE = 7;          // ticks aggregated into one candle
+    const mid = 500;
+    let price = mid, vel = 0, trend = 0, regime = 0;
+    let ema = mid;
+    const emaK = 2 / (18 + 1);
+    const candles: Candle[] = [];
+    const emaBuf: number[] = [];
+    let forming: Candle = { o: price, h: price, l: price, c: price };
+    let subTick = 0;
+    // eased visible price bounds
+    let lo = mid - 60, hi = mid + 60, scaled = false;
+
+    function tick() {
+      // Sustained rallies / selloffs that flip every ~0.7-3s, plus noise and
+      // the occasional violent shock. Sharp, jagged, real-looking action.
+      regime--;
+      if (regime <= 0) {
+        trend = (Math.random() - 0.47) * 1.9;
+        regime = 40 + Math.floor(Math.random() * 150);
+      }
+      vel = vel * 0.88 + trend + (Math.random() - 0.5) * 9;
+      if (Math.random() < 0.012) vel += (Math.random() - 0.5) * 130; // shock
+      price += vel;
+      vel -= (price - mid) * 0.0009; // soft mean reversion keeps it on screen
+      ema += (price - ema) * emaK;
+
+      forming.c = price;
+      if (price > forming.h) forming.h = price;
+      if (price < forming.l) forming.l = price;
+
+      subTick++;
+      if (subTick >= TICKS_PER_CANDLE) {
+        candles.push(forming);
+        emaBuf.push(ema);
+        if (candles.length > VISIBLE + 2) { candles.shift(); emaBuf.shift(); }
+        forming = { o: price, h: price, l: price, c: price };
+        subTick = 0;
+      }
+    }
+
+    function draw() {
+      ctx!.clearRect(0, 0, W, H);
+      ptr.x += (ptr.tx - ptr.x) * 0.05;
+
+      const drawn = candles.concat(forming);
+      const emaDrawn = emaBuf.concat(ema);
+
+      // eased auto-scale to visible high/low
+      let mn = Infinity, mx = -Infinity;
+      for (const k of drawn) { if (k.l < mn) mn = k.l; if (k.h > mx) mx = k.h; }
+      const pad = (mx - mn) * 0.14 + 1;
+      if (!scaled) { lo = mn - pad; hi = mx + pad; scaled = true; }
+      else { lo += ((mn - pad) - lo) * 0.1; hi += ((mx + pad) - hi) * 0.1; }
+      const range = Math.max(1, hi - lo);
+
+      const top = H * 0.1, bot = H * 0.92;
+      const Y = (v: number) => bot - ((v - lo) / range) * (bot - top);
+      const spacing = (W + 60) / VISIBLE;
+      const bodyW = spacing * 0.6;
+      const frac = subTick / TICKS_PER_CANDLE;       // smooth sub-candle scroll
+      const parX = (ptr.x - 0.5) * 18;
+      const X = (slotFromRight: number) => W - (slotFromRight + frac) * spacing + parX;
+
+      // faint horizontal price gridlines
+      ctx!.lineWidth = 1;
+      ctx!.strokeStyle = `rgba(${GOLD}, 0.05)`;
+      for (let g = 0; g <= 4; g++) {
+        const gy = top + (g / 4) * (bot - top);
+        ctx!.beginPath(); ctx!.moveTo(0, gy); ctx!.lineTo(W, gy); ctx!.stroke();
+      }
+
+      // candles
+      const last = drawn.length - 1;
+      for (let i = 0; i < drawn.length; i++) {
+        const k = drawn[i];
+        const slot = last - i;
+        const x = X(slot);
+        if (x < -spacing || x > W + spacing) continue;
+        const up = k.c >= k.o;
+        const col = up ? GREEN : RED;
+        const a = i === last ? 0.85 : 0.5;       // forming candle brightest
+        // wick
+        ctx!.strokeStyle = `rgba(${col}, ${a})`;
+        ctx!.lineWidth = 1;
+        ctx!.beginPath(); ctx!.moveTo(x, Y(k.h)); ctx!.lineTo(x, Y(k.l)); ctx!.stroke();
+        // body
+        const yo = Y(k.o), yc = Y(k.c);
+        const bt = Math.min(yo, yc), bh = Math.max(1, Math.abs(yc - yo));
+        ctx!.fillStyle = `rgba(${col}, ${a})`;
+        ctx!.fillRect(x - bodyW / 2, bt, bodyW, bh);
+      }
+
+      // gold moving-average overlay
+      ctx!.beginPath();
+      for (let i = 0; i < emaDrawn.length; i++) {
+        const slot = (emaDrawn.length - 1) - i;
+        const x = X(slot), y = Y(emaDrawn[i]);
+        if (i === 0) ctx!.moveTo(x, y); else ctx!.lineTo(x, y);
+      }
+      ctx!.strokeStyle = `rgba(${GOLD}, 0.55)`;
+      ctx!.lineWidth = 1.5;
+      ctx!.lineJoin = 'round';
+      ctx!.stroke();
+
+      // last-price tag: dashed guide + glow dot, tinted by last move
+      const lc = drawn[last];
+      const lx = X(0), ly = Y(lc.c);
+      const upNow = lc.c >= lc.o;
+      const tint = upNow ? GREEN : RED;
+      ctx!.setLineDash([4, 6]);
+      ctx!.beginPath(); ctx!.moveTo(0, ly); ctx!.lineTo(lx, ly);
+      ctx!.strokeStyle = `rgba(${tint}, 0.22)`; ctx!.lineWidth = 1; ctx!.stroke();
+      ctx!.setLineDash([]);
+      ctx!.shadowBlur = 14; ctx!.shadowColor = `rgba(${tint}, 0.9)`;
+      ctx!.beginPath(); ctx!.arc(lx, ly, 3, 0, Math.PI * 2);
+      ctx!.fillStyle = `rgba(${tint}, 1)`; ctx!.fill();
+      ctx!.shadowBlur = 0;
+    }
+
+    function frame() {
+      if (!document.hidden) { tick(); draw(); }
+    }
+
+    function resize() {
+      const r = canvas!.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas!.width = Math.round(W * dpr);
+      canvas!.height = Math.round(H * dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    let raf = 0;
+    function loop() { frame(); raf = requestAnimationFrame(loop); }
+
+    function pointerHandler(e: PointerEvent) { ptr.tx = e.clientX / window.innerWidth; }
+
+    function cleanup() {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('pointermove', pointerHandler);
+    }
+
+    resize();
+    canvas.classList.add('ready');
+
+    // warm up so it opens mid-action with a full chart already on screen
+    for (let k = 0; k < VISIBLE * TICKS_PER_CANDLE + 60; k++) tick();
+    draw(); // paint one frame immediately (never blank, and covers reduced-motion)
+
+    if (reduce) return;
+
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('pointermove', pointerHandler, { passive: true });
+    raf = requestAnimationFrame(loop);
+    document.addEventListener('astro:before-swap', cleanup, { once: true });
+  }
+
+  if ('requestIdleCallback' in window) {
+    (window as any).requestIdleCallback(initHeroField, { timeout: 600 });
+  } else {
+    setTimeout(initHeroField, 200);
+  }
+  document.addEventListener('astro:page-load', () => {
+    const c = document.getElementById('hero-field');
+    if (c && c.dataset.bound !== '1') initHeroField();
+  });
+</script>

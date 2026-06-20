@@ -79,15 +79,27 @@ const canonicalURL = new URL(Astro.url.pathname, site.meta.url);
   <body class={bodyClass}>
     <slot />
     <script>
-      // Reveal-on-scroll observer
-      const reveals = document.querySelectorAll('.reveal');
-      if (reveals.length) {
+      // Global motion runtime. Runs on first paint AND after every view
+      // transition (astro:page-load), so reveals re-arm on navigation.
+      function initReveals() {
+        const sel = '.reveal, .reveal--up, .reveal--left, .reveal--right, .reveal--scale';
+        const reveals = document.querySelectorAll(sel);
+        if (!reveals.length) return;
+        // Auto-stagger direct children of any [data-reveal-group]
+        document.querySelectorAll('[data-reveal-group]').forEach((group) => {
+          Array.from(group.children).forEach((child, i) => {
+            if (child.matches(sel)) {
+              (child as HTMLElement).style.transitionDelay = (i * 0.08) + 's';
+            }
+          });
+        });
         const io = new IntersectionObserver(
           (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
-          { threshold: 0.05 }
+          { threshold: 0.05, rootMargin: '0px 0px -8% 0px' }
         );
         reveals.forEach(el => io.observe(el));
       }
+      document.addEventListener('astro:page-load', initReveals);
     </script>
   </body>
 </html>

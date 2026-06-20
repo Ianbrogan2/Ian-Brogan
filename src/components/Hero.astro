@@ -1,5 +1,6 @@
 ---
 import type { SiteData } from '../lib/content';
+import HeroField from './HeroField.astro';
 interface Props { site: SiteData; }
 const { site } = Astro.props;
 const { contact } = site;
@@ -13,12 +14,7 @@ const { contact } = site;
   <!-- Background layer -->
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-grid"></div>
-    <svg class="hero-chart" viewBox="0 0 1400 500" preserveAspectRatio="none">
-      <path class="chart-path"
-        d="M-10,480 C80,460 140,430 220,390 C300,350 340,370 420,320
-           C500,270 560,250 660,200 C760,150 820,185 920,140
-           C1020,95 1090,115 1190,70 C1280,30 1350,40 1410,20" />
-    </svg>
+    <HeroField />
   </div>
 
   <div class="hero-inner container">
@@ -30,9 +26,12 @@ const { contact } = site;
     </div>
 
     <!-- Name · the headline -->
-    <h1 class="hero-name">
-      <span class="hl-wrap"><span class="hl-line hl-1">Ian</span></span>
-      <span class="hl-wrap"><span class="hl-line hl-2">Brogan.</span></span>
+    <h1 class="hero-name" id="hero-name">
+      {['Ian', 'Brogan.'].map((line, li) => (
+        <span class="hl-wrap"><span class={`hl-line hl-${li + 1}`}>
+          {line.split('').map((ch) => <span class="hl-char">{ch}</span>)}
+        </span></span>
+      ))}
     </h1>
 
     <!-- Value prop + trajectory · scholarship-legible in one read -->
@@ -194,6 +193,9 @@ const { contact } = site;
     display: block;
     transform: translateY(110%);
   }
+  .hl-char {
+    display: inline-block;
+  }
   .hl-1 { animation: line-rise 1s var(--ease-quart) 0.35s both; }
   .hl-2 { animation: line-rise 1s var(--ease-quart) 0.52s both; }
 
@@ -232,7 +234,7 @@ const { contact } = site;
 
   /* Magnetic wrapper · js adds inline transform */
   .btn-mag {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, color 0.2s, border-color 0.2s;
+    transition: transform var(--dur-base) var(--ease-spring), background var(--dur-fast) var(--ease-expo), color var(--dur-fast) var(--ease-expo), border-color var(--dur-fast) var(--ease-expo);
     display: inline-block;
   }
 
@@ -349,26 +351,6 @@ const { contact } = site;
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // ── Countup for stats ─────────────────────────────────────
-    document.querySelectorAll<HTMLElement>('.hstat-num[data-count]').forEach(el => {
-      const target = parseInt(el.dataset.count || '0');
-      let start: number | null = null;
-      const duration = 1400;
-
-      function easeOut(t: number) { return 1 - Math.pow(1 - t, 3); }
-
-      setTimeout(() => {
-        function step(ts: number) {
-          if (!start) start = ts;
-          const progress = Math.min((ts - start) / duration, 1);
-          el.textContent = String(Math.round(easeOut(progress) * target));
-          if (progress < 1) requestAnimationFrame(step);
-          else el.textContent = String(target);
-        }
-        requestAnimationFrame(step);
-      }, 1600); // start after hero animates in
-    });
-
     // ── Magnetic buttons ─────────────────────────────────────
     document.querySelectorAll<HTMLElement>('.btn-mag').forEach(btn => {
       const strength = 0.35;
@@ -382,5 +364,45 @@ const { contact } = site;
         btn.style.transform = '';
       });
     });
+
+    // ── Showpiece 4: cursor-magnetic wordmark ────────────────
+    const heroName = document.getElementById('hero-name');
+    if (heroName && window.matchMedia('(pointer: fine)').matches) {
+      const chars = Array.from(heroName.querySelectorAll<HTMLElement>('.hl-char'));
+      chars.forEach(c => { c.style.willChange = 'transform'; }); // only on pointer-fine, non-reduced devices
+      const st = chars.map(() => ({ x: 0, y: 0, r: 0, tx: 0, ty: 0, tr: 0 }));
+      const R = 170;
+      let raf: number | null = null;
+
+      function tick() {
+        let moving = false;
+        chars.forEach((c, i) => {
+          const s = st[i];
+          s.x += (s.tx - s.x) * 0.15;
+          s.y += (s.ty - s.y) * 0.15;
+          s.r += (s.tr - s.r) * 0.15;
+          if (Math.abs(s.tx - s.x) > 0.08 || Math.abs(s.ty - s.y) > 0.08 || Math.abs(s.tr - s.r) > 0.08) moving = true;
+          c.style.transform = `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) rotate(${s.r.toFixed(2)}deg)`;
+        });
+        raf = moving ? requestAnimationFrame(tick) : null;
+      }
+      function onMove(e: PointerEvent) {
+        chars.forEach((c, i) => {
+          const b = c.getBoundingClientRect();
+          const dx = e.clientX - (b.left + b.width / 2);
+          const dy = e.clientY - (b.top + b.height / 2);
+          const dist = Math.max(1, Math.hypot(dx, dy));
+          if (dist < R) {
+            const f = 1 - dist / R;
+            // Weighty, not wobbly: a small settle, no rotation (the name keeps its gravitas)
+            st[i].tx = -(dx / dist) * f * 9;
+            st[i].ty = -(dy / dist) * f * 9;
+            st[i].tr = 0;
+          } else { st[i].tx = 0; st[i].ty = 0; st[i].tr = 0; }
+        });
+        if (raf === null) raf = requestAnimationFrame(tick);
+      }
+      window.addEventListener('pointermove', onMove, { passive: true });
+    }
   })();
 </script>

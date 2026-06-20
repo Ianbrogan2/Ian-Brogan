@@ -11,13 +11,13 @@ const deliverables = [
 <section class="enn-proof" aria-labelledby="enn-proof-h">
   <div class="container enn-proof-inner">
     <span class="eyebrow">Leadership</span>
-    <h2 id="enn-proof-h">Lead Studio Director, now President of ENN Studios.</h2>
-    <p class="enn-proof-lead">
+    <h2 id="enn-proof-h" class="reveal--left">Lead Studio Director, now President of ENN Studios.</h2>
+    <p class="enn-proof-lead reveal--right">
       I'm leading a six-figure relaunch of my school's broadcast program. The work I'm
       proudest of, and the systems I build this year are what the next class inherits.
     </p>
-    <ul class="enn-deliverables" role="list">
-      {deliverables.map((d) => <li>{d}</li>)}
+    <ul class="enn-deliverables" role="list" data-reveal-group>
+      {deliverables.map((d) => <li class="reveal--scale">{d}</li>)}
     </ul>
     <a href="/achievements" class="btn btn-primary">See the full record</a>
   </div>
