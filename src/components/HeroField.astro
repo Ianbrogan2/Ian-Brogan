@@ -35,7 +35,7 @@
     canvas.dataset.bound = '1';
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let W = 0, H = 0;
 
     const GOLD = '201, 162, 39';
@@ -48,7 +48,7 @@
     // ── Price model ─────────────────────────────────────────
     type Candle = { o: number; h: number; l: number; c: number };
     const VISIBLE = 60;                  // candles across the width
-    const TICKS_PER_CANDLE = 7;          // ticks aggregated into one candle
+    const TICKS_PER_CANDLE = 10;         // ticks aggregated into one candle (higher = slower)
     const mid = 500;
     let price = mid, vel = 0, trend = 0, regime = 0;
     let ema = mid;
@@ -124,7 +124,7 @@
         if (x < -spacing || x > W + spacing) continue;
         const up = k.c >= k.o;
         const col = up ? GREEN : RED;
-        const a = i === last ? 0.4 : 0.22;       // faded background candles, forming brightest
+        const a = i === last ? 0.32 : 0.16;       // faded background candles, forming brightest
         // wick
         ctx!.strokeStyle = `rgba(${col}, ${a})`;
         ctx!.lineWidth = 1;
@@ -143,7 +143,7 @@
         const x = X(slot), y = Y(emaDrawn[i]);
         if (i === 0) ctx!.moveTo(x, y); else ctx!.lineTo(x, y);
       }
-      ctx!.strokeStyle = `rgba(${GOLD}, 0.28)`;
+      ctx!.strokeStyle = `rgba(${GOLD}, 0.2)`;
       ctx!.lineWidth = 1.5;
       ctx!.lineJoin = 'round';
       ctx!.stroke();
@@ -157,10 +157,8 @@
       ctx!.beginPath(); ctx!.moveTo(0, ly); ctx!.lineTo(lx, ly);
       ctx!.strokeStyle = `rgba(${tint}, 0.12)`; ctx!.lineWidth = 1; ctx!.stroke();
       ctx!.setLineDash([]);
-      ctx!.shadowBlur = 10; ctx!.shadowColor = `rgba(${tint}, 0.7)`;
-      ctx!.beginPath(); ctx!.arc(lx, ly, 2.5, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(${tint}, 0.75)`; ctx!.fill();
-      ctx!.shadowBlur = 0;
+      ctx!.beginPath(); ctx!.arc(lx, ly, 3, 0, Math.PI * 2);
+      ctx!.fillStyle = `rgba(${tint}, 0.8)`; ctx!.fill();
     }
 
     function frame() {
@@ -168,6 +166,7 @@
     }
 
     function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2); // recompute for display/zoom changes
       const r = canvas!.getBoundingClientRect();
       W = r.width; H = r.height;
       canvas!.width = Math.round(W * dpr);
@@ -175,8 +174,11 @@
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    let raf = 0;
-    function loop() { frame(); raf = requestAnimationFrame(loop); }
+    let raf = 0, lastFrame = 0;
+    function loop(ts: number) {
+      if (ts - lastFrame >= 24) { frame(); lastFrame = ts; }  // ~40fps cap (lighter on mobile)
+      raf = requestAnimationFrame(loop);
+    }
 
     function pointerHandler(e: PointerEvent) { ptr.tx = e.clientX / window.innerWidth; }
 

@@ -68,10 +68,10 @@ function formatDate(d: Date) {
   }
 
   .post-item {
-    border-top: 1px solid rgba(22,19,17,0.1);
+    border-top: 1px solid var(--color-border);
     padding: 2rem 0;
   }
-  .post-item:last-child { border-bottom: 1px solid rgba(22,19,17,0.1); }
+  .post-item:last-child { border-bottom: 1px solid var(--color-border); }
 
   article {
     display: grid;
@@ -118,7 +118,7 @@ function formatDate(d: Date) {
 
   .post-desc {
     font-size: 0.9rem;
-    color: rgba(22,19,17,0.65);
+    color: var(--color-text-dim);
     line-height: 1.6;
     max-width: 65ch;
     margin: 0.25rem 0 0;

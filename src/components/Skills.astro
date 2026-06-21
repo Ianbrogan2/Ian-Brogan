@@ -136,7 +136,8 @@ const iconMap: Record<string, string> = {
     color: var(--color-text-dim);
     background: none;
     border: none;
-    padding: 0.15rem 0;
+    padding: 0.6rem 0;
+    min-height: 44px;
     margin: 0;
     font-family: inherit;
     cursor: pointer;
@@ -233,35 +234,40 @@ const iconMap: Record<string, string> = {
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>('.skill-category').forEach(card => {
-    card.addEventListener('mousemove', (e: MouseEvent) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform = `perspective(600px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(4px)`;
+  // 3D tilt only on true hover+fine pointers (avoids stuck tilt on touch)
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll<HTMLElement>('.skill-category').forEach(card => {
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = `perspective(600px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateZ(4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
+  }
 
   const backdrop = document.getElementById('skill-modal-backdrop') as HTMLElement;
   const titleEl = document.getElementById('skill-modal-title') as HTMLElement;
   const detailEl = document.getElementById('skill-modal-detail') as HTMLElement;
   const closeBtn = document.getElementById('skill-modal-close') as HTMLElement;
 
-  function openModal(name: string, detail: string) {
+  let lastTrigger: HTMLElement | null = null;
+  function openModal(name: string, detail: string, trigger: HTMLElement) {
     titleEl.textContent = name;
     detailEl.textContent = detail || 'Details coming soon.';
     backdrop.hidden = false;
+    lastTrigger = trigger;
+    closeBtn.focus();
   }
   function closeModal() {
     backdrop.hidden = true;
+    lastTrigger?.focus();
   }
 
   document.querySelectorAll<HTMLElement>('.skill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      openModal(btn.dataset.name ?? '', btn.dataset.detail ?? '');
+      openModal(btn.dataset.name ?? '', btn.dataset.detail ?? '', btn);
     });
   });
 
@@ -270,6 +276,8 @@ const iconMap: Record<string, string> = {
     if (e.target === backdrop) closeModal();
   });
   document.addEventListener('keydown', (e) => {
+    if (backdrop.hidden) return;
     if (e.key === 'Escape') closeModal();
+    else if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); } // trap focus (single control)
   });
 </script>

@@ -1,7 +1,9 @@
 ---
-// Playful money flood: clicking an element tagged [data-money] floods the
-// screen with rising gold dollar signs. Transform/opacity only, reduced-motion
-// safe, and it briefly holds navigation so the flood is actually seen.
+// Money effects. Clicking a capital/investing button (anything [data-money]
+// or a content link to /investing) makes gold dollar signs flow off it.
+// Also exposes window.fxMoney(x,y,count,spread) so the logo jello-slice can
+// stream coins around the cursor while you cut. Transform/opacity only,
+// reduced-motion safe, holds navigation briefly so the effect is seen.
 ---
 <style is:global>
   /* Global (not scoped) so the JS-created dollar signs pick up these styles. */
@@ -24,6 +26,9 @@
     user-select: none;
     opacity: 0;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .fx-money { display: none; }
+  }
 </style>
 
 <script>
@@ -33,56 +38,66 @@
 
     const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function flood() {
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const layer = document.createElement('div');
-      layer.className = 'fx-layer';
-      document.body.appendChild(layer);
+    let layer: HTMLElement | null = null;
+    function getLayer() {
+      if (!layer || !layer.isConnected) {
+        layer = document.createElement('div');
+        layer.className = 'fx-layer';
+        document.body.appendChild(layer);
+      }
+      return layer;
+    }
 
-      const N = Math.min(44, Math.round(vw / 30)); // scale to screen width
-      for (let i = 0; i < N; i++) {
+    // Spawn `count` gold dollar signs at (x,y) that flow up and off. Reused by
+    // the button effect (spread across the button) and the logo-slice (cursor).
+    function fxMoney(x: number, y: number, count: number, spreadX = 20) {
+      if (reduce()) return;
+      const L = getLayer();
+      for (let i = 0; i < count; i++) {
         const s = document.createElement('span');
         s.className = 'fx-money';
         s.textContent = '$';
-        const x = Math.random() * vw;
-        const startY = vh + 30 + Math.random() * 140;   // just below the fold
-        s.style.left = x + 'px';
-        s.style.top = startY + 'px';
-        s.style.fontSize = (1 + Math.random() * 2.4) + 'rem';
-        const driftX = (Math.random() - 0.5) * 140;
-        const riseY = -(vh * 0.8 + Math.random() * vh * 0.6); // float up across the screen
-        const rot = (Math.random() - 0.5) * 170;
-        const delay = Math.random() * 380;
-        layer.appendChild(s);
+        s.style.left = (x + (Math.random() - 0.5) * spreadX) + 'px';
+        s.style.top = (y + (Math.random() - 0.5) * 16) + 'px';
+        s.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+        const dx = (Math.random() - 0.5) * 130;
+        const dy = -(110 + Math.random() * 270);  // flow up/off
+        const rot = (Math.random() - 0.5) * 150;
+        const dur = 800 + Math.random() * 650;
+        L.appendChild(s);
         const anim = s.animate(
           [
             { transform: 'translate(-50%, -50%) translate(0px, 0px) rotate(0deg)', opacity: 0 },
-            { offset: 0.12, opacity: 0.95 },
-            { offset: 0.82, opacity: 0.95 },
-            { transform: `translate(-50%, -50%) translate(${driftX}px, ${riseY}px) rotate(${rot}deg)`, opacity: 0 },
+            { offset: 0.15, opacity: 0.95 },
+            { offset: 0.8, opacity: 0.95 },
+            { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 },
           ],
-          { duration: 1300 + Math.random() * 700, delay, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+          { duration: dur, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
         );
         anim.onfinish = () => s.remove();
       }
-      setTimeout(() => layer.remove(), 2600);
     }
+    (window as any).fxMoney = fxMoney;
 
     let navigating = false;
     document.addEventListener('click', (e) => {
-      const el = (e.target as HTMLElement).closest('[data-money]') as HTMLElement | null;
+      const el = (e.target as HTMLElement).closest('[data-money], a[href^="/investing"]:not(.nav-link)') as HTMLElement | null;
       if (!el) return;
-      if (reduce()) return; // no flood, no nav delay under reduced motion
+      if (reduce()) return;
 
-      flood();
-
-      // Hold navigation ~900ms so the flood plays before the page changes
       const href = el.getAttribute('href');
-      const opensNewTab = (el as HTMLAnchorElement).target === '_blank';
-      if (el.tagName === 'A' && href && !href.startsWith('#') && !opensNewTab && !navigating) {
+      const isAnchorNav = el.tagName === 'A' && !!href && !href.startsWith('#') && (el as HTMLAnchorElement).target !== '_blank';
+      // ignore rapid repeat clicks while a hold is pending (no double burst, no nav race)
+      if (navigating) { if (isAnchorNav) e.preventDefault(); return; }
+
+      const r = el.getBoundingClientRect();
+      // flow off the button: spawn across its width, biased to its upper area
+      fxMoney(r.left + r.width / 2, r.top + r.height * 0.35, 26, Math.max(40, r.width * 0.9));
+
+      if (isAnchorNav) {
         navigating = true;
         e.preventDefault();
-        setTimeout(() => { window.location.href = href; }, 900);
+        setTimeout(() => { window.location.href = href!; }, 800);
       }
     });
   }

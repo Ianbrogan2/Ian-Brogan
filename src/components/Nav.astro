@@ -248,7 +248,11 @@ const { site } = Astro.props;
       gap: 0.5rem;
       z-index: 200;
     }
-    ul.open { display: flex; }
+    ul.open { display: flex; overflow-y: auto; }
+    /* Short landscape: top-align and allow scroll so links aren't clipped */
+    @media (max-height: 520px) {
+      ul { justify-content: flex-start; padding-block: 5rem 2rem; }
+    }
 
     /* Toggle sits above the open menu so it stays tappable */
     .nav-toggle { position: relative; z-index: 201; }
@@ -281,20 +285,23 @@ const { site } = Astro.props;
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
-  // Mobile toggle
-  toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
+  // Mobile toggle, with body scroll-lock and Escape-to-close
+  function setMenu(open: boolean) {
+    menu.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  toggle.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); toggle.focus(); }
   });
 
   // Force hard reload on every nav link click so TradingView ticker always loads
   menu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      menu.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      const href = (link as HTMLAnchorElement).href;
-      window.location.href = href;
+      setMenu(false);
+      window.location.href = (link as HTMLAnchorElement).href;
     });
   });
 

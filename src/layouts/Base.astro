@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
 import { getSite } from '../lib/content';
 
 interface Props {
@@ -74,7 +73,6 @@ const canonicalURL = new URL(Astro.url.pathname, site.meta.url);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <ViewTransitions />
   </head>
   <body class={bodyClass}>
     <slot />
@@ -99,7 +97,8 @@ const canonicalURL = new URL(Astro.url.pathname, site.meta.url);
         );
         reveals.forEach(el => io.observe(el));
       }
-      document.addEventListener('astro:page-load', initReveals);
+      if (document.readyState !== 'loading') initReveals();
+      else document.addEventListener('DOMContentLoaded', initReveals);
     </script>
   </body>
 </html>

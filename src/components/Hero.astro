@@ -175,7 +175,7 @@ const { contact } = site;
   /* ── Name ────────────────────────────────────────────────── */
   .hero-name {
     font-family: var(--font-display);
-    font-size: clamp(5rem, 14vw, 11rem);
+    font-size: clamp(3.25rem, 14vw, 11rem);
     font-variation-settings: 'opsz' 144;
     font-weight: 900;
     line-height: 0.9;
@@ -345,13 +345,21 @@ const { contact } = site;
     .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
     .hero-kicker { display: none; }
   }
+  /* Short landscape: don't cram the cue over content, tighten padding */
+  @media (max-height: 600px) {
+    .scroll-cue { display: none; }
+  }
+  @media (max-height: 600px) and (orientation: landscape) {
+    .hero-inner { padding-top: 6rem; padding-bottom: 3rem; }
+  }
 </style>
 
 <script>
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // ── Magnetic buttons ─────────────────────────────────────
+    // ── Magnetic buttons (pointer-fine only; avoids stuck offset on touch) ──
+    if (window.matchMedia('(pointer: fine)').matches)
     document.querySelectorAll<HTMLElement>('.btn-mag').forEach(btn => {
       const strength = 0.35;
       btn.addEventListener('mousemove', (e: MouseEvent) => {
@@ -365,42 +373,66 @@ const { contact } = site;
       });
     });
 
-    // ── Showpiece 4: cursor-magnetic wordmark ────────────────
+    // ── Showpiece 4: jello-slice wordmark ────────────────────
     const heroName = document.getElementById('hero-name');
-    if (heroName && window.matchMedia('(pointer: fine)').matches) {
+    const reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (heroName && window.matchMedia('(pointer: fine)').matches && !reduceMo) {
       const chars = Array.from(heroName.querySelectorAll<HTMLElement>('.hl-char'));
-      chars.forEach(c => { c.style.willChange = 'transform'; }); // only on pointer-fine, non-reduced devices
-      const st = chars.map(() => ({ x: 0, y: 0, r: 0, tx: 0, ty: 0, tr: 0 }));
-      const R = 170;
+      const st = chars.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }));
+      const R = 150;                  // slice radius
+      const STIFF = 0.2, DAMP = 0.74; // spring: overshoot then wobble back (jello)
       let raf: number | null = null;
+      let lastMoneyT = 0;
 
       function tick() {
         let moving = false;
-        chars.forEach((c, i) => {
+        for (let i = 0; i < chars.length; i++) {
           const s = st[i];
-          s.x += (s.tx - s.x) * 0.15;
-          s.y += (s.ty - s.y) * 0.15;
-          s.r += (s.tr - s.r) * 0.15;
-          if (Math.abs(s.tx - s.x) > 0.08 || Math.abs(s.ty - s.y) > 0.08 || Math.abs(s.tr - s.r) > 0.08) moving = true;
-          c.style.transform = `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) rotate(${s.r.toFixed(2)}deg)`;
-        });
-        raf = moving ? requestAnimationFrame(tick) : null;
+          s.vx = (s.vx + (s.tx - s.x) * STIFF) * DAMP;
+          s.vy = (s.vy + (s.ty - s.y) * STIFF) * DAMP;
+          s.x += s.vx; s.y += s.vy;
+          s.tx *= 0.8; s.ty *= 0.8;   // target relaxes so the letters glue back together
+          const speed = Math.hypot(s.vx, s.vy);
+          if (speed > 0.04 || Math.abs(s.x) > 0.1 || Math.abs(s.y) > 0.1) moving = true;
+          const sp = Math.min(0.26, speed * 0.014);   // gooey stretch along travel
+          chars[i].style.transform =
+            `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) scale(${(1 + sp).toFixed(3)}, ${(1 - sp * 0.55).toFixed(3)})`;
+        }
+        if (moving) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          raf = null;
+          heroName!.classList.remove('cutting');
+          chars.forEach(c => { c.style.willChange = 'auto'; });
+        }
       }
+
       function onMove(e: PointerEvent) {
-        chars.forEach((c, i) => {
-          const b = c.getBoundingClientRect();
-          const dx = e.clientX - (b.left + b.width / 2);
-          const dy = e.clientY - (b.top + b.height / 2);
-          const dist = Math.max(1, Math.hypot(dx, dy));
+        const mx = e.clientX, my = e.clientY;
+        let near = false;
+        for (let i = 0; i < chars.length; i++) {
+          const b = chars[i].getBoundingClientRect();
+          const dx = mx - (b.left + b.width / 2);
+          const dy = my - (b.top + b.height / 2);
+          const dist = Math.hypot(dx, dy);
           if (dist < R) {
+            near = true;
             const f = 1 - dist / R;
-            // Weighty, not wobbly: a small settle, no rotation (the name keeps its gravitas)
-            st[i].tx = -(dx / dist) * f * 9;
-            st[i].ty = -(dy / dist) * f * 9;
-            st[i].tr = 0;
-          } else { st[i].tx = 0; st[i].ty = 0; st[i].tr = 0; }
-        });
-        if (raf === null) raf = requestAnimationFrame(tick);
+            const d = Math.max(1, dist);
+            st[i].tx = -(dx / d) * f * 30;   // part the jello away from the blade
+            st[i].ty = -(dy / d) * f * 30;
+          }
+        }
+        if (near) {
+          heroName!.classList.add('cutting');
+          chars.forEach(c => { if (c.style.willChange !== 'transform') c.style.willChange = 'transform'; });
+          const now = performance.now();
+          if (now - lastMoneyT > 50 && (window as any).fxMoney) {
+            (window as any).fxMoney(mx, my, 1, 12);  // coins stream around the blade
+            lastMoneyT = now;
+          }
+          if (raf === null) raf = requestAnimationFrame(tick);
+        }
       }
       window.addEventListener('pointermove', onMove, { passive: true });
     }

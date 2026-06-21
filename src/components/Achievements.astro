@@ -9,7 +9,7 @@ const courseGroups = [
 ];
 ---
 
-<section id="achievements" class="section" aria-labelledby="achievements-heading" data-am-section>
+<section id="achievements" class="section" aria-label="School achievements" data-am-section>
   <div class="container">
 
     <!-- Stat strip -->
@@ -429,5 +429,9 @@ const courseGroups = [
   openBtn?.addEventListener('click', open);
   closeBtn?.addEventListener('click', close);
   backdrop?.addEventListener('click', (e) => { if (e.target === backdrop) close(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && backdrop && !backdrop.hidden) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (!backdrop || backdrop.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'Tab') { e.preventDefault(); closeBtn?.focus(); } // trap focus (single control)
+  });
 </script>
