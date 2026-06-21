@@ -1,15 +1,16 @@
 ---
-// Playful click feedback: clicking a primary CTA floods a burst of gold
-// dollar signs from the cursor. Transform/opacity only, reduced-motion safe,
-// and it briefly holds navigation so the burst is actually seen.
+// Playful money flood: clicking an element tagged [data-money] floods the
+// screen with rising gold dollar signs. Transform/opacity only, reduced-motion
+// safe, and it briefly holds navigation so the flood is actually seen.
 ---
-<style>
+<style is:global>
+  /* Global (not scoped) so the JS-created dollar signs pick up these styles. */
   .fx-layer {
     position: fixed;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
-    z-index: 9990;
+    z-index: 10000;
   }
   .fx-money {
     position: absolute;
@@ -17,72 +18,75 @@
     color: var(--color-gold);
     font-family: var(--font-display);
     font-weight: 700;
-    font-variation-settings: 'opsz' 32;
-    text-shadow: 0 0 12px rgba(201, 162, 39, 0.55);
+    font-variation-settings: 'opsz' 40;
+    text-shadow: 0 0 14px rgba(201, 162, 39, 0.6);
     will-change: transform, opacity;
     user-select: none;
+    opacity: 0;
   }
 </style>
 
 <script>
-  function setupClickFx() {
-    if ((document.body as any).__fxBound) return;
-    (document.body as any).__fxBound = true;
+  function setupMoneyFx() {
+    if ((document.body as any).__moneyFxBound) return;
+    (document.body as any).__moneyFxBound = true;
 
     const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function burst(x: number, y: number) {
+    function flood() {
+      const vw = window.innerWidth, vh = window.innerHeight;
       const layer = document.createElement('div');
       layer.className = 'fx-layer';
       document.body.appendChild(layer);
-      const N = 22;
+
+      const N = Math.min(44, Math.round(vw / 30)); // scale to screen width
       for (let i = 0; i < N; i++) {
         const s = document.createElement('span');
         s.className = 'fx-money';
         s.textContent = '$';
+        const x = Math.random() * vw;
+        const startY = vh + 30 + Math.random() * 140;   // just below the fold
         s.style.left = x + 'px';
-        s.style.top = y + 'px';
-        s.style.fontSize = (0.85 + Math.random() * 1.5) + 'rem';
-        const ang = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.15; // mostly up, fanned
-        const dist = 70 + Math.random() * 190;
-        const dx = Math.cos(ang) * dist;
-        const dy = Math.sin(ang) * dist - (30 + Math.random() * 90); // bias upward
-        const rot = (Math.random() - 0.5) * 110;
+        s.style.top = startY + 'px';
+        s.style.fontSize = (1 + Math.random() * 2.4) + 'rem';
+        const driftX = (Math.random() - 0.5) * 140;
+        const riseY = -(vh * 0.8 + Math.random() * vh * 0.6); // float up across the screen
+        const rot = (Math.random() - 0.5) * 170;
+        const delay = Math.random() * 380;
         layer.appendChild(s);
         const anim = s.animate(
           [
-            { transform: 'translate(-50%, -50%) translate(0px, 0px) rotate(0deg)', opacity: 1 },
-            { offset: 0.7, opacity: 1 },
-            { transform: `translate(-50%, -50%) translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 },
+            { transform: 'translate(-50%, -50%) translate(0px, 0px) rotate(0deg)', opacity: 0 },
+            { offset: 0.12, opacity: 0.95 },
+            { offset: 0.82, opacity: 0.95 },
+            { transform: `translate(-50%, -50%) translate(${driftX}px, ${riseY}px) rotate(${rot}deg)`, opacity: 0 },
           ],
-          { duration: 750 + Math.random() * 550, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+          { duration: 1300 + Math.random() * 700, delay, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
         );
         anim.onfinish = () => s.remove();
       }
-      setTimeout(() => layer.remove(), 1500);
+      setTimeout(() => layer.remove(), 2600);
     }
 
     let navigating = false;
     document.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      const btn = target.closest('.btn') as HTMLElement | null;
-      if (!btn) return;
-      if (reduce()) return; // no burst, no nav delay under reduced motion
+      const el = (e.target as HTMLElement).closest('[data-money]') as HTMLElement | null;
+      if (!el) return;
+      if (reduce()) return; // no flood, no nav delay under reduced motion
 
-      burst(e.clientX, e.clientY);
+      flood();
 
-      // If it navigates to another page, hold ~420ms so the flood is visible
-      const href = btn.getAttribute('href');
-      const isAnchor = btn.tagName === 'A';
-      const opensNewTab = (btn as HTMLAnchorElement).target === '_blank';
-      if (isAnchor && href && !href.startsWith('#') && !opensNewTab && !navigating) {
+      // Hold navigation ~900ms so the flood plays before the page changes
+      const href = el.getAttribute('href');
+      const opensNewTab = (el as HTMLAnchorElement).target === '_blank';
+      if (el.tagName === 'A' && href && !href.startsWith('#') && !opensNewTab && !navigating) {
         navigating = true;
         e.preventDefault();
-        setTimeout(() => { window.location.href = href; }, 420);
+        setTimeout(() => { window.location.href = href; }, 900);
       }
     });
   }
 
-  setupClickFx();
-  document.addEventListener('astro:page-load', setupClickFx);
+  setupMoneyFx();
+  document.addEventListener('astro:page-load', setupMoneyFx);
 </script>
