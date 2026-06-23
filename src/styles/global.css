@@ -259,6 +259,38 @@ a:hover { color: var(--color-gold-lt); }
 }
 .btn-primary:active { box-shadow: 0 2px 12px rgba(201, 162, 39, 0.25); }
 
+/* ── Button taxonomy ─────────────────────────────────────────
+   One coherent system: outline/ghost get a gold border-draw,
+   icon/utility controls get a springy press. Press/sheen on .btn
+   already defined above. All motion gated by reduced-motion. */
+.btn-outline, .btn-ghost { position: relative; }
+.btn-outline::after, .btn-ghost::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 2px; width: 100%;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-expo);
+  pointer-events: none;
+}
+.btn-outline:hover::after, .btn-ghost:hover::after,
+.btn-outline:focus-visible::after, .btn-ghost:focus-visible::after { transform: scaleX(1); }
+
+/* Icon / utility controls: springy press + consistent gold focus. */
+.skill-btn:active, .holding-symbol:active, .nav-toggle:active,
+.skill-modal-close:active, .seal-close:active, .stat-seal-btn:active {
+  transform: scale(0.92);
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-outline::after, .btn-ghost::after { display: none; }
+  .skill-btn:active, .holding-symbol:active, .nav-toggle:active,
+  .skill-modal-close:active, .seal-close:active, .stat-seal-btn:active { transform: none; }
+}
+
 /* ── Section label / eyebrow ─────────────────────────────── */
 .eyebrow {
   display: inline-block;
