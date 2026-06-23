@@ -20,25 +20,44 @@
 <script>
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const getDPR = () => Math.min(window.devicePixelRatio || 1, 2);
+
+    // One shared set of window/document listeners drives every title, instead
+    // of N listeners per title.
+    const instances: { heal: () => void; invalidate: () => void }[] = [];
+    const healAll = () => { for (const t of instances) t.heal(); };
+    const invalidateAll = () => { for (const t of instances) t.invalidate(); };
+    window.addEventListener('pointercancel', healAll, { passive: true });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) healAll(); });
+    let resizeT: number;
+    window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = window.setTimeout(invalidateAll, 150); }, { passive: true });
+    const fonts = (document as any).fonts;
+    if (fonts) {
+      if (fonts.ready) fonts.ready.then(invalidateAll);
+      if (fonts.addEventListener) fonts.addEventListener('loadingdone', invalidateAll);
+    }
 
     function initTitle(el: HTMLElement) {
       if ((el as any).__liquidInit) return;
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return; // 2D context unavailable; leave the server-rendered text
+
       (el as any).__liquidInit = true;
+      canvas.className = 'liquid-canvas';
+      canvas.setAttribute('aria-hidden', 'true');
+      el.appendChild(canvas);
 
       const isHero = el.id === 'hero-name';
       const money = isHero || el.hasAttribute('data-money');
       const STRENGTH = parseFloat(el.dataset.liquidStrength || '0.24');
       const explicitLines = el.dataset.liquidLines ? el.dataset.liquidLines.split('|') : null;
 
-      const canvas = document.createElement('canvas');
-      canvas.className = 'liquid-canvas';
-      canvas.setAttribute('aria-hidden', 'true');
-      el.appendChild(canvas);
-      const ctx = canvas.getContext('2d')!;
-
-      let W = 0, H = 0, off: HTMLCanvasElement, srcData: Uint8ClampedArray | null = null;
-      let R = 30, rectNow: DOMRect | null = null;
+      let dpr = getDPR();
+      let W = 0, H = 0, off: HTMLCanvasElement | null = null, srcData: Uint8ClampedArray | null = null;
+      let R = 30, sizeFactor = 1, rectNow: DOMRect | null = null;
+      let scratch: ImageData | null = null, scratchSide = 0;
 
       function wrapText(o: CanvasRenderingContext2D, text: string, maxW: number) {
         const words = text.split(' ');
@@ -57,16 +76,22 @@
         // Bail on a collapsed/unlaid-out box so we never hide the real text
         // behind an empty canvas.
         if (rect.width < 4 || rect.height < 4) return false;
-        W = Math.round(rect.width * DPR);
-        H = Math.round(rect.height * DPR);
+        dpr = getDPR();
+        W = Math.round(rect.width * dpr);
+        H = Math.round(rect.height * dpr);
         canvas.width = W; canvas.height = H;
-        off = document.createElement('canvas'); off.width = W; off.height = H;
-        const o = off.getContext('2d')!;
+        const offCanvas = document.createElement('canvas');
+        offCanvas.width = W; offCanvas.height = H;
+        const o = offCanvas.getContext('2d');
+        if (!o) return false;
         const cs = getComputedStyle(el);
-        const fontPx = parseFloat(cs.fontSize) * DPR;
+        const fontPx = parseFloat(cs.fontSize) * dpr;
         // Bead scales with the type, but capped so the per-frame pixel work
         // stays bounded on the largest (hero) wordmark.
-        R = Math.max(18, Math.min(fontPx * 0.9, 130 * DPR));
+        R = Math.max(18, Math.min(fontPx * 0.9, 130 * dpr));
+        // The local zoom is scale-invariant, so a bead reads stronger on small
+        // headings. Ease it down for them while leaving the hero pronounced.
+        sizeFactor = Math.min(1, fontPx / (64 * dpr));
         o.clearRect(0, 0, W, H);
         o.fillStyle = cs.color;
         o.textBaseline = 'middle';
@@ -76,13 +101,13 @@
         o.font = `${cs.fontStyle} ${cs.fontWeight} ${fontPx}px ${cs.fontFamily}`;
         try {
           (o as any).letterSpacing = (cs.letterSpacing && cs.letterSpacing !== 'normal')
-            ? `${parseFloat(cs.letterSpacing) * DPR}px` : '0px';
+            ? `${parseFloat(cs.letterSpacing) * dpr}px` : '0px';
         } catch (e) { /* letterSpacing unsupported, acceptable */ }
-        const padL = parseFloat(cs.paddingLeft) * DPR;
-        const padR = parseFloat(cs.paddingRight) * DPR;
-        const padT = parseFloat(cs.paddingTop) * DPR;
+        const padL = parseFloat(cs.paddingLeft) * dpr;
+        const padR = parseFloat(cs.paddingRight) * dpr;
+        const padT = parseFloat(cs.paddingTop) * dpr;
         const innerW = W - padL - padR;
-        let lineH = cs.lineHeight === 'normal' ? fontPx * 1.1 : parseFloat(cs.lineHeight) * DPR;
+        let lineH = cs.lineHeight === 'normal' ? fontPx * 1.1 : parseFloat(cs.lineHeight) * dpr;
         if (!lineH || isNaN(lineH)) lineH = fontPx * 1.1;
         const lines = explicitLines ?? wrapText(o, (el.textContent || '').replace(/\s+/g, ' ').trim(), innerW);
         const x = align === 'center' ? W / 2 : align === 'right' ? W - padR : padL;
@@ -90,6 +115,11 @@
         let y = padT + (H - padT - totalH) / 2 + lineH / 2;
         for (const ln of lines) { o.fillText(ln, x, y); y += lineH; }
         srcData = o.getImageData(0, 0, W, H).data;
+        off = offCanvas;
+        // One reusable scratch buffer for the bead region, sized to its max
+        // footprint, so refract() never allocates per frame.
+        const side = Math.ceil(2 * R) + 2;
+        if (!scratch || side > scratchSide) { scratch = ctx!.createImageData(side, side); scratchSide = side; }
         return true;
       }
 
@@ -98,17 +128,17 @@
 
       function point(e: PointerEvent) {
         rectNow = el.getBoundingClientRect();
-        bead.tx = (e.clientX - rectNow.left) * DPR;
-        bead.ty = (e.clientY - rectNow.top) * DPR;
+        bead.tx = (e.clientX - rectNow.left) * dpr;
+        bead.ty = (e.clientY - rectNow.top) * dpr;
       }
       function ensureSource(): boolean { return srcData ? true : buildSource(); }
       // Snap back to crisp resting text immediately (used on tab-hide / touch
-      // cancel where the animated heal loop can't run).
+      // cancel / any draw failure where the animated heal loop can't run).
       function heal() {
         bead.on = false; bead.pulse = 0;
         bead.x = bead.y = bead.tx = bead.ty = -9999;
         if (raf != null) { if (raf > 0) cancelAnimationFrame(raf); raf = null; }
-        if (W && H) ctx.clearRect(0, 0, W, H);
+        try { if (W && H) ctx!.clearRect(0, 0, W, H); } catch (e) { /* context gone */ }
         el.classList.remove('liquid-on');
       }
       // Draw the first frame synchronously so there's never a blank flash and
@@ -118,11 +148,11 @@
 
       function refract(cx: number, cy: number, r: number, strength: number) {
         cx = Math.round(cx); cy = Math.round(cy);
-        const x0 = Math.max(0, cx - r), x1 = Math.min(W, cx + r);
-        const y0 = Math.max(0, cy - r), y1 = Math.min(H, cy + r);
+        const x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(W, Math.ceil(cx + r));
+        const y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(H, Math.ceil(cy + r));
         const rw = x1 - x0, rh = y1 - y0;
-        if (rw <= 0 || rh <= 0 || !srcData) return;
-        const out = ctx.createImageData(rw, rh), od = out.data;
+        if (rw <= 0 || rh <= 0 || !srcData || !scratch) return;
+        const od = scratch.data, stride = scratchSide;
         for (let j = 0; j < rh; j++) {
           const py = y0 + j;
           for (let i = 0; i < rw; i++) {
@@ -136,46 +166,56 @@
               if (sx < 0) sx = 0; else if (sx >= W) sx = W - 1;
               if (sy < 0) sy = 0; else if (sy >= H) sy = H - 1;
             }
-            const si = (sy * W + sx) * 4, di = (j * rw + i) * 4;
+            const si = (sy * W + sx) * 4, di = (j * stride + i) * 4;
             od[di] = srcData[si]; od[di + 1] = srcData[si + 1];
             od[di + 2] = srcData[si + 2]; od[di + 3] = srcData[si + 3];
           }
         }
-        ctx.putImageData(out, x0, y0);
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        const rg = ctx.createRadialGradient(cx, cy, r * 0.55, cx, cy, r);
+        ctx!.putImageData(scratch, x0, y0, 0, 0, rw, rh);
+        // Wet caustic edge: a soft gold tint at the bead's circumference, low
+        // enough not to blow bright type out to white.
+        ctx!.save();
+        ctx!.globalCompositeOperation = 'lighter';
+        const rg = ctx!.createRadialGradient(cx, cy, r * 0.78, cx, cy, r);
         rg.addColorStop(0, 'rgba(230,194,74,0)');
-        rg.addColorStop(0.82, 'rgba(230,194,74,0.10)');
+        rg.addColorStop(0.92, 'rgba(230,194,74,0.07)');
         rg.addColorStop(1, 'rgba(230,194,74,0)');
-        ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
-        ctx.restore();
+        ctx!.fillStyle = rg; ctx!.beginPath(); ctx!.arc(cx, cy, r, 0, 7); ctx!.fill();
+        ctx!.restore();
       }
 
       function frame() {
-        // If the source can't be built (collapsed box), bail safely and
-        // restore the real text rather than leaving it transparent.
-        if (!srcData && !buildSource()) { raf = null; el.classList.remove('liquid-on'); return; }
-        ctx.clearRect(0, 0, W, H);
-        ctx.drawImage(off, 0, 0);
-        if (bead.x < -9000) { bead.x = bead.tx; bead.y = bead.ty; }
-        bead.x += (bead.tx - bead.x) * 0.35;
-        bead.y += (bead.ty - bead.y) * 0.35;
-        const strength = STRENGTH * (bead.on ? 1 : bead.pulse);
-        if (strength > 0.002 && bead.x > -9000) {
-          refract(bead.x, bead.y, R, strength);
-          if (money && (window as any).fxMoney && rectNow) {
-            const now = performance.now();
-            if (now - lastMoney > 90) {
-              (window as any).fxMoney(rectNow.left + bead.x / DPR, rectNow.top + bead.y / DPR, 1, 10);
-              lastMoney = now;
+        try {
+          // If the source can't be built (collapsed box), bail safely and
+          // restore the real text rather than leaving it transparent.
+          if (!srcData && !buildSource()) { bead.on = false; bead.pulse = 0; raf = null; el.classList.remove('liquid-on'); return; }
+          ctx!.clearRect(0, 0, W, H);
+          ctx!.drawImage(off!, 0, 0);
+          if (bead.x < -9000) { bead.x = bead.tx; bead.y = bead.ty; }
+          bead.x += (bead.tx - bead.x) * 0.35;
+          bead.y += (bead.ty - bead.y) * 0.35;
+          const strength = STRENGTH * sizeFactor * (bead.on ? 1 : bead.pulse);
+          if (strength > 0.002 && bead.x > -9000) {
+            refract(bead.x, bead.y, R, strength);
+            if (money && (window as any).fxMoney && rectNow) {
+              const now = performance.now();
+              if (now - lastMoney > 90) {
+                (window as any).fxMoney(rectNow.left + bead.x / dpr, rectNow.top + bead.y / dpr, 1, 10);
+                lastMoney = now;
+              }
             }
           }
+          if (!bead.on) bead.pulse *= 0.92;
+          const settled = !bead.on && bead.pulse < 0.02 && Math.abs(bead.tx - bead.x) < 0.5;
+          if (settled) { ctx!.clearRect(0, 0, W, H); el.classList.remove('liquid-on'); raf = null; }
+          else raf = requestAnimationFrame(frame);
+        } catch (err) {
+          // Any canvas failure must fall back to the real, colored DOM text
+          // rather than leaving the heading transparent/invisible.
+          el.classList.remove('liquid-on');
+          try { if (W && H) ctx!.clearRect(0, 0, W, H); } catch (e) { /* context gone */ }
+          bead.on = false; bead.pulse = 0; raf = null;
         }
-        if (!bead.on) bead.pulse *= 0.92;
-        const settled = !bead.on && bead.pulse < 0.02 && Math.abs(bead.tx - bead.x) < 0.5;
-        if (settled) { ctx.clearRect(0, 0, W, H); el.classList.remove('liquid-on'); raf = null; }
-        else raf = requestAnimationFrame(frame);
       }
 
       el.addEventListener('pointerenter', (e) => { if (!ensureSource()) return; point(e); bead.on = true; el.classList.add('liquid-on'); start(); });
@@ -183,14 +223,8 @@
       el.addEventListener('pointerleave', () => { bead.on = false; start(); });
       el.addEventListener('pointerdown', (e) => { if (!ensureSource()) return; point(e); bead.pulse = 1; bead.x = bead.tx; bead.y = bead.ty; el.classList.add('liquid-on'); start(); });
       el.addEventListener('pointerup', () => { if (!bead.on) bead.pulse = Math.max(bead.pulse, 0.85); });
-      window.addEventListener('pointercancel', () => { heal(); });
-      document.addEventListener('visibilitychange', () => { if (document.hidden) heal(); });
-      let rt: number; window.addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { srcData = null; }, 150); }, { passive: true });
-      // If a title initialized before its webfont finished loading, drop the
-      // cached source so the next interaction re-renders with correct metrics.
-      if ((document as any).fonts && (document as any).fonts.ready) {
-        (document as any).fonts.ready.then(() => { srcData = null; });
-      }
+
+      instances.push({ heal, invalidate: () => { srcData = null; } });
     }
 
     // Init every opted-in title up front. This only creates an empty,
