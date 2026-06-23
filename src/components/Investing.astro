@@ -8,7 +8,7 @@ const { data } = Astro.props;
   <div class="container">
     <div class="investing-layout">
       <div class="investing-text">
-        <h2 id="investing-heading">{data.headline}</h2>
+        <h2 id="investing-heading" data-liquid>{data.headline}</h2>
         <p class="lead">{data.subhead}</p>
 
         <div class="investing-body">
@@ -28,6 +28,7 @@ const { data } = Astro.props;
               <button
                 type="button"
                 class="holding-symbol"
+                data-money
                 data-href={`https://finance.yahoo.com/quote/${h.symbol}/`}
               >
                 {h.symbol}

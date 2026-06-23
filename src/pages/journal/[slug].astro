@@ -30,7 +30,7 @@ function formatDate(d: Date) {
         <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
         {post.data.tags?.map(tag => <span class="post-tag">{tag}</span>)}
       </div>
-      <h1>{post.data.title}</h1>
+      <h1 data-liquid>{post.data.title}</h1>
       <p class="post-deck">{post.data.description}</p>
     </header>
 

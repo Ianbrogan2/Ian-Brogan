@@ -15,7 +15,7 @@ const journey = getJourney();
   <div class="page-hero container">
     <span class="eyebrow">Achievements</span>
     <span class="rule-gold"></span>
-    <h1>{achievements.headline}</h1>
+    <h1 data-liquid>{achievements.headline}</h1>
     <p class="lead">{achievements.subhead}</p>
   </div>
 
@@ -25,7 +25,7 @@ const journey = getJourney();
   <section class="trajectory" id="trajectory" data-am-section aria-labelledby="trajectory-h">
     <div class="container trajectory-head">
       <span class="eyebrow">My trajectory</span>
-      <h2 id="trajectory-h">The whole arc, plotted as a market.</h2>
+      <h2 id="trajectory-h" data-liquid>The whole arc, plotted as a market.</h2>
       <p class="lead">Every milestone as a data point. The past is solid, the future is the plan. Tap any point to read it.</p>
     </div>
     <Journey data={journey} />
