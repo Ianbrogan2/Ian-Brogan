@@ -10,9 +10,12 @@
     position: absolute; inset: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 1;
   }
-  [data-liquid].liquid-on { color: transparent; }
+  /* !important so the canvas is the sole renderer while active, regardless of
+     a heading's own (often scoped, equal-specificity) color rule. Otherwise the
+     real text shows through and stacks behind the canvas text. */
+  [data-liquid].liquid-on { color: transparent !important; }
   @media (prefers-reduced-motion: reduce) {
-    [data-liquid].liquid-on { color: inherit; }
+    [data-liquid].liquid-on { color: inherit !important; }
     [data-liquid] > canvas.liquid-canvas { display: none; }
   }
 </style>
@@ -171,17 +174,9 @@
             od[di + 2] = srcData[si + 2]; od[di + 3] = srcData[si + 3];
           }
         }
+        // No rim/ring drawn: just the refracted text under the pointer, so the
+        // cursor stays a normal cursor with no visible circle.
         ctx!.putImageData(scratch, x0, y0, 0, 0, rw, rh);
-        // Wet caustic edge: a soft gold tint at the bead's circumference, low
-        // enough not to blow bright type out to white.
-        ctx!.save();
-        ctx!.globalCompositeOperation = 'lighter';
-        const rg = ctx!.createRadialGradient(cx, cy, r * 0.78, cx, cy, r);
-        rg.addColorStop(0, 'rgba(230,194,74,0)');
-        rg.addColorStop(0.92, 'rgba(230,194,74,0.07)');
-        rg.addColorStop(1, 'rgba(230,194,74,0)');
-        ctx!.fillStyle = rg; ctx!.beginPath(); ctx!.arc(cx, cy, r, 0, 7); ctx!.fill();
-        ctx!.restore();
       }
 
       function frame() {
