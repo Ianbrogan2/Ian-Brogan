@@ -26,7 +26,7 @@ const { contact } = site;
     </div>
 
     <!-- Name · the headline -->
-    <h1 class="hero-name" id="hero-name">
+    <h1 class="hero-name" id="hero-name" data-liquid data-money data-liquid-lines="Ian|Brogan.">
       {['Ian', 'Brogan.'].map((line, li) => (
         <span class="hl-wrap"><span class={`hl-line hl-${li + 1}`}>
           {line.split('').map((ch) => <span class="hl-char">{ch}</span>)}
@@ -372,69 +372,7 @@ const { contact } = site;
         btn.style.transform = '';
       });
     });
-
-    // ── Showpiece 4: jello-slice wordmark ────────────────────
-    const heroName = document.getElementById('hero-name');
-    const reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (heroName && window.matchMedia('(pointer: fine)').matches && !reduceMo) {
-      const chars = Array.from(heroName.querySelectorAll<HTMLElement>('.hl-char'));
-      const st = chars.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }));
-      const R = 150;                  // slice radius
-      const STIFF = 0.2, DAMP = 0.74; // spring: overshoot then wobble back (jello)
-      let raf: number | null = null;
-      let lastMoneyT = 0;
-
-      function tick() {
-        let moving = false;
-        for (let i = 0; i < chars.length; i++) {
-          const s = st[i];
-          s.vx = (s.vx + (s.tx - s.x) * STIFF) * DAMP;
-          s.vy = (s.vy + (s.ty - s.y) * STIFF) * DAMP;
-          s.x += s.vx; s.y += s.vy;
-          s.tx *= 0.8; s.ty *= 0.8;   // target relaxes so the letters glue back together
-          const speed = Math.hypot(s.vx, s.vy);
-          if (speed > 0.04 || Math.abs(s.x) > 0.1 || Math.abs(s.y) > 0.1) moving = true;
-          const sp = Math.min(0.26, speed * 0.014);   // gooey stretch along travel
-          chars[i].style.transform =
-            `translate(${s.x.toFixed(2)}px, ${s.y.toFixed(2)}px) scale(${(1 + sp).toFixed(3)}, ${(1 - sp * 0.55).toFixed(3)})`;
-        }
-        if (moving) {
-          raf = requestAnimationFrame(tick);
-        } else {
-          raf = null;
-          heroName!.classList.remove('cutting');
-          chars.forEach(c => { c.style.willChange = 'auto'; });
-        }
-      }
-
-      function onMove(e: PointerEvent) {
-        const mx = e.clientX, my = e.clientY;
-        let near = false;
-        for (let i = 0; i < chars.length; i++) {
-          const b = chars[i].getBoundingClientRect();
-          const dx = mx - (b.left + b.width / 2);
-          const dy = my - (b.top + b.height / 2);
-          const dist = Math.hypot(dx, dy);
-          if (dist < R) {
-            near = true;
-            const f = 1 - dist / R;
-            const d = Math.max(1, dist);
-            st[i].tx = -(dx / d) * f * 30;   // part the jello away from the blade
-            st[i].ty = -(dy / d) * f * 30;
-          }
-        }
-        if (near) {
-          heroName!.classList.add('cutting');
-          chars.forEach(c => { if (c.style.willChange !== 'transform') c.style.willChange = 'transform'; });
-          const now = performance.now();
-          if (now - lastMoneyT > 50 && (window as any).fxMoney) {
-            (window as any).fxMoney(mx, my, 1, 12);  // coins stream around the blade
-            lastMoneyT = now;
-          }
-          if (raf === null) raf = requestAnimationFrame(tick);
-        }
-      }
-      window.addEventListener('pointermove', onMove, { passive: true });
-    }
+    // The hero wordmark's liquid-bead refraction + gold particles are handled
+    // by the shared LiquidTitles module (#hero-name carries data-liquid/data-money).
   })();
 </script>
