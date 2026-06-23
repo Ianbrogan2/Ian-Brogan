@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Cursor from '../components/Cursor.astro';
 import ClickFx from '../components/ClickFx.astro';
+import LiquidTitles from '../components/LiquidTitles.astro';
 import { getSite } from '../lib/content';
 
 interface Props {
@@ -21,6 +22,7 @@ const { title, description, ogImage, noIndex = false } = Astro.props;
 <Base title={title} description={description} ogImage={ogImage} noIndex={noIndex}>
   <Cursor />
   <ClickFx />
+  <LiquidTitles />
   <Nav site={site} />
   <main id="main" tabindex="-1">
     <slot />

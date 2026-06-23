@@ -1,0 +1,187 @@
+---
+// LiquidTitles.astro · liquid-bead refraction for opted-in headings.
+// Real <h*> text stays in the DOM; a transparent canvas overlay renders the
+// same text and refracts a small glass "bead" under the pointer/finger.
+// Crisp at rest, heals on leave. Reduced-motion + no-JS safe.
+---
+<style is:global>
+  [data-liquid] { position: relative; }
+  [data-liquid] > canvas.liquid-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+  }
+  [data-liquid].liquid-on { color: transparent; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-liquid].liquid-on { color: inherit; }
+    [data-liquid] > canvas.liquid-canvas { display: none; }
+  }
+</style>
+
+<script>
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    function initTitle(el: HTMLElement) {
+      if ((el as any).__liquidInit) return;
+      (el as any).__liquidInit = true;
+
+      const isHero = el.id === 'hero-name';
+      const money = isHero || el.hasAttribute('data-money');
+      const STRENGTH = parseFloat(el.dataset.liquidStrength || '0.24');
+      const explicitLines = el.dataset.liquidLines ? el.dataset.liquidLines.split('|') : null;
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'liquid-canvas';
+      canvas.setAttribute('aria-hidden', 'true');
+      el.appendChild(canvas);
+      const ctx = canvas.getContext('2d')!;
+
+      let W = 0, H = 0, off: HTMLCanvasElement, srcData: Uint8ClampedArray | null = null;
+      let R = 30, rectNow: DOMRect | null = null;
+
+      function wrapText(o: CanvasRenderingContext2D, text: string, maxW: number) {
+        const words = text.split(' ');
+        const lines: string[] = []; let cur = '';
+        for (const w of words) {
+          const test = cur ? cur + ' ' + w : w;
+          if (o.measureText(test).width > maxW && cur) { lines.push(cur); cur = w; }
+          else cur = test;
+        }
+        if (cur) lines.push(cur);
+        return lines.length ? lines : [''];
+      }
+
+      function buildSource() {
+        const rect = el.getBoundingClientRect();
+        W = Math.max(1, Math.round(rect.width * DPR));
+        H = Math.max(1, Math.round(rect.height * DPR));
+        canvas.width = W; canvas.height = H;
+        off = document.createElement('canvas'); off.width = W; off.height = H;
+        const o = off.getContext('2d')!;
+        const cs = getComputedStyle(el);
+        const fontPx = parseFloat(cs.fontSize) * DPR;
+        R = Math.max(18, fontPx * 0.9);
+        o.clearRect(0, 0, W, H);
+        o.fillStyle = cs.color;
+        o.textBaseline = 'middle';
+        const align = cs.textAlign === 'center' ? 'center'
+          : (cs.textAlign === 'right' || cs.textAlign === 'end') ? 'right' : 'left';
+        o.textAlign = align as CanvasTextAlign;
+        o.font = `${cs.fontStyle} ${cs.fontWeight} ${fontPx}px ${cs.fontFamily}`;
+        try {
+          (o as any).letterSpacing = (cs.letterSpacing && cs.letterSpacing !== 'normal')
+            ? `${parseFloat(cs.letterSpacing) * DPR}px` : '0px';
+        } catch (e) { /* letterSpacing unsupported, acceptable */ }
+        const padL = parseFloat(cs.paddingLeft) * DPR;
+        const padR = parseFloat(cs.paddingRight) * DPR;
+        const padT = parseFloat(cs.paddingTop) * DPR;
+        const innerW = W - padL - padR;
+        let lineH = cs.lineHeight === 'normal' ? fontPx * 1.1 : parseFloat(cs.lineHeight) * DPR;
+        if (!lineH || isNaN(lineH)) lineH = fontPx * 1.1;
+        const lines = explicitLines ?? wrapText(o, (el.textContent || '').replace(/\s+/g, ' ').trim(), innerW);
+        const x = align === 'center' ? W / 2 : align === 'right' ? W - padR : padL;
+        const totalH = lines.length * lineH;
+        let y = padT + (H - padT - totalH) / 2 + lineH / 2;
+        for (const ln of lines) { o.fillText(ln, x, y); y += lineH; }
+        srcData = o.getImageData(0, 0, W, H).data;
+      }
+
+      const bead = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: false, pulse: 0 };
+      let raf: number | null = null, lastMoney = 0;
+
+      function point(e: PointerEvent) {
+        rectNow = el.getBoundingClientRect();
+        bead.tx = (e.clientX - rectNow.left) * DPR;
+        bead.ty = (e.clientY - rectNow.top) * DPR;
+      }
+      function ensureSource() { if (!srcData) buildSource(); }
+      // Draw the first frame synchronously so there's never a blank flash and
+      // at least one paint lands even where rAF is throttled; frame() schedules
+      // the continuing loop itself.
+      function start() { if (raf == null) { raf = -1; frame(); } }
+
+      function refract(cx: number, cy: number, r: number, strength: number) {
+        cx = Math.round(cx); cy = Math.round(cy);
+        const x0 = Math.max(0, cx - r), x1 = Math.min(W, cx + r);
+        const y0 = Math.max(0, cy - r), y1 = Math.min(H, cy + r);
+        const rw = x1 - x0, rh = y1 - y0;
+        if (rw <= 0 || rh <= 0 || !srcData) return;
+        const out = ctx.createImageData(rw, rh), od = out.data;
+        for (let j = 0; j < rh; j++) {
+          const py = y0 + j;
+          for (let i = 0; i < rw; i++) {
+            const px = x0 + i;
+            let sx = px, sy = py;
+            const dx = px - cx, dy = py - cy;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < r) {
+              const f = 1 - d / r; const m = f * f * strength * 1.8;
+              sx = Math.round(px - dx * m); sy = Math.round(py - dy * m);
+              if (sx < 0) sx = 0; else if (sx >= W) sx = W - 1;
+              if (sy < 0) sy = 0; else if (sy >= H) sy = H - 1;
+            }
+            const si = (sy * W + sx) * 4, di = (j * rw + i) * 4;
+            od[di] = srcData[si]; od[di + 1] = srcData[si + 1];
+            od[di + 2] = srcData[si + 2]; od[di + 3] = srcData[si + 3];
+          }
+        }
+        ctx.putImageData(out, x0, y0);
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        const rg = ctx.createRadialGradient(cx, cy, r * 0.55, cx, cy, r);
+        rg.addColorStop(0, 'rgba(230,194,74,0)');
+        rg.addColorStop(0.82, 'rgba(230,194,74,0.10)');
+        rg.addColorStop(1, 'rgba(230,194,74,0)');
+        ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+
+      function frame() {
+        if (!srcData) buildSource();
+        ctx.clearRect(0, 0, W, H);
+        ctx.drawImage(off, 0, 0);
+        if (bead.x < -9000) { bead.x = bead.tx; bead.y = bead.ty; }
+        bead.x += (bead.tx - bead.x) * 0.35;
+        bead.y += (bead.ty - bead.y) * 0.35;
+        const strength = STRENGTH * (bead.on ? 1 : bead.pulse);
+        if (strength > 0.002 && bead.x > -9000) {
+          refract(bead.x, bead.y, R, strength);
+          if (money && (window as any).fxMoney && rectNow) {
+            const now = performance.now();
+            if (now - lastMoney > 90) {
+              (window as any).fxMoney(rectNow.left + bead.x / DPR, rectNow.top + bead.y / DPR, 1, 10);
+              lastMoney = now;
+            }
+          }
+        }
+        if (!bead.on) bead.pulse *= 0.92;
+        const settled = !bead.on && bead.pulse < 0.02 && Math.abs(bead.tx - bead.x) < 0.5;
+        if (settled) { ctx.clearRect(0, 0, W, H); el.classList.remove('liquid-on'); raf = null; }
+        else raf = requestAnimationFrame(frame);
+      }
+
+      el.addEventListener('pointerenter', (e) => { ensureSource(); point(e); bead.on = true; el.classList.add('liquid-on'); start(); });
+      el.addEventListener('pointermove', (e) => { point(e); if (bead.on) start(); }, { passive: true });
+      el.addEventListener('pointerleave', () => { bead.on = false; start(); });
+      el.addEventListener('pointerdown', (e) => { ensureSource(); point(e); bead.pulse = 1; bead.x = bead.tx; bead.y = bead.ty; el.classList.add('liquid-on'); start(); });
+      el.addEventListener('pointerup', () => { if (!bead.on) bead.pulse = Math.max(bead.pulse, 0.85); });
+      window.addEventListener('pointercancel', () => { bead.on = false; });
+      let rt: number; window.addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { srcData = null; }, 150); }, { passive: true });
+      // If a title initialized before its webfont finished loading, drop the
+      // cached source so the next interaction re-renders with correct metrics.
+      if ((document as any).fonts && (document as any).fonts.ready) {
+        (document as any).fonts.ready.then(() => { srcData = null; });
+      }
+    }
+
+    // Init every opted-in title up front. This only creates an empty,
+    // transparent canvas + listeners (cheap); the expensive source render and
+    // rAF loop stay deferred until the first pointer/touch interaction.
+    function boot() {
+      document.querySelectorAll<HTMLElement>('[data-liquid], #hero-name').forEach((t) => initTitle(t));
+    }
+    if (document.readyState !== 'loading') boot();
+    else document.addEventListener('DOMContentLoaded', boot);
+  })();
+</script>
