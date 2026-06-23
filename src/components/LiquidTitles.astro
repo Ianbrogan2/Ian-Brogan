@@ -52,16 +52,21 @@
         return lines.length ? lines : [''];
       }
 
-      function buildSource() {
+      function buildSource(): boolean {
         const rect = el.getBoundingClientRect();
-        W = Math.max(1, Math.round(rect.width * DPR));
-        H = Math.max(1, Math.round(rect.height * DPR));
+        // Bail on a collapsed/unlaid-out box so we never hide the real text
+        // behind an empty canvas.
+        if (rect.width < 4 || rect.height < 4) return false;
+        W = Math.round(rect.width * DPR);
+        H = Math.round(rect.height * DPR);
         canvas.width = W; canvas.height = H;
         off = document.createElement('canvas'); off.width = W; off.height = H;
         const o = off.getContext('2d')!;
         const cs = getComputedStyle(el);
         const fontPx = parseFloat(cs.fontSize) * DPR;
-        R = Math.max(18, fontPx * 0.9);
+        // Bead scales with the type, but capped so the per-frame pixel work
+        // stays bounded on the largest (hero) wordmark.
+        R = Math.max(18, Math.min(fontPx * 0.9, 130 * DPR));
         o.clearRect(0, 0, W, H);
         o.fillStyle = cs.color;
         o.textBaseline = 'middle';
@@ -85,6 +90,7 @@
         let y = padT + (H - padT - totalH) / 2 + lineH / 2;
         for (const ln of lines) { o.fillText(ln, x, y); y += lineH; }
         srcData = o.getImageData(0, 0, W, H).data;
+        return true;
       }
 
       const bead = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: false, pulse: 0 };
@@ -95,7 +101,16 @@
         bead.tx = (e.clientX - rectNow.left) * DPR;
         bead.ty = (e.clientY - rectNow.top) * DPR;
       }
-      function ensureSource() { if (!srcData) buildSource(); }
+      function ensureSource(): boolean { return srcData ? true : buildSource(); }
+      // Snap back to crisp resting text immediately (used on tab-hide / touch
+      // cancel where the animated heal loop can't run).
+      function heal() {
+        bead.on = false; bead.pulse = 0;
+        bead.x = bead.y = bead.tx = bead.ty = -9999;
+        if (raf != null) { if (raf > 0) cancelAnimationFrame(raf); raf = null; }
+        if (W && H) ctx.clearRect(0, 0, W, H);
+        el.classList.remove('liquid-on');
+      }
       // Draw the first frame synchronously so there's never a blank flash and
       // at least one paint lands even where rAF is throttled; frame() schedules
       // the continuing loop itself.
@@ -138,7 +153,9 @@
       }
 
       function frame() {
-        if (!srcData) buildSource();
+        // If the source can't be built (collapsed box), bail safely and
+        // restore the real text rather than leaving it transparent.
+        if (!srcData && !buildSource()) { raf = null; el.classList.remove('liquid-on'); return; }
         ctx.clearRect(0, 0, W, H);
         ctx.drawImage(off, 0, 0);
         if (bead.x < -9000) { bead.x = bead.tx; bead.y = bead.ty; }
@@ -161,12 +178,13 @@
         else raf = requestAnimationFrame(frame);
       }
 
-      el.addEventListener('pointerenter', (e) => { ensureSource(); point(e); bead.on = true; el.classList.add('liquid-on'); start(); });
+      el.addEventListener('pointerenter', (e) => { if (!ensureSource()) return; point(e); bead.on = true; el.classList.add('liquid-on'); start(); });
       el.addEventListener('pointermove', (e) => { point(e); if (bead.on) start(); }, { passive: true });
       el.addEventListener('pointerleave', () => { bead.on = false; start(); });
-      el.addEventListener('pointerdown', (e) => { ensureSource(); point(e); bead.pulse = 1; bead.x = bead.tx; bead.y = bead.ty; el.classList.add('liquid-on'); start(); });
+      el.addEventListener('pointerdown', (e) => { if (!ensureSource()) return; point(e); bead.pulse = 1; bead.x = bead.tx; bead.y = bead.ty; el.classList.add('liquid-on'); start(); });
       el.addEventListener('pointerup', () => { if (!bead.on) bead.pulse = Math.max(bead.pulse, 0.85); });
-      window.addEventListener('pointercancel', () => { bead.on = false; });
+      window.addEventListener('pointercancel', () => { heal(); });
+      document.addEventListener('visibilitychange', () => { if (document.hidden) heal(); });
       let rt: number; window.addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { srcData = null; }, 150); }, { passive: true });
       // If a title initialized before its webfont finished loading, drop the
       // cached source so the next interaction re-renders with correct metrics.
