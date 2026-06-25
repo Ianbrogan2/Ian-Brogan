@@ -82,7 +82,7 @@
         if (!o) return false;
         o.clearRect(0, 0, W, H);
         o.textAlign = 'left';
-        o.textBaseline = 'middle';
+        o.textBaseline = 'alphabetic';
 
         const rootFontPx = parseFloat(getComputedStyle(el).fontSize) * dpr;
         R = Math.max(18, Math.min(rootFontPx * 0.9, 130 * dpr));
@@ -107,6 +107,12 @@
           try { (o as any).fontVariationSettings = (pcs.fontVariationSettings && pcs.fontVariationSettings !== 'normal') ? pcs.fontVariationSettings : 'normal'; } catch (e) { /* opsz unsupported; positions still correct */ }
           try { (o as any).letterSpacing = (pcs.letterSpacing && pcs.letterSpacing !== 'normal') ? `${parseFloat(pcs.letterSpacing) * dpr}px` : '0px'; } catch (e) { /* letterSpacing unsupported */ }
 
+          // Font metrics (per font) to place each glyph on its real CSS baseline.
+          const fpx = parseFloat(pcs.fontSize) * dpr;
+          const fm = o.measureText('Mg');
+          const ascent = (fm.fontBoundingBoxAscent && !isNaN(fm.fontBoundingBoxAscent)) ? fm.fontBoundingBoxAscent : fpx * 0.8;
+          const descent = (fm.fontBoundingBoxDescent && !isNaN(fm.fontBoundingBoxDescent)) ? fm.fontBoundingBoxDescent : fpx * 0.2;
+
           for (let i = 0; i < text.length; i++) {
             const ch = text[i];
             if (ch === ' ' || ch === '\n' || ch === '\t' || ch === '\r') continue;
@@ -115,7 +121,11 @@
             const gr = range.getBoundingClientRect();
             if (gr.width < 0.01 || gr.height < 0.01) continue;
             const gx = (gr.left - elRect.left) * dpr;
-            const gy = (gr.top + gr.height / 2 - elRect.top) * dpr;
+            // gr is the line box (height = line-height); CSS distributes the
+            // leading evenly, so the baseline = lineTop + halfLeading + ascent.
+            const lineTop = (gr.top - elRect.top) * dpr;
+            const lineH = gr.height * dpr;
+            const gy = lineTop + (lineH - (ascent + descent)) / 2 + ascent;
             o.fillText(ch, gx, gy);
             drew = true;
           }
