@@ -105,7 +105,10 @@
           o.fillStyle = pcs.color;
           o.font = `${pcs.fontStyle} ${pcs.fontWeight} ${parseFloat(pcs.fontSize) * dpr}px ${pcs.fontFamily}`;
           try { (o as any).fontVariationSettings = (pcs.fontVariationSettings && pcs.fontVariationSettings !== 'normal') ? pcs.fontVariationSettings : 'normal'; } catch (e) { /* opsz unsupported; positions still correct */ }
-          try { (o as any).letterSpacing = (pcs.letterSpacing && pcs.letterSpacing !== 'normal') ? `${parseFloat(pcs.letterSpacing) * dpr}px` : '0px'; } catch (e) { /* letterSpacing unsupported */ }
+          // NOTE: do NOT set ctx.letterSpacing here. Each glyph is drawn at its
+          // exact measured position, so tracking is already baked in. Re-applying
+          // letterSpacing double-counts it and shifts glyphs left in some engines.
+          try { (o as any).letterSpacing = '0px'; } catch (e) { /* unsupported */ }
 
           // Font metrics (per font) to place each glyph on its real CSS baseline.
           const fpx = parseFloat(pcs.fontSize) * dpr;
